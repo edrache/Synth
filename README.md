@@ -4,78 +4,83 @@ A Unity-based audio synthesizer project featuring subtractive synthesis and a st
 
 ## Features
 
-- Multiple waveform types (Sine, Square, Triangle, Sawtooth, Soft Square, Soft Triangle, Soft Sawtooth)
-- Volume control
-- Step sequencer with 16 steps
-- Accent control for each step
-- Note-based object movement
-- Force-based object movement
-- Grid-based object placement
-- Desynchronization options for movement timing
-- Configurable force direction control
+### Synthesis
+- Multiple waveforms:
+  - Basic: Sine, Square, Saw, Triangle, Noise
+  - Soft variants: Sine2, SoftSquare, SoftSaw, Sine3, SoftPulse
+- Moog-style filter with cutoff and resonance
+- Envelope control with decay and accent
+- Pitch slide between steps
+- Volume and gain control
+
+### Effects
+- Chorus effect with parameters:
+  - Amount (0-1): Effect intensity
+  - Rate (0.1-20Hz): Modulation speed
+  - Depth (0-0.02s): Modulation depth
+  - Feedback (0-1): Signal feedback
+  - Width (0-1): Stereo spread
+
+### Sequencer
+- 16-step sequencer with adjustable BPM
+- Per-step controls:
+  - Note selection (C through B with sharps)
+  - Octave selection
+  - Duration (16th note, 8th note, dotted 8th, quarter note, or mute)
+  - Accent toggle
+  - Slide toggle
+- Visual step indicator showing:
+  - Current playing step
+  - Note name with '#' for sharps
+  - Octave number
+  - Duration symbol (♬, ♪, ♪., ♩, ×)
+  - Accent and slide indicators
+
+### Object Movement
+- Note-triggered object movement
+- Customizable movement parameters:
+  - Distance range
+  - Movement duration
+  - Desync offset
+- Selectable active steps for movement
+- Force-based movement variant available
 
 ## Requirements
-
-- Unity 2022.3 or later
-- Basic understanding of Unity's interface
+- Unity 2022.3 or newer
+- Basic audio setup in Unity
 
 ## Installation
-
-1. Clone this repository
+1. Clone the repository
 2. Open the project in Unity
-3. Open the main scene
-4. Press Play to start the synthesizer
-
-## Usage
-
-### VCO Component
-- Controls the main oscillator
-- Parameters:
-  - Waveform type
-  - Volume
-  - BPM (Beats Per Minute)
-  - Accent strength (1.0 to 2.0)
-
-### NoteMovement Component
-- Moves objects based on note pitch
-- Parameters:
-  - Min/Max distance
-  - Move duration
-  - Desynchronization range (0-1000ms)
-  - Active steps selection
-  - Option to always start from initial position
-
-### NoteForceMovement Component
-- Applies forces to objects based on note pitch
-- Parameters:
-  - Min/Max force
-  - Force duration
-  - Force application point (center or random)
-  - Direction control (random or fixed)
-  - Active steps selection
-
-### GridPlacer Component
-- Places objects on a grid
-- Parameters:
-  - Placement plane (XY, XZ, YZ)
-  - Objects per row
-  - Min/Max spacing
-  - List of objects to place
+3. Open the demo scene
+4. Play to start the synthesizer
 
 ## Components
 
-### VCO
-The main oscillator component that generates audio waveforms and controls the step sequencer.
+### VCO (Voltage Controlled Oscillator)
+Main synthesizer component handling:
+- Sound generation
+- Filter processing
+- Sequencer logic
+- Effect processing
 
 ### NoteMovement
-Moves objects based on the current note's pitch. Objects can be moved with configurable timing and desynchronization.
+Handles object movement based on sequencer steps:
+- Position-based movement
+- Configurable movement parameters
+- Step selection system
 
 ### NoteForceMovement
-Applies physical forces to objects based on the current note's pitch. Supports both random and fixed force directions.
+Alternative movement system using physics:
+- Force-based movement
+- Directional control (random or fixed)
+- Center of mass options
 
-### GridPlacer
-A utility component for placing objects in a grid pattern with configurable spacing and layout.
+### SequenceUI
+Manages the sequencer visualization:
+- Step state display
+- Current step indication
+- Musical notation display
 
 ## License
-
-MIT License 
+This project is licensed under the MIT License - see the LICENSE file for details. 
