@@ -1,0 +1,145 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ff77dd76dcb0e4a918b88cd4e4592b80, type: 3}
+  m_Name: New VCO Sequence
+  m_EditorClassIdentifier: 
+  sequenceName: New Sequence
+  bpm: 120
+  steps:
+  - pitch: 296.97748
+    slide: 0
+    accent: 1
+    accentStrength: 1.4464552
+    useNote: 0
+    note: 9
+    octave: 4
+    duration: 1
+  - pitch: 493.5811
+    slide: 0
+    accent: 0
+    accentStrength: 1.2
+    useNote: 0
+    note: 9
+    octave: 4
+    duration: 2
+  - pitch: 236.18251
+    slide: 0
+    accent: 0
+    accentStrength: 1.2
+    useNote: 0
+    note: 9
+    octave: 4
+    duration: 2
+  - pitch: 657.32886
+    slide: 1
+    accent: 0
+    accentStrength: 1.2
+    useNote: 0
+    note: 9
+    octave: 4
+    duration: 2
+  - pitch: 597.84204
+    slide: 1
+    accent: 0
+    accentStrength: 1.2
+    useNote: 0
+    note: 9
+    octave: 4
+    duration: 2
+  - pitch: 488.97574
+    slide: 0
+    accent: 1
+    accentStrength: 1.9775487
+    useNote: 0
+    note: 9
+    octave: 4
+    duration: 2
+  - pitch: 598.6463
+    slide: 0
+    accent: 0
+    accentStrength: 1.2
+    useNote: 0
+    note: 9
+    octave: 4
+    duration: 1
+  - pitch: 196.93127
+    slide: 0
+    accent: 0
+    accentStrength: 1.2
+    useNote: 0
+    note: 9
+    octave: 4
+    duration: 0
+  - pitch: 880.6851
+    slide: 0
+    accent: 1
+    accentStrength: 1.8008645
+    useNote: 0
+    note: 9
+    octave: 4
+    duration: 2
+  - pitch: 530.70294
+    slide: 1
+    accent: 0
+    accentStrength: 1.2
+    useNote: 0
+    note: 9
+    octave: 4
+    duration: 2
+  - pitch: 765.14044
+    slide: 0
+    accent: 0
+    accentStrength: 1.2
+    useNote: 0
+    note: 9
+    octave: 4
+    duration: 3
+  - pitch: 721.49274
+    slide: 1
+    accent: 1
+    accentStrength: 1.2605435
+    useNote: 0
+    note: 9
+    octave: 4
+    duration: 3
+  - pitch: 968.6086
+    slide: 0
+    accent: 0
+    accentStrength: 1.2
+    useNote: 0
+    note: 9
+    octave: 4
+    duration: 1
+  - pitch: 489.27292
+    slide: 0
+    accent: 0
+    accentStrength: 1.2
+    useNote: 0
+    note: 9
+    octave: 4
+    duration: 2
+  - pitch: 338.51495
+    slide: 0
+    accent: 0
+    accentStrength: 1.2
+    useNote: 0
+    note: 9
+    octave: 4
+    duration: 2
+  - pitch: 524.74274
+    slide: 1
+    accent: 0
+    accentStrength: 1.2
+    useNote: 0
+    note: 9
+    octave: 4
+    duration: 2
