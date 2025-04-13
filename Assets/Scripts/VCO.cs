@@ -7,33 +7,43 @@ public class VCO : MonoBehaviour
 {
     public enum Waveform { Sine, Square, Saw, Triangle, Noise, Sine2, SoftSquare, SoftSaw, Sine3, SoftPulse }
 
+    [Header("Podstawowe parametry")]
     [Range(20f, 2000f)]
     public float frequency = 440f;
-
     public Waveform waveform = Waveform.Sine;
+    [Range(0f, 1f)]
+    public float volume = 0.5f;
+    public float gain = 1.0f;
 
+    [Header("Filtr")]
     [Range(20f, 20000f)]
     public float baseCutoff = 1000f;
-
     [Range(0f, 1f)]
     public float resonance = 0.5f;
 
+    [Header("Envelope")]
     [Range(0.01f, 2f)]
     public float decay = 0.3f;
-
     [Range(0.001f, 1f)]
     public float slideTime = 0.1f;
-
     [Range(1f, 2f)]
     public float accentStrength = 1.2f;
 
+    [Header("Sekwencer")]
     [Range(40f, 300f)]
     public float bpm = 120f;
 
+    [Header("Chorus")]
     [Range(0f, 1f)]
-    public float volume = 0.5f; // Głośność sygnału
-
-    public float gain = 1.0f; // Wzmocnienie sygnału
+    public float chorusAmount = 0.5f; // Siła efektu
+    [Range(0.1f, 20f)]
+    public float chorusRate = 0.5f; // Szybkość modulacji
+    [Range(0f, 0.02f)]
+    public float chorusDepth = 0.01f; // Głębokość modulacji
+    [Range(0f, 1f)]
+    public float chorusFeedback = 0.2f; // Sprzężenie zwrotne
+    [Range(0f, 1f)]
+    public float chorusWidth = 0.5f; // Szerokość stereo
 
     // Sequence properties
     public VCOSequence currentSequence;
@@ -57,6 +67,13 @@ public class VCO : MonoBehaviour
     private float targetFrequency;
     private bool isSliding = false;
     private float slideStartTime;
+
+    // Chorus variables
+    private float[] chorusBuffer;
+    private int chorusBufferLength;
+    private int chorusWritePosition;
+    private float chorusPhase;
+    private const int MAX_CHORUS_DELAY_SAMPLES = 2048;
 
     public delegate void StepChangedHandler(float pitch, int stepNumber);
     public event StepChangedHandler OnStepChanged;
@@ -92,7 +109,13 @@ public class VCO : MonoBehaviour
         currentFrequency = frequency;
         targetFrequency = frequency;
         LoadSequence();
-        barLength = (60f / bpm) * 4f; // Length of one bar in seconds
+        barLength = (60f / bpm) * 4f;
+
+        // Initialize chorus
+        chorusBufferLength = MAX_CHORUS_DELAY_SAMPLES;
+        chorusBuffer = new float[chorusBufferLength];
+        chorusWritePosition = 0;
+        chorusPhase = 0f;
     }
 
     void LoadSequence()
@@ -254,17 +277,11 @@ public class VCO : MonoBehaviour
                 break;
             case Waveform.SoftPulse:
                 float softPulsePhase = (float)phase * 2f * Mathf.PI;
-                float pulseWidth = 0.5f; // Można dodać jako parametr
+                float pulseWidth = 0.5f;
                 float pulse = Mathf.Sin(softPulsePhase) > (pulseWidth * 2f - 1f) ? 1f : -1f;
                 sample = Mathf.Lerp(pulse, Mathf.Sin(softPulsePhase), 0.7f) * envelope;
                 break;
         }
-
-        // Normalizacja do zakresu -1 do 1
-        sample = Mathf.Clamp(sample, -1f, 1f);
-
-        // Zastosuj wzmocnienie
-        sample *= gain;
 
         return sample;
     }
@@ -277,9 +294,9 @@ public class VCO : MonoBehaviour
         {
             float sample = GenerateSample();
 
-            phase += 2 * Math.PI * currentFreq / sampleRate;
-            if (phase >= 2 * Math.PI)
-                phase -= 2 * Math.PI;
+            phase += currentFreq / sampleRate;
+            if (phase >= 1.0)
+                phase -= 1.0;
 
             if (triggerEnvelope)
             {
@@ -295,11 +312,35 @@ public class VCO : MonoBehaviour
             filter.SetParams(modulatedCutoff, resonance);
             float filtered = filter.Process(sample);
 
-            float finalSample = filtered * envelopeValue * volume;
+            // Apply chorus effect
+            float chorusLFO = Mathf.Sin(chorusPhase * 2f * Mathf.PI) * 0.5f + 0.5f;
+            chorusPhase += chorusRate / sampleRate;
+            if (chorusPhase >= 1f) chorusPhase -= 1f;
+
+            int delayLength = (int)(chorusDepth * sampleRate + chorusLFO * chorusDepth * sampleRate);
+            delayLength = Mathf.Clamp(delayLength, 1, chorusBufferLength - 1);
+
+            int readPosition = chorusWritePosition - delayLength;
+            if (readPosition < 0) readPosition += chorusBufferLength;
+
+            float delaySample = chorusBuffer[readPosition];
+            float wetSample = delaySample * chorusAmount;
+            float drySample = filtered * (1f - chorusAmount);
+
+            // Update chorus buffer
+            chorusBuffer[chorusWritePosition] = filtered + delaySample * chorusFeedback;
+            chorusWritePosition = (chorusWritePosition + 1) % chorusBufferLength;
+
+            // Final mix with volume and soft clipping
+            float finalSample = (drySample + wetSample) * volume;
             float clipped = Mathf.Clamp(SoftClip(finalSample), -0.95f, 0.95f);
 
+            // Output stereo
             for (int ch = 0; ch < channels; ch++)
-                data[i + ch] = clipped;
+            {
+                float pan = ch == 0 ? 1f - chorusWidth * 0.5f : 0.5f + chorusWidth * 0.5f;
+                data[i + ch] = clipped * pan;
+            }
         }
     }
 
