@@ -19,7 +19,7 @@ public class VCO : MonoBehaviour
 
     [Header("Filtr")]
     public FilterType filterType = FilterType.LowPass;
-    [Range(20f, 20000f)]
+    [Range(20f, 5000f)]
     public float baseCutoff = 1000f;
     [Range(0f, 1f)]
     public float resonance = 0.5f;
@@ -56,13 +56,13 @@ public class VCO : MonoBehaviour
 
     [Header("Chorus")]
     public bool chorusEnabled = true;
-    [Range(0f, 1f)]
+    [Range(0f, 0.5f)]
     public float chorusAmount = 0.5f; // Siła efektu
-    [Range(0.1f, 20f)]
-    public float chorusRate = 0.5f; // Szybkość modulacji
-    [Range(0f, 0.02f)]
-    public float chorusDepth = 0.01f; // Głębokość modulacji
     [Range(0f, 1f)]
+    public float chorusRate = 0.5f; // Szybkość modulacji
+    [Range(0f, 0.01f)]
+    public float chorusDepth = 0.01f; // Głębokość modulacji
+    [Range(0f, 0.3f)]
     public float chorusFeedback = 0.2f; // Sprzężenie zwrotne
     [Range(0f, 1f)]
     public float chorusWidth = 0.5f; // Szerokość stereo
@@ -83,6 +83,36 @@ public class VCO : MonoBehaviour
     public DelayTime delayTime = DelayTime.Eighth;
     [Range(0f, 1f)]
     public float delayWidth = 0.5f; // Szerokość stereo
+
+    [Header("Filter Envelope")]
+    [Range(0.001f, 2f)]
+    public float filterAttack = 0.01f;
+    [Range(0.001f, 2f)]
+    public float filterDecay = 0.1f;
+    [Range(0f, 1f)]
+    public float filterSustain = 0.7f;
+    [Range(0.001f, 2f)]
+    public float filterRelease = 0.2f;
+
+    [Header("Chorus Envelope")]
+    [Range(0.001f, 2f)]
+    public float chorusAttack = 0.01f;
+    [Range(0.001f, 2f)]
+    public float chorusDecay = 0.1f;
+    [Range(0f, 1f)]
+    public float chorusSustain = 0.7f;
+    [Range(0.001f, 2f)]
+    public float chorusRelease = 0.2f;
+
+    [Header("Delay Envelope")]
+    [Range(0.001f, 2f)]
+    public float delayAttack = 0.01f;
+    [Range(0.001f, 2f)]
+    public float delayDecay = 0.1f;
+    [Range(0f, 1f)]
+    public float delaySustain = 0.7f;
+    [Range(0.001f, 2f)]
+    public float delayRelease = 0.2f;
 
     // Sequence properties
     public VCOSequence currentSequence;

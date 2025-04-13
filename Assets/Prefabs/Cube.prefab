@@ -129,7 +129,7 @@ MonoBehaviour:
   maxDesyncOffset: 100
   targetObject: {fileID: 393000312685475586}
   vcoSource: {fileID: 0}
-  useAllSteps: 0
+  useAllSteps: 1
   activeSteps: 0000000003000000070000000b000000
   alwaysStartFromInitialPosition: 0
 --- !u!54 &115864163797048999
