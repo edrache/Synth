@@ -9,7 +9,7 @@ A Unity-based audio synthesizer project featuring subtractive synthesis and a st
   - Basic: Sine, Square, Saw, Triangle, Noise
   - Soft variants: Sine2, SoftSquare, SoftSaw, Sine3, SoftPulse
 - Moog-style filter with cutoff and resonance
-- Envelope control with decay and accent
+- ADSR envelope with slide control
 - Pitch slide between steps
 - Volume and gain control
 - Global octave shift (-2 to +2 octaves)
@@ -21,6 +21,12 @@ A Unity-based audio synthesizer project featuring subtractive synthesis and a st
   - Depth (0-0.02s): Modulation depth
   - Feedback (0-1): Signal feedback
   - Width (0-1): Stereo spread
+- BPM-synchronized delay:
+  - Multiple timing options: Quarter note, Eighth note, Dotted eighth, Sixteenth note, Triplet
+  - Amount (0-1): Effect mix
+  - Feedback (0-1): Echo repetitions
+  - Width (0-1): Stereo spread
+  - Automatic sync with sequencer tempo
 
 ### Sequencer
 - 16-step sequencer with adjustable BPM
@@ -45,6 +51,17 @@ A Unity-based audio synthesizer project featuring subtractive synthesis and a st
   - Desync offset
 - Selectable active steps for movement
 - Force-based movement variant available
+
+## ADSR Envelope
+
+The synthesizer features a full ADSR (Attack, Decay, Sustain, Release) envelope with the following parameters:
+
+- **Attack Time** (0.001-2s): Controls how quickly the sound reaches its peak
+- **Decay Time** (0.001-2s): Controls how quickly the sound falls to the sustain level
+- **Sustain Level** (0-1): Controls the volume level while the note is held
+- **Release Time** (0.001-2s): Controls how quickly the sound fades out after release
+- **Slide Time** (0.001-1s): Controls the time it takes to slide between notes
+- **Accent Strength** (1-2): Controls the volume boost for accented notes
 
 ## Requirements
 - Unity 2022.3 or newer

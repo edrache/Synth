@@ -40,6 +40,10 @@ public class VCOSequenceEditor : Editor
 
         VCOSequence sequence = (VCOSequence)target;
 
+        // Get the VCO component to access globalOctaveShift
+        VCO vco = FindObjectOfType<VCO>();
+        int globalOctaveShift = vco != null ? vco.globalOctaveShift : 0;
+
         EditorGUILayout.Space();
         EditorGUILayout.LabelField("Sequence Editor", EditorStyles.boldLabel);
 
@@ -89,7 +93,7 @@ public class VCOSequenceEditor : Editor
                 step.note = (MusicUtils.Note)EditorGUILayout.EnumPopup("Note", step.note);
                 step.octave = EditorGUILayout.IntField("Octave", step.octave);
                 EditorGUILayout.EndHorizontal();
-                step.UpdatePitchFromNote();
+                step.UpdatePitchFromNote(globalOctaveShift);
             }
             else
             {
@@ -206,6 +210,10 @@ public class VCOSequenceEditor : Editor
             scaleNotes = MusicUtils.GetScaleNotes(rootNote, scaleType);
         }
 
+        // Get the VCO component to access globalOctaveShift
+        VCO vco = FindObjectOfType<VCO>();
+        int globalOctaveShift = vco != null ? vco.globalOctaveShift : 0;
+
         for (int i = 0; i < stepsCount; i++)
         {
             VCO.Step step = new VCO.Step();
@@ -242,7 +250,7 @@ public class VCOSequenceEditor : Editor
 
                 step.note = randomNote;
                 step.octave = randomOctave;
-                step.UpdatePitchFromNote();
+                step.UpdatePitchFromNote(globalOctaveShift);
             }
             else
             {
@@ -283,6 +291,10 @@ public class VCOSequenceEditor : Editor
 
         MusicUtils.Note[] scaleNotes = MusicUtils.GetScaleNotes(rootNote, scaleType);
         
+        // Get the VCO component to access globalOctaveShift
+        VCO vco = FindObjectOfType<VCO>();
+        int globalOctaveShift = vco != null ? vco.globalOctaveShift : 0;
+
         // Generate two octaves of the scale
         for (int octave = minOctave; octave <= minOctave + 1; octave++)
         {
@@ -296,7 +308,7 @@ public class VCOSequenceEditor : Editor
                     slide = false,
                     accent = (i == 0) // Accent the root note
                 };
-                step.UpdatePitchFromNote();
+                step.UpdatePitchFromNote(globalOctaveShift);
                 sequence.steps.Add(step);
             }
         }

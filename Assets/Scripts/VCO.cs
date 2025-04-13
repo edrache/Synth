@@ -22,10 +22,16 @@ public class VCO : MonoBehaviour
     public float resonance = 0.5f;
 
     [Header("Envelope")]
-    [Range(0.01f, 2f)]
-    public float decay = 0.3f;
+    [Range(0.001f, 2f)]
+    public float attackTime = 0.01f; // Czas ataku
+    [Range(0.001f, 2f)]
+    public float decayTime = 0.1f; // Czas opadania
+    [Range(0f, 1f)]
+    public float sustainLevel = 0.7f; // Poziom podtrzymania
+    [Range(0.001f, 2f)]
+    public float releaseTime = 0.2f; // Czas wybrzmiewania
     [Range(0.001f, 1f)]
-    public float slideTime = 0.1f;
+    public float slideTime = 0.1f; // Czas przejścia między nutami
     [Range(1f, 2f)]
     public float accentStrength = 1.2f;
 
@@ -36,6 +42,7 @@ public class VCO : MonoBehaviour
     public int globalOctaveShift = 0; // Globalne przesunięcie oktawy
 
     [Header("Chorus")]
+    public bool chorusEnabled = true;
     [Range(0f, 1f)]
     public float chorusAmount = 0.5f; // Siła efektu
     [Range(0.1f, 20f)]
@@ -46,6 +53,23 @@ public class VCO : MonoBehaviour
     public float chorusFeedback = 0.2f; // Sprzężenie zwrotne
     [Range(0f, 1f)]
     public float chorusWidth = 0.5f; // Szerokość stereo
+
+    [Header("Delay")]
+    [Range(0f, 1f)]
+    public float delayAmount = 0.5f; // Siła efektu
+    [Range(0f, 1f)]
+    public float delayFeedback = 0.3f; // Sprzężenie zwrotne
+    public enum DelayTime { 
+        Off,
+        Quarter, // ćwierćnuta
+        Eighth, // ósemka
+        EighthDotted, // ósemka z kropką
+        Sixteenth, // szesnastka
+        Triplet // triola
+    }
+    public DelayTime delayTime = DelayTime.Eighth;
+    [Range(0f, 1f)]
+    public float delayWidth = 0.5f; // Szerokość stereo
 
     // Sequence properties
     public VCOSequence currentSequence;
@@ -59,8 +83,11 @@ public class VCO : MonoBehaviour
     private float sampleRate;
 
     private float envelopeValue = 0f;
+    private float envelopeAttackRate;
     private float envelopeDecayRate;
+    private float envelopeReleaseRate;
     private bool triggerEnvelope = false;
+    private bool isReleasing = false;
 
     private MoogFilter filter;
     private System.Random random = new System.Random();
@@ -76,6 +103,14 @@ public class VCO : MonoBehaviour
     private int chorusWritePosition;
     private float chorusPhase;
     private const int MAX_CHORUS_DELAY_SAMPLES = 2048;
+
+    // Delay variables
+    private float[] delayBufferLeft;
+    private float[] delayBufferRight;
+    private int delayBufferLength;
+    private int delayWritePosition;
+    private float delayTimeInSamples;
+    private const int MAX_DELAY_SAMPLES = 192000; // 4 seconds at 48kHz
 
     public delegate void StepChangedHandler(float pitch, int stepNumber);
     public event StepChangedHandler OnStepChanged;
@@ -94,11 +129,11 @@ public class VCO : MonoBehaviour
         [Range(0f, 4f)]
         public float duration = 2f; // 0 = no sound, 1 = 16th note, 2 = 8th note, 3 = dotted 8th note, 4 = quarter note
 
-        public void UpdatePitchFromNote()
+        public void UpdatePitchFromNote(int globalOctaveShift)
         {
             if (useNote)
             {
-                pitch = MusicUtils.GetFrequency(note, octave);
+                pitch = MusicUtils.GetFrequency(note, octave + globalOctaveShift);
             }
         }
     }
@@ -106,7 +141,9 @@ public class VCO : MonoBehaviour
     void Start()
     {
         sampleRate = AudioSettings.outputSampleRate;
-        envelopeDecayRate = 1f / (decay * sampleRate);
+        envelopeAttackRate = 1f / (attackTime * sampleRate);
+        envelopeDecayRate = 1f / (decayTime * sampleRate);
+        envelopeReleaseRate = 1f / (releaseTime * sampleRate);
         filter = new MoogFilter(sampleRate);
         currentFrequency = frequency;
         targetFrequency = frequency;
@@ -118,6 +155,14 @@ public class VCO : MonoBehaviour
         chorusBuffer = new float[chorusBufferLength];
         chorusWritePosition = 0;
         chorusPhase = 0f;
+
+        // Initialize delay buffers
+        delayBufferLeft = new float[MAX_DELAY_SAMPLES];
+        delayBufferRight = new float[MAX_DELAY_SAMPLES];
+        delayBufferLength = MAX_DELAY_SAMPLES;
+        delayWritePosition = 0;
+        UpdateDelayTime();
+        UpdateEnvelopeRates();
     }
 
     void LoadSequence()
@@ -137,11 +182,38 @@ public class VCO : MonoBehaviour
         LoadSequence();
     }
 
+    private void UpdateDelayTime()
+    {
+        float delayTimeInSeconds = 0f;
+        float quarterNoteTime = 60f / bpm;
+
+        switch (delayTime)
+        {
+            case DelayTime.Quarter:
+                delayTimeInSeconds = quarterNoteTime;
+                break;
+            case DelayTime.Eighth:
+                delayTimeInSeconds = quarterNoteTime * 0.5f;
+                break;
+            case DelayTime.EighthDotted:
+                delayTimeInSeconds = quarterNoteTime * 0.75f;
+                break;
+            case DelayTime.Sixteenth:
+                delayTimeInSeconds = quarterNoteTime * 0.25f;
+                break;
+            case DelayTime.Triplet:
+                delayTimeInSeconds = quarterNoteTime / 3f;
+                break;
+        }
+
+        delayTimeInSamples = delayTimeInSeconds * AudioSettings.outputSampleRate;
+    }
+
     void Update()
     {
         if (sequence.Count > 0)
         {
-            float baseStepLength = (60f / bpm) / 4f; // Base length for a 16th note
+            float baseStepLength = (60f / bpm) / 4f;
             stepTimer += Time.deltaTime;
             barTimer += Time.deltaTime;
             
@@ -157,7 +229,6 @@ public class VCO : MonoBehaviour
                 ApplyStep(sequence[currentStep]);
             }
 
-            // Handle sliding
             if (isSliding)
             {
                 float t = (Time.time - slideStartTime) / slideTime;
@@ -173,9 +244,19 @@ public class VCO : MonoBehaviour
                     frequency = currentFrequency;
                 }
             }
+
+            // Update delay time when BPM changes
+            UpdateDelayTime();
         }
 
-        envelopeDecayRate = 1f / (decay * sampleRate);
+        UpdateEnvelopeRates();
+    }
+
+    private void UpdateEnvelopeRates()
+    {
+        envelopeAttackRate = 1f / (attackTime * sampleRate);
+        envelopeDecayRate = 1f / (decayTime * sampleRate);
+        envelopeReleaseRate = 1f / (releaseTime * sampleRate);
     }
 
     void ApplyStep(Step step)
@@ -184,7 +265,8 @@ public class VCO : MonoBehaviour
         if (step.useNote)
         {
             // Jeśli używamy nut, przeliczamy pitch z uwzględnieniem globalnego przesunięcia oktawy
-            adjustedPitch = MusicUtils.GetFrequency(step.note, step.octave + globalOctaveShift);
+            step.UpdatePitchFromNote(globalOctaveShift);
+            adjustedPitch = step.pitch;
         }
         else
         {
@@ -221,7 +303,7 @@ public class VCO : MonoBehaviour
             frequency = 0f;
             currentFrequency = 0f;
             targetFrequency = 0f;
-            envelopeValue = 0f;
+            ReleaseEnvelope();
         }
 
         // Zawsze wywołuj zdarzenie zmiany kroku, niezależnie od duration
@@ -237,8 +319,13 @@ public class VCO : MonoBehaviour
 
     public void TriggerEnvelope()
     {
-        envelopeValue = 1f;
         triggerEnvelope = true;
+        isReleasing = false;
+    }
+
+    public void ReleaseEnvelope()
+    {
+        isReleasing = true;
     }
 
     float SoftClip(float x)
@@ -314,11 +401,27 @@ public class VCO : MonoBehaviour
 
             if (triggerEnvelope)
             {
+                envelopeValue += envelopeAttackRate;
+                if (envelopeValue >= 1f)
+                {
+                    envelopeValue = 1f;
+                    triggerEnvelope = false;
+                }
+            }
+            else if (!isReleasing)
+            {
                 envelopeValue -= envelopeDecayRate;
+                if (envelopeValue <= sustainLevel)
+                {
+                    envelopeValue = sustainLevel;
+                }
+            }
+            else
+            {
+                envelopeValue -= envelopeReleaseRate;
                 if (envelopeValue <= 0f)
                 {
                     envelopeValue = 0f;
-                    triggerEnvelope = false;
                 }
             }
 
@@ -327,34 +430,87 @@ public class VCO : MonoBehaviour
             float filtered = filter.Process(sample);
 
             // Apply chorus effect
-            float chorusLFO = Mathf.Sin(chorusPhase * 2f * Mathf.PI) * 0.5f + 0.5f;
-            chorusPhase += chorusRate / sampleRate;
-            if (chorusPhase >= 1f) chorusPhase -= 1f;
-
-            int delayLength = (int)(chorusDepth * sampleRate + chorusLFO * chorusDepth * sampleRate);
-            delayLength = Mathf.Clamp(delayLength, 1, chorusBufferLength - 1);
-
-            int readPosition = chorusWritePosition - delayLength;
-            if (readPosition < 0) readPosition += chorusBufferLength;
-
-            float delaySample = chorusBuffer[readPosition];
-            float wetSample = delaySample * chorusAmount;
-            float drySample = filtered * (1f - chorusAmount);
-
-            // Update chorus buffer
-            chorusBuffer[chorusWritePosition] = filtered + delaySample * chorusFeedback;
-            chorusWritePosition = (chorusWritePosition + 1) % chorusBufferLength;
-
-            // Final mix with volume and soft clipping
-            float finalSample = (drySample + wetSample) * volume;
-            float clipped = Mathf.Clamp(SoftClip(finalSample), -0.95f, 0.95f);
-
-            // Output stereo
-            for (int ch = 0; ch < channels; ch++)
+            if (chorusEnabled && chorusAmount > 0)
             {
-                float pan = ch == 0 ? 1f - chorusWidth * 0.5f : 0.5f + chorusWidth * 0.5f;
-                data[i + ch] = clipped * pan;
+                float chorusLFO = Mathf.Sin(chorusPhase * 2f * Mathf.PI) * 0.5f + 0.5f;
+                chorusPhase += chorusRate / sampleRate;
+                if (chorusPhase >= 1f) chorusPhase -= 1f;
+
+                int delayLength = (int)(chorusDepth * sampleRate + chorusLFO * chorusDepth * sampleRate);
+                delayLength = Mathf.Clamp(delayLength, 1, chorusBufferLength - 1);
+
+                int readPosition = chorusWritePosition - delayLength;
+                if (readPosition < 0) readPosition += chorusBufferLength;
+
+                float delaySample = chorusBuffer[readPosition];
+                float wetSample = delaySample * chorusAmount;
+                float drySample = filtered * (1f - chorusAmount);
+
+                // Update chorus buffer
+                chorusBuffer[chorusWritePosition] = filtered + delaySample * chorusFeedback;
+                chorusWritePosition = (chorusWritePosition + 1) % chorusBufferLength;
+
+                float mixedSample = drySample + wetSample;
+
+                // Apply delay effect
+                if (delayTime != DelayTime.Off && delayTimeInSamples > 0)
+                {
+                    int delayReadPosition = delayWritePosition - (int)delayTimeInSamples;
+                    if (delayReadPosition < 0) delayReadPosition += delayBufferLength;
+
+                    // Get delayed samples
+                    float delayedLeft = delayBufferLeft[delayReadPosition];
+                    float delayedRight = delayBufferRight[delayReadPosition];
+
+                    // Write to delay buffer with feedback
+                    delayBufferLeft[delayWritePosition] = mixedSample + delayedLeft * delayFeedback;
+                    delayBufferRight[delayWritePosition] = mixedSample + delayedRight * delayFeedback;
+
+                    // Mix delayed signal with width control
+                    float leftMix = delayedLeft * (1f - delayWidth * 0.5f) + delayedRight * (delayWidth * 0.5f);
+                    float rightMix = delayedRight * (1f - delayWidth * 0.5f) + delayedLeft * (delayWidth * 0.5f);
+
+                    // Add delayed signal to output
+                    data[i] += leftMix * delayAmount;
+                    if (channels > 1)
+                        data[i + 1] += rightMix * delayAmount;
+
+                    // Increment and wrap delay write position
+                    delayWritePosition = (delayWritePosition + 1) % delayBufferLength;
+                }
+                else
+                {
+                    // No delay, just output the mixed sample
+                    float finalSample = mixedSample * volume;
+                    float clipped = Mathf.Clamp(SoftClip(finalSample), -0.95f, 0.95f);
+
+                    // Output stereo
+                    for (int ch = 0; ch < channels; ch++)
+                    {
+                        float pan = ch == 0 ? 1f - chorusWidth * 0.5f : 0.5f + chorusWidth * 0.5f;
+                        data[i + ch] = clipped * pan;
+                    }
+                }
             }
+            else
+            {
+                // No chorus, just output the filtered sample
+                float finalSample = filtered * volume;
+                float clipped = Mathf.Clamp(SoftClip(finalSample), -0.95f, 0.95f);
+
+                // Output stereo
+                for (int ch = 0; ch < channels; ch++)
+                {
+                    float pan = ch == 0 ? 1f - chorusWidth * 0.5f : 0.5f + chorusWidth * 0.5f;
+                    data[i + ch] = clipped * pan;
+                }
+            }
+        }
+
+        // Apply final volume and clipping
+        for (int i = 0; i < data.Length; i++)
+        {
+            data[i] = Mathf.Clamp(data[i] * volume, -1f, 1f);
         }
     }
 
