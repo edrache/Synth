@@ -12,6 +12,7 @@ A Unity-based audio synthesizer project featuring subtractive synthesis and a st
 - Envelope control with decay and accent
 - Pitch slide between steps
 - Volume and gain control
+- Global octave shift (-2 to +2 octaves)
 
 ### Effects
 - Chorus effect with parameters:

@@ -32,6 +32,8 @@ public class VCO : MonoBehaviour
     [Header("Sekwencer")]
     [Range(40f, 300f)]
     public float bpm = 120f;
+    [Range(-2, 2)]
+    public int globalOctaveShift = 0; // Globalne przesunięcie oktawy
 
     [Header("Chorus")]
     [Range(0f, 1f)]
@@ -178,19 +180,31 @@ public class VCO : MonoBehaviour
 
     void ApplyStep(Step step)
     {
+        float adjustedPitch = step.pitch;
+        if (step.useNote)
+        {
+            // Jeśli używamy nut, przeliczamy pitch z uwzględnieniem globalnego przesunięcia oktawy
+            adjustedPitch = MusicUtils.GetFrequency(step.note, step.octave + globalOctaveShift);
+        }
+        else
+        {
+            // Jeśli używamy częstotliwości, przesuwamy o oktawy (mnożymy/dzielimy przez 2 dla każdej oktawy)
+            adjustedPitch *= Mathf.Pow(2, globalOctaveShift);
+        }
+
         if (step.duration > 0)
         {
             if (!step.slide)
             {
-                currentFrequency = step.pitch;
-                targetFrequency = step.pitch;
-                frequency = step.pitch;
+                currentFrequency = adjustedPitch;
+                targetFrequency = adjustedPitch;
+                frequency = adjustedPitch;
                 phase = 0;
                 isSliding = false;
             }
             else
             {
-                targetFrequency = step.pitch;
+                targetFrequency = adjustedPitch;
                 currentFrequency = frequency;
                 slideStartTime = Time.time;
                 isSliding = true;
@@ -211,13 +225,13 @@ public class VCO : MonoBehaviour
         }
 
         // Zawsze wywołuj zdarzenie zmiany kroku, niezależnie od duration
-        OnStepChanged?.Invoke(step.pitch, (int)currentStep);
+        OnStepChanged?.Invoke(adjustedPitch, (int)currentStep);
 
         // Wywołaj ruch obiektu na podstawie wysokości nuty i numeru kroku
         NoteMovement noteMovement = GetComponent<NoteMovement>();
         if (noteMovement != null)
         {
-            noteMovement.MoveToNote(step.pitch, currentStep);
+            noteMovement.MoveToNote(adjustedPitch, currentStep);
         }
     }
 
