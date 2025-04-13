@@ -120,5 +120,15 @@ Manages the sequencer visualization:
 - Current step indication
 - Musical notation display
 
+### ParameterModulator
+Component for modulating VCO parameters over time:
+- Parameter selection (Filter, Chorus, Delay, Envelope)
+- Min/max value range
+- Customizable modulation curve
+- Duration options (1/4 bar to 4 bars)
+- BPM synchronization
+- Loop and active toggles
+- Progress visualization
+
 ## License
 This project is licensed under the MIT License - see the LICENSE file for details. 
