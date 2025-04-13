@@ -10,6 +10,10 @@ public class StepUI : MonoBehaviour
     [SerializeField] private GameObject slideIndicator;
     [SerializeField] private TextMeshProUGUI octaveText;
     [SerializeField] private TextMeshProUGUI durationText;
+    [SerializeField] private Button durationButton;
+    [SerializeField] private Button accentButton;
+    [SerializeField] private Button slideButton;
+    private VCO.Step currentStep;
 
     private void Awake()
     {
@@ -25,10 +29,25 @@ public class StepUI : MonoBehaviour
             Debug.LogError("StepUI: Brak przypisanego TextMeshProUGUI dla oktawy!");
         if (durationText == null)
             Debug.LogError("StepUI: Brak przypisanego TextMeshProUGUI dla długości nuty!");
+        if (durationButton == null)
+            Debug.LogError("StepUI: Brak przypisanego przycisku dla długości nuty!");
+        else
+            durationButton.onClick.AddListener(CycleDuration);
+            
+        if (accentButton == null)
+            Debug.LogError("StepUI: Brak przypisanego przycisku dla akcentu!");
+        else
+            accentButton.onClick.AddListener(ToggleAccent);
+            
+        if (slideButton == null)
+            Debug.LogError("StepUI: Brak przypisanego przycisku dla slide!");
+        else
+            slideButton.onClick.AddListener(ToggleSlide);
     }
 
     public void UpdateStepInfo(VCO.Step step)
     {
+        currentStep = step;
         // Ustaw tekst nuty
         if (noteText != null)
         {
@@ -59,6 +78,33 @@ public class StepUI : MonoBehaviour
         {
             string durationSymbol = GetDurationSymbol(step.duration);
             durationText.text = durationSymbol;
+        }
+    }
+
+    private void CycleDuration()
+    {
+        if (currentStep != null)
+        {
+            currentStep.duration = (currentStep.duration + 1f) % 5f;
+            UpdateStepInfo(currentStep);
+        }
+    }
+
+    private void ToggleAccent()
+    {
+        if (currentStep != null)
+        {
+            currentStep.accent = !currentStep.accent;
+            UpdateStepInfo(currentStep);
+        }
+    }
+
+    private void ToggleSlide()
+    {
+        if (currentStep != null)
+        {
+            currentStep.slide = !currentStep.slide;
+            UpdateStepInfo(currentStep);
         }
     }
 
