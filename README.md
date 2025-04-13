@@ -8,11 +8,26 @@ A Unity-based audio synthesizer project featuring subtractive synthesis and a st
 - Multiple waveforms:
   - Basic: Sine, Square, Saw, Triangle, Noise
   - Soft variants: Sine2, SoftSquare, SoftSaw, Sine3, SoftPulse
-- Moog-style filter with cutoff and resonance
+- Moog-style filter with:
+  - Cutoff and resonance control
+  - LFO modulation with multiple waveforms
+  - Envelope modulation
 - ADSR envelope with slide control
 - Pitch slide between steps
 - Volume and gain control
 - Global octave shift (-2 to +2 octaves)
+
+### Filter LFO
+The filter can be modulated by a Low Frequency Oscillator with the following parameters:
+- **Enabled**: Toggle to enable/disable LFO modulation
+- **Rate** (0.1-20Hz): Controls the modulation speed
+- **Depth** (0-1): Controls the modulation intensity
+- **Waveform**: Selectable waveforms:
+  - Sine: Smooth modulation
+  - Square: Abrupt changes
+  - Triangle: Linear changes
+  - Saw: Asymmetric modulation
+- Modulation range: ±4 octaves from base cutoff
 
 ### Effects
 - Chorus effect with parameters:

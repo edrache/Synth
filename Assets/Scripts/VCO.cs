@@ -21,6 +21,15 @@ public class VCO : MonoBehaviour
     [Range(0f, 1f)]
     public float resonance = 0.5f;
 
+    [Header("Filter LFO")]
+    public bool filterLFOEnabled = false;
+    [Range(0.1f, 20f)]
+    public float filterLFORate = 1f;
+    [Range(0f, 1f)]
+    public float filterLFODepth = 0.5f;
+    public enum LFOWaveform { Sine, Square, Triangle, Saw }
+    public LFOWaveform filterLFOWaveform = LFOWaveform.Sine;
+
     [Header("Envelope")]
     [Range(0.001f, 2f)]
     public float attackTime = 0.01f; // Czas ataku
@@ -112,6 +121,9 @@ public class VCO : MonoBehaviour
     private float delayTimeInSamples;
     private const int MAX_DELAY_SAMPLES = 192000; // 4 seconds at 48kHz
 
+    private float filterLFOPhase = 0f;
+    private float currentCutoff;
+
     public delegate void StepChangedHandler(float pitch, int stepNumber);
     public event StepChangedHandler OnStepChanged;
 
@@ -163,6 +175,7 @@ public class VCO : MonoBehaviour
         delayWritePosition = 0;
         UpdateDelayTime();
         UpdateEnvelopeRates();
+        currentCutoff = baseCutoff;
     }
 
     void LoadSequence()
@@ -250,6 +263,43 @@ public class VCO : MonoBehaviour
         }
 
         UpdateEnvelopeRates();
+
+        // Update filter LFO
+        if (filterLFOEnabled)
+        {
+            float lfoValue = 0f;
+            switch (filterLFOWaveform)
+            {
+                case LFOWaveform.Sine:
+                    lfoValue = Mathf.Sin(filterLFOPhase * 2f * Mathf.PI) * 0.5f + 0.5f;
+                    break;
+                case LFOWaveform.Square:
+                    lfoValue = filterLFOPhase < 0.5f ? 1f : 0f;
+                    break;
+                case LFOWaveform.Triangle:
+                    lfoValue = filterLFOPhase < 0.5f ? 
+                        filterLFOPhase * 2f : 
+                        1f - (filterLFOPhase - 0.5f) * 2f;
+                    break;
+                case LFOWaveform.Saw:
+                    lfoValue = filterLFOPhase;
+                    break;
+            }
+
+            // Calculate cutoff modulation
+            float modulation = (lfoValue * 2f - 1f) * filterLFODepth;
+            currentCutoff = baseCutoff * Mathf.Pow(2f, modulation * 4f); // 4 oktawy modulacji
+            filterLFOPhase += filterLFORate / sampleRate;
+            if (filterLFOPhase >= 1f) filterLFOPhase -= 1f;
+
+            // Update filter cutoff
+            filter.SetParams(currentCutoff, resonance);
+        }
+        else
+        {
+            currentCutoff = baseCutoff;
+            filter.SetParams(currentCutoff, resonance);
+        }
     }
 
     private void UpdateEnvelopeRates()
@@ -425,7 +475,7 @@ public class VCO : MonoBehaviour
                 }
             }
 
-            float modulatedCutoff = baseCutoff + Mathf.Pow(envelopeValue, 2) * 8000f;
+            float modulatedCutoff = currentCutoff + Mathf.Pow(envelopeValue, 2) * 8000f;
             filter.SetParams(modulatedCutoff, resonance);
             float filtered = filter.Process(sample);
 
