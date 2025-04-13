@@ -113,16 +113,7 @@ public class SequenceUI : MonoBehaviour
             stepIndex < vcoSource.currentSequence.steps.Count)
         {
             VCO.Step step = vcoSource.currentSequence.steps[stepIndex];
-            string noteText = step.note.ToString();
-            if (step.accentStrength > 1f)
-            {
-                noteText += " (A)"; // (A) oznacza akcent
-            }
-            if (step.duration == 0f)
-            {
-                noteText += " (M)"; // (M) oznacza wyciszenie
-            }
-            stepUIElements[stepIndex].SetNoteText(noteText);
+            stepUIElements[stepIndex].UpdateStepInfo(step);
         }
     }
 } 
