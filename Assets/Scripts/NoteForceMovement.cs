@@ -15,6 +15,8 @@ public class NoteForceMovement : MonoBehaviour
     public bool useAllSteps = false; // Czy używać wszystkich kroków
     public List<int> activeSteps = new List<int> { 0, 3, 7, 11 }; // Kroki, które będą poruszać obiektem
     public bool applyForceAtCenter = true; // Czy aplikować siłę w środku obiektu
+    public bool useRandomDirection = true; // Czy używać losowego kierunku siły
+    public Vector3 forceDirection = Vector3.forward; // Kierunek siły (używany gdy useRandomDirection = false)
 
     private Rigidbody rb;
     private float forceTimer = 0f;
@@ -85,13 +87,23 @@ public class NoteForceMovement : MonoBehaviour
         // Oblicz siłę na podstawie znormalizowanego pitcha
         float forceMagnitude = Mathf.Lerp(minForce, maxForce, normalizedPitch);
         
-        // Wybierz losowy kierunek
-        float randomAngle = Random.Range(0f, 360f);
-        currentForce = new Vector3(
-            Mathf.Cos(randomAngle * Mathf.Deg2Rad),
-            0f,
-            Mathf.Sin(randomAngle * Mathf.Deg2Rad)
-        ) * forceMagnitude;
+        // Wybierz kierunek siły
+        Vector3 direction;
+        if (useRandomDirection)
+        {
+            float randomAngle = Random.Range(0f, 360f);
+            direction = new Vector3(
+                Mathf.Cos(randomAngle * Mathf.Deg2Rad),
+                0f,
+                Mathf.Sin(randomAngle * Mathf.Deg2Rad)
+            );
+        }
+        else
+        {
+            direction = forceDirection.normalized;
+        }
+        
+        currentForce = direction * forceMagnitude;
         
         forceTimer = 0f;
         isApplyingForce = true;
