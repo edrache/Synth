@@ -7,8 +7,11 @@ public class NoteMovement : MonoBehaviour
     public float minDistance = 0.5f;
     [Range(0.1f, 100f)]
     public float maxDistance = 2f;
-    [Range(0.1f, 100f)]
-    public float moveSpeed = 1f;
+    [Range(0.1f, 5f)]
+    public float moveDuration = 1f; // Czas w sekundach potrzebny na osiągnięcie celu
+
+    [Range(0f, 1000f)]
+    public float maxDesyncOffset = 0f; // Maksymalne przesunięcie w milisekundach (0 do 1000ms)
 
     public Transform targetObject; // Obiekt do poruszania
     public VCO vcoSource; // Źródło sygnału VCO
@@ -20,8 +23,12 @@ public class NoteMovement : MonoBehaviour
     private Vector3 startPosition;
     private Vector3 currentStartPosition; // Aktualna pozycja startowa dla ruchu
     private float moveTimer = 0f;
-    private float moveDuration = 0f;
     private bool isMoving = false;
+    private float desyncTimer = 0f;
+    private bool isWaitingForDesync = false;
+    private float currentPitch;
+    private int currentStepNumber;
+    private float currentDesyncOffset;
 
     void Start()
     {
@@ -68,7 +75,23 @@ public class NoteMovement : MonoBehaviour
 
     private void HandleStepChanged(float pitch, int stepNumber)
     {
-        MoveToNote(pitch, stepNumber);
+        currentPitch = pitch;
+        currentStepNumber = stepNumber;
+        
+        if (Mathf.Approximately(maxDesyncOffset, 0f))
+        {
+            // Bez rozsynchronizowania - ruch natychmiastowy
+            MoveToNote(pitch, stepNumber);
+        }
+        else
+        {
+            // Wylosuj nowe przesunięcie dla tego kroku
+            currentDesyncOffset = Random.Range(-maxDesyncOffset, maxDesyncOffset);
+            
+            // Rozpocznij odliczanie do ruchu
+            isWaitingForDesync = true;
+            desyncTimer = 0f;
+        }
     }
 
     public void MoveToNote(float pitch, int stepNumber)
@@ -105,14 +128,24 @@ public class NoteMovement : MonoBehaviour
         // Oblicz nową pozycję docelową
         targetPosition = currentStartPosition + direction * distance;
         
-        // Oblicz czas ruchu na podstawie odległości i prędkości
-        moveDuration = distance / moveSpeed;
+        // Rozpocznij ruch
         moveTimer = 0f;
         isMoving = true;
     }
 
     void Update()
     {
+        if (isWaitingForDesync)
+        {
+            desyncTimer += Time.deltaTime * 1000f; // Konwertuj na milisekundy
+            
+            if (desyncTimer >= Mathf.Abs(currentDesyncOffset))
+            {
+                isWaitingForDesync = false;
+                MoveToNote(currentPitch, currentStepNumber);
+            }
+        }
+        
         if (isMoving && targetObject != null)
         {
             moveTimer += Time.deltaTime;

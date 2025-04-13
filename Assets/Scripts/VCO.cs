@@ -24,7 +24,7 @@ public class VCO : MonoBehaviour
     [Range(0.001f, 1f)]
     public float slideTime = 0.1f;
 
-    [Range(0.001f, 2f)]
+    [Range(1f, 2f)]
     public float accentStrength = 1.2f;
 
     [Range(40f, 300f)]
@@ -177,16 +177,6 @@ public class VCO : MonoBehaviour
                 envelopeValue = accentStrength;
             else 
                 TriggerEnvelope();
-
-            // Wywołaj zdarzenie zmiany kroku
-            OnStepChanged?.Invoke(step.pitch, (int)currentStep);
-
-            // Wywołaj ruch obiektu na podstawie wysokości nuty i numeru kroku
-            NoteMovement noteMovement = GetComponent<NoteMovement>();
-            if (noteMovement != null)
-            {
-                noteMovement.MoveToNote(step.pitch, currentStep);
-            }
         }
         else
         {
@@ -195,6 +185,16 @@ public class VCO : MonoBehaviour
             currentFrequency = 0f;
             targetFrequency = 0f;
             envelopeValue = 0f;
+        }
+
+        // Zawsze wywołuj zdarzenie zmiany kroku, niezależnie od duration
+        OnStepChanged?.Invoke(step.pitch, (int)currentStep);
+
+        // Wywołaj ruch obiektu na podstawie wysokości nuty i numeru kroku
+        NoteMovement noteMovement = GetComponent<NoteMovement>();
+        if (noteMovement != null)
+        {
+            noteMovement.MoveToNote(step.pitch, currentStep);
         }
     }
 
