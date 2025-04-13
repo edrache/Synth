@@ -6,6 +6,8 @@ using System.Collections.Generic;
 public class VCO : MonoBehaviour
 {
     public enum Waveform { Sine, Square, Saw, Triangle, Noise, Sine2, SoftSquare, SoftSaw, Sine3, SoftPulse }
+    public enum FilterType { LowPass, HighPass, BandPass }
+    public enum LFOWaveform { Sine, Square, Triangle, Saw }
 
     [Header("Podstawowe parametry")]
     [Range(20f, 2000f)]
@@ -16,10 +18,13 @@ public class VCO : MonoBehaviour
     public float gain = 1.0f;
 
     [Header("Filtr")]
+    public FilterType filterType = FilterType.LowPass;
     [Range(20f, 20000f)]
     public float baseCutoff = 1000f;
     [Range(0f, 1f)]
     public float resonance = 0.5f;
+    [Range(0.1f, 2f)]
+    public float filterQ = 0.7f; // Q factor for bandpass filter
 
     [Header("Filter LFO")]
     public bool filterLFOEnabled = false;
@@ -27,7 +32,6 @@ public class VCO : MonoBehaviour
     public float filterLFORate = 1f;
     [Range(0f, 1f)]
     public float filterLFODepth = 0.5f;
-    public enum LFOWaveform { Sine, Square, Triangle, Saw }
     public LFOWaveform filterLFOWaveform = LFOWaveform.Sine;
 
     [Header("Envelope")]
@@ -156,7 +160,7 @@ public class VCO : MonoBehaviour
         envelopeAttackRate = 1f / (attackTime * sampleRate);
         envelopeDecayRate = 1f / (decayTime * sampleRate);
         envelopeReleaseRate = 1f / (releaseTime * sampleRate);
-        filter = new MoogFilter(sampleRate);
+        filter = new MoogFilter(sampleRate, filterType);
         currentFrequency = frequency;
         targetFrequency = frequency;
         LoadSequence();
@@ -293,12 +297,12 @@ public class VCO : MonoBehaviour
             if (filterLFOPhase >= 1f) filterLFOPhase -= 1f;
 
             // Update filter cutoff
-            filter.SetParams(currentCutoff, resonance);
+            filter.SetParams(currentCutoff, resonance, filterQ);
         }
         else
         {
             currentCutoff = baseCutoff;
-            filter.SetParams(currentCutoff, resonance);
+            filter.SetParams(currentCutoff, resonance, filterQ);
         }
     }
 
@@ -476,7 +480,7 @@ public class VCO : MonoBehaviour
             }
 
             float modulatedCutoff = currentCutoff + Mathf.Pow(envelopeValue, 2) * 8000f;
-            filter.SetParams(modulatedCutoff, resonance);
+            filter.SetParams(modulatedCutoff, resonance, filterQ);
             float filtered = filter.Process(sample);
 
             // Apply chorus effect
@@ -578,49 +582,75 @@ public class VCO : MonoBehaviour
     {
         return barTimer / barLength;
     }
-}
 
-public class MoogFilter
-{
-    private float sampleRate;
-    private float cutoff;
-    private float resonance;
-    private float p, k, r;
-    private float[] y = new float[4];
-    private float[] oldx = new float[4];
-    private float[] oldy = new float[4];
-
-    public MoogFilter(float sampleRate)
+    public class MoogFilter
     {
-        this.sampleRate = sampleRate;
-    }
+        private float sampleRate;
+        private float cutoff;
+        private float resonance;
+        private float p, k, r;
+        private float[] y = new float[4];
+        private float[] oldx = new float[4];
+        private float[] oldy = new float[4];
+        private FilterType type;
+        private float q;
 
-    public void SetParams(float cutoffHz, float resonance)
-    {
-        cutoff = Mathf.Clamp(cutoffHz, 50f, sampleRate * 0.45f);
-        this.resonance = Mathf.Clamp(resonance, 0f, 1f);
-
-        float f = cutoff / sampleRate;
-        p = f * (1.8f - 0.8f * f);
-        k = 2f * Mathf.Sin(f * Mathf.PI * 0.5f) - 1f;
-        r = resonance * (1.0f - 0.15f * p * p);
-    }
-
-    public float Process(float input)
-    {
-        input -= r * y[3];
-
-        y[0] = p * (input + oldx[0]) - k * y[0];
-        y[1] = p * (y[0] + oldx[1]) - k * y[1];
-        y[2] = p * (y[1] + oldx[2]) - k * y[2];
-        y[3] = p * (y[2] + oldx[3]) - k * y[3];
-
-        for (int i = 0; i < 4; i++)
+        public MoogFilter(float sampleRate, FilterType type = FilterType.LowPass)
         {
-            oldx[i] = i == 0 ? input : y[i - 1];
-            oldy[i] = y[i];
+            this.sampleRate = sampleRate;
+            this.type = type;
         }
 
-        return y[3];
+        public void SetParams(float cutoffHz, float resonance, float q = 0.7f)
+        {
+            cutoff = Mathf.Clamp(cutoffHz, 50f, sampleRate * 0.45f);
+            this.resonance = Mathf.Clamp(resonance, 0f, 1f);
+            this.q = Mathf.Clamp(q, 0.1f, 2f);
+
+            float f = cutoff / sampleRate;
+            p = f * (1.8f - 0.8f * f);
+            k = 2f * Mathf.Sin(f * Mathf.PI * 0.5f) - 1f;
+            r = resonance * (1.0f - 0.15f * p * p);
+        }
+
+        public float Process(float input)
+        {
+            input -= r * y[3];
+
+            y[0] = p * (input + oldx[0]) - k * y[0];
+            y[1] = p * (y[0] + oldx[1]) - k * y[1];
+            y[2] = p * (y[1] + oldx[2]) - k * y[2];
+            y[3] = p * (y[2] + oldx[3]) - k * y[3];
+
+            for (int i = 0; i < 4; i++)
+            {
+                oldx[i] = i == 0 ? input : y[i - 1];
+                oldy[i] = y[i];
+            }
+
+            float output = 0f;
+            switch (type)
+            {
+                case FilterType.LowPass:
+                    output = y[3];
+                    break;
+                case FilterType.HighPass:
+                    output = input - y[3];
+                    break;
+                case FilterType.BandPass:
+                    float bandWidth = cutoff / q;
+                    float centerFreq = cutoff;
+                    float lowCutoff = centerFreq - bandWidth * 0.5f;
+                    float highCutoff = centerFreq + bandWidth * 0.5f;
+                    
+                    // Create bandpass by subtracting lowpass from highpass
+                    float lowPass = y[3];
+                    float highPass = input - y[3];
+                    output = highPass - lowPass;
+                    break;
+            }
+
+            return output;
+        }
     }
 }

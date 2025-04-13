@@ -9,7 +9,12 @@ A Unity-based audio synthesizer project featuring subtractive synthesis and a st
   - Basic: Sine, Square, Saw, Triangle, Noise
   - Soft variants: Sine2, SoftSquare, SoftSaw, Sine3, SoftPulse
 - Moog-style filter with:
+  - Multiple filter types:
+    - Low-pass: Cuts high frequencies
+    - High-pass: Cuts low frequencies
+    - Band-pass: Passes frequencies around cutoff
   - Cutoff and resonance control
+  - Q factor for bandpass filter
   - LFO modulation with multiple waveforms
   - Envelope modulation
 - ADSR envelope with slide control
