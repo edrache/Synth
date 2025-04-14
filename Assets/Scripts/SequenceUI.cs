@@ -69,6 +69,7 @@ public class SequenceUI : MonoBehaviour
                 if (stepUI != null)
                 {
                     stepUIElements.Add(stepUI);
+                    stepUI.SetStepIndex(i);
                     // Ustaw tekst dla kroku
                     UpdateStepUIText(i);
                 }
@@ -89,13 +90,13 @@ public class SequenceUI : MonoBehaviour
         // Wyłącz wskaźnik poprzedniego kroku
         if (currentStepIndex >= 0 && currentStepIndex < stepUIElements.Count)
         {
-            stepUIElements[currentStepIndex].SetStepActive(false);
+            stepUIElements[currentStepIndex].SetIsCurrentStep(false);
         }
 
         // Włącz wskaźnik nowego kroku
         if (stepNumber >= 0 && stepNumber < stepUIElements.Count)
         {
-            stepUIElements[stepNumber].SetStepActive(true);
+            stepUIElements[stepNumber].SetIsCurrentStep(true);
             currentStepIndex = stepNumber;
         }
 
@@ -113,7 +114,46 @@ public class SequenceUI : MonoBehaviour
             stepIndex < vcoSource.currentSequence.steps.Count)
         {
             VCO.Step step = vcoSource.currentSequence.steps[stepIndex];
-            stepUIElements[stepIndex].UpdateStepInfo(step);
+            UpdateStepInfo(stepIndex, step);
+        }
+    }
+
+    private void UpdateCurrentStep()
+    {
+        if (stepUIElements == null || stepUIElements.Count == 0) return;
+
+        // Dezaktywuj wszystkie kroki
+        foreach (var stepUI in stepUIElements)
+        {
+            if (stepUI != null)
+            {
+                stepUI.SetIsCurrentStep(false);
+            }
+        }
+
+        // Aktywuj aktualny krok
+        if (currentStepIndex >= 0 && currentStepIndex < stepUIElements.Count)
+        {
+            var currentStepUI = stepUIElements[currentStepIndex];
+            if (currentStepUI != null)
+            {
+                currentStepUI.SetIsCurrentStep(true);
+            }
+        }
+    }
+
+    private void UpdateStepInfo(int stepNumber, VCO.Step step)
+    {
+        if (stepNumber < 0 || stepNumber >= stepUIElements.Count) return;
+
+        var stepUI = stepUIElements[stepNumber];
+        if (stepUI != null)
+        {
+            stepUI.SetStepIndex(stepNumber);
+            stepUI.SetNote((int)step.note);
+            stepUI.SetDuration((int)step.duration);
+            stepUI.SetAccent(step.accent);
+            stepUI.SetSlide(step.slide);
         }
     }
 } 

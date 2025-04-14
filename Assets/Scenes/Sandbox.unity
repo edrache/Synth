@@ -545,6 +545,14 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: -88.92
       objectReference: {fileID: 0}
+    - target: {fileID: 2984217104156578623, guid: ba8abbc444b074cf798a48698cbda839, type: 3}
+      propertyPath: slideIndicator
+      value: 
+      objectReference: {fileID: 952680503}
+    - target: {fileID: 2984217104156578623, guid: ba8abbc444b074cf798a48698cbda839, type: 3}
+      propertyPath: accentIndicator
+      value: 
+      objectReference: {fileID: 228906600}
     - target: {fileID: 3931914093782460314, guid: ba8abbc444b074cf798a48698cbda839, type: 3}
       propertyPath: m_AnchorMax.y
       value: 1
@@ -779,6 +787,16 @@ GameObject:
 Transform:
   m_CorrespondingSourceObject: {fileID: 393000312685475586, guid: fffadf677e9ad49e9a65e69a442139c1, type: 3}
   m_PrefabInstance: {fileID: 1791263170}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &228906600 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6988398282980194793, guid: ba8abbc444b074cf798a48698cbda839, type: 3}
+  m_PrefabInstance: {fileID: 183552926}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &276419398 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6988398282980194793, guid: ba8abbc444b074cf798a48698cbda839, type: 3}
+  m_PrefabInstance: {fileID: 1438459050}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &330585543
 GameObject:
@@ -1102,14 +1120,17 @@ MonoBehaviour:
   delayFeedback: 0.3
   delayTime: 2
   delayWidth: 0.5
+  filterEnvelopeInfluence: 1
   filterAttack: 0.01
   filterDecay: 0.1
   filterSustain: 0.7
   filterRelease: 0.2
+  chorusEnvelopeInfluence: 1
   chorusAttack: 0.01
   chorusDecay: 0.1
   chorusSustain: 0.7
   chorusRelease: 0.2
+  delayEnvelopeInfluence: 1
   delayAttack: 0.01
   delayDecay: 0.1
   delaySustain: 0.7
@@ -1899,14 +1920,17 @@ MonoBehaviour:
   delayFeedback: 0.3
   delayTime: 1
   delayWidth: 0.5
+  filterEnvelopeInfluence: 1
   filterAttack: 0.01
   filterDecay: 0.1
   filterSustain: 0.7
   filterRelease: 0.2
+  chorusEnvelopeInfluence: 1
   chorusAttack: 0.01
   chorusDecay: 0.1
   chorusSustain: 0.7
   chorusRelease: 0.2
+  delayEnvelopeInfluence: 1
   delayAttack: 0.01
   delayDecay: 0.1
   delaySustain: 0.7
@@ -2212,6 +2236,11 @@ GameObject:
 Transform:
   m_CorrespondingSourceObject: {fileID: 393000312685475586, guid: fffadf677e9ad49e9a65e69a442139c1, type: 3}
   m_PrefabInstance: {fileID: 803220925}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &743858960 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5510934947713365472, guid: ba8abbc444b074cf798a48698cbda839, type: 3}
+  m_PrefabInstance: {fileID: 1438459050}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &803220925
 PrefabInstance:
@@ -2809,14 +2838,17 @@ MonoBehaviour:
   delayFeedback: 0.3
   delayTime: 2
   delayWidth: 0.5
+  filterEnvelopeInfluence: 0
   filterAttack: 0.01
   filterDecay: 0.1
   filterSustain: 0.7
   filterRelease: 0.2
+  chorusEnvelopeInfluence: 0
   chorusAttack: 0.01
   chorusDecay: 0.1
   chorusSustain: 0.7
   chorusRelease: 0.2
+  delayEnvelopeInfluence: 0
   delayAttack: 0.01
   delayDecay: 0.1
   delaySustain: 0.7
@@ -2934,6 +2966,11 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &952680503 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5510934947713365472, guid: ba8abbc444b074cf798a48698cbda839, type: 3}
+  m_PrefabInstance: {fileID: 183552926}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &993493342
 GameObject:
   m_ObjectHideFlags: 0
@@ -3414,6 +3451,11 @@ MonoBehaviour:
   loopToggle: {fileID: 1999286349}
   activeToggle: {fileID: 187183841}
   progressIndicator: {fileID: 2075094950}
+--- !u!1 &1198358118 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6988398282980194793, guid: ba8abbc444b074cf798a48698cbda839, type: 3}
+  m_PrefabInstance: {fileID: 5748957620982691227}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1244554133
 GameObject:
   m_ObjectHideFlags: 0
@@ -3610,14 +3652,17 @@ MonoBehaviour:
   delayFeedback: 0.3
   delayTime: 2
   delayWidth: 0.5
+  filterEnvelopeInfluence: 1
   filterAttack: 0.01
   filterDecay: 0.1
   filterSustain: 0.7
   filterRelease: 0.2
+  chorusEnvelopeInfluence: 1
   chorusAttack: 0.01
   chorusDecay: 0.1
   chorusSustain: 0.7
   chorusRelease: 0.2
+  delayEnvelopeInfluence: 1
   delayAttack: 0.01
   delayDecay: 0.1
   delaySustain: 0.7
@@ -3773,7 +3818,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: -30}
   m_SizeDelta: {x: 0, y: 100}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &1289563114
@@ -4232,6 +4277,14 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: -88.92
       objectReference: {fileID: 0}
+    - target: {fileID: 2984217104156578623, guid: ba8abbc444b074cf798a48698cbda839, type: 3}
+      propertyPath: slideIndicator
+      value: 
+      objectReference: {fileID: 743858960}
+    - target: {fileID: 2984217104156578623, guid: ba8abbc444b074cf798a48698cbda839, type: 3}
+      propertyPath: accentIndicator
+      value: 
+      objectReference: {fileID: 276419398}
     - target: {fileID: 3931914093782460314, guid: ba8abbc444b074cf798a48698cbda839, type: 3}
       propertyPath: m_AnchorMax.y
       value: 1
@@ -5880,6 +5933,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: fffadf677e9ad49e9a65e69a442139c1, type: 3}
+--- !u!1 &1833829773 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5510934947713365472, guid: ba8abbc444b074cf798a48698cbda839, type: 3}
+  m_PrefabInstance: {fileID: 5748957620982691227}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1904496701
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -6781,6 +6839,14 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: -88.92
       objectReference: {fileID: 0}
+    - target: {fileID: 2984217104156578623, guid: ba8abbc444b074cf798a48698cbda839, type: 3}
+      propertyPath: slideIndicator
+      value: 
+      objectReference: {fileID: 1833829773}
+    - target: {fileID: 2984217104156578623, guid: ba8abbc444b074cf798a48698cbda839, type: 3}
+      propertyPath: accentIndicator
+      value: 
+      objectReference: {fileID: 1198358118}
     - target: {fileID: 3931914093782460314, guid: ba8abbc444b074cf798a48698cbda839, type: 3}
       propertyPath: m_AnchorMax.y
       value: 1

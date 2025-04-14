@@ -1,134 +1,243 @@
 using UnityEngine;
-using TMPro;
 using UnityEngine.UI;
+using TMPro;
+using System.Collections.Generic;
 
 public class StepUI : MonoBehaviour
 {
-    [SerializeField] private TextMeshProUGUI noteText;
-    [SerializeField] private GameObject activeIndicator;
-    [SerializeField] private GameObject accentIndicator;
-    [SerializeField] private GameObject slideIndicator;
-    [SerializeField] private TextMeshProUGUI octaveText;
-    [SerializeField] private TextMeshProUGUI durationText;
+    [Header("VCO Reference")]
+    [SerializeField] private VCO vcoSource;
+
+    [Header("Step References")]
     [SerializeField] private Button durationButton;
     [SerializeField] private Button accentButton;
     [SerializeField] private Button slideButton;
-    private VCO.Step currentStep;
+    [SerializeField] private Image currentStepIndicator;
+    [SerializeField] private TextMeshProUGUI durationText;
+    [SerializeField] private TextMeshProUGUI noteText;
+
+    [Header("Note Selection")]
+    [SerializeField] private Button noteButton;
+    [SerializeField] private GameObject noteSelectionPanel;
+    [SerializeField] private List<Button> noteButtons;
+    [SerializeField] private List<string> noteNames = new List<string> { "C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B" };
+
+    private int stepIndex;
+    private int currentNote = -1; // -1 means no note
+    private int currentDuration = 1;
+    private bool hasAccent = false;
+    private bool hasSlide = false;
+    private bool isCurrentStep = false;
 
     private void Awake()
     {
-        if (noteText == null)
-            Debug.LogError("StepUI: Brak przypisanego TextMeshProUGUI dla nuty!");
-        if (activeIndicator == null)
-            Debug.LogError("StepUI: Brak przypisanego wskaźnika aktywnego kroku!");
-        if (accentIndicator == null)
-            Debug.LogError("StepUI: Brak przypisanego wskaźnika akcentu!");
-        if (slideIndicator == null)
-            Debug.LogError("StepUI: Brak przypisanego wskaźnika slide!");
-        if (octaveText == null)
-            Debug.LogError("StepUI: Brak przypisanego TextMeshProUGUI dla oktawy!");
-        if (durationText == null)
-            Debug.LogError("StepUI: Brak przypisanego TextMeshProUGUI dla długości nuty!");
-        if (durationButton == null)
-            Debug.LogError("StepUI: Brak przypisanego przycisku dla długości nuty!");
-        else
-            durationButton.onClick.AddListener(CycleDuration);
-            
-        if (accentButton == null)
-            Debug.LogError("StepUI: Brak przypisanego przycisku dla akcentu!");
-        else
-            accentButton.onClick.AddListener(ToggleAccent);
-            
-        if (slideButton == null)
-            Debug.LogError("StepUI: Brak przypisanego przycisku dla slide!");
-        else
-            slideButton.onClick.AddListener(ToggleSlide);
+        if (vcoSource == null)
+        {
+            vcoSource = FindFirstObjectByType<VCO>();
+            if (vcoSource == null)
+            {
+                Debug.LogError("StepUI: Nie znaleziono źródła VCO w scenie!");
+            }
+        }
+
+        ValidateReferences();
+        SetupButtonListeners();
+        SetupNoteButtons();
     }
 
-    public void UpdateStepInfo(VCO.Step step)
+    private void ValidateReferences()
     {
-        currentStep = step;
-        // Ustaw tekst nuty
-        if (noteText != null)
+        if (durationButton == null)
+            Debug.LogError("StepUI: Brak przypisanego przycisku długości!");
+        if (accentButton == null)
+            Debug.LogError("StepUI: Brak przypisanego przycisku akcentu!");
+        if (slideButton == null)
+            Debug.LogError("StepUI: Brak przypisanego przycisku slide!");
+        if (currentStepIndicator == null)
+            Debug.LogError("StepUI: Brak przypisanego wskaźnika aktualnego kroku!");
+        if (durationText == null)
+            Debug.LogError("StepUI: Brak przypisanego tekstu długości!");
+        if (noteText == null)
+            Debug.LogError("StepUI: Brak przypisanego tekstu nuty!");
+        if (noteButton == null)
+            Debug.LogError("StepUI: Brak przypisanego przycisku nuty!");
+        if (noteSelectionPanel == null)
+            Debug.LogError("StepUI: Brak przypisanego panelu wyboru nuty!");
+    }
+
+    private void SetupButtonListeners()
+    {
+        if (durationButton != null)
+            durationButton.onClick.AddListener(CycleDuration);
+        if (accentButton != null)
+            accentButton.onClick.AddListener(ToggleAccent);
+        if (slideButton != null)
+            slideButton.onClick.AddListener(ToggleSlide);
+        if (noteButton != null)
+            noteButton.onClick.AddListener(ToggleNoteSelection);
+    }
+
+    private void SetupNoteButtons()
+    {
+        if (noteButtons == null || noteButtons.Count == 0)
         {
-            string noteName = step.note.ToString().Replace("Sharp", "#");
-            noteText.text = noteName;
+            Debug.LogError("StepUI: Brak przypisanych przycisków nut!");
+            return;
         }
 
-        // Ustaw wskaźnik akcentu
-        if (accentIndicator != null)
+        for (int i = 0; i < noteButtons.Count; i++)
         {
-            accentIndicator.SetActive(step.accent);
+            int noteIndex = i; // Capture the index for the lambda
+            noteButtons[i].onClick.AddListener(() => SelectNote(noteIndex));
+            
+            // Set button text
+            TextMeshProUGUI buttonText = noteButtons[i].GetComponentInChildren<TextMeshProUGUI>();
+            if (buttonText != null)
+            {
+                buttonText.text = noteNames[i];
+            }
         }
+    }
 
-        // Ustaw wskaźnik slide
-        if (slideIndicator != null)
+    private void ToggleNoteSelection()
+    {
+        if (noteSelectionPanel != null)
         {
-            slideIndicator.SetActive(step.slide);
+            noteSelectionPanel.SetActive(!noteSelectionPanel.activeSelf);
         }
+    }
 
-        // Ustaw tekst oktawy
-        if (octaveText != null)
-        {
-            octaveText.text = step.octave.ToString();
-        }
+    private void SelectNote(int noteIndex)
+    {
+        currentNote = noteIndex;
+        UpdateStepInfo();
+        ToggleNoteSelection(); // Hide the panel after selection
 
-        // Ustaw tekst długości nuty
-        if (durationText != null)
+        // Update the sequence in VCO
+        if (vcoSource != null && vcoSource.currentSequence != null && stepIndex < vcoSource.currentSequence.steps.Count)
         {
-            string durationSymbol = GetDurationSymbol(step.duration);
-            durationText.text = durationSymbol;
+            VCO.Step step = vcoSource.currentSequence.steps[stepIndex];
+            step.useNote = true;
+            step.note = (MusicUtils.Note)noteIndex;
+            step.UpdatePitchFromNote(vcoSource.globalOctaveShift);
         }
     }
 
     private void CycleDuration()
     {
-        if (currentStep != null)
+        currentDuration = (currentDuration + 1) % 5; // Cycle through 0-4
+        UpdateStepInfo();
+
+        // Update the sequence in VCO
+        if (vcoSource != null && vcoSource.currentSequence != null && stepIndex < vcoSource.currentSequence.steps.Count)
         {
-            currentStep.duration = (currentStep.duration + 1f) % 5f;
-            UpdateStepInfo(currentStep);
+            VCO.Step step = vcoSource.currentSequence.steps[stepIndex];
+            step.duration = currentDuration;
         }
     }
 
     private void ToggleAccent()
     {
-        if (currentStep != null)
+        hasAccent = !hasAccent;
+        UpdateStepInfo();
+
+        // Update the sequence in VCO
+        if (vcoSource != null && vcoSource.currentSequence != null && stepIndex < vcoSource.currentSequence.steps.Count)
         {
-            currentStep.accent = !currentStep.accent;
-            UpdateStepInfo(currentStep);
+            VCO.Step step = vcoSource.currentSequence.steps[stepIndex];
+            step.accent = hasAccent;
         }
     }
 
     private void ToggleSlide()
     {
-        if (currentStep != null)
+        hasSlide = !hasSlide;
+        UpdateStepInfo();
+
+        // Update the sequence in VCO
+        if (vcoSource != null && vcoSource.currentSequence != null && stepIndex < vcoSource.currentSequence.steps.Count)
         {
-            currentStep.slide = !currentStep.slide;
-            UpdateStepInfo(currentStep);
+            VCO.Step step = vcoSource.currentSequence.steps[stepIndex];
+            step.slide = hasSlide;
         }
     }
 
-    private string GetDurationSymbol(float duration)
+    public void SetStepIndex(int index)
     {
-        if (duration == 0f) return "×"; // wyciszona
-        if (duration == 1f) return "♬"; // szesnastka
-        if (duration == 2f) return "♪"; // ósemka
-        if (duration == 3f) return "♪."; // ósemka z kropką
-        if (duration == 4f) return "♩"; // ćwierćnuta
-        return "-";
+        stepIndex = index;
+        UpdateStepInfo();
     }
 
-    public void SetStepActive(bool isActive)
+    public void SetNote(int note)
     {
-        if (activeIndicator != null)
+        currentNote = note;
+        UpdateStepInfo();
+    }
+
+    public void SetDuration(int duration)
+    {
+        currentDuration = duration;
+        UpdateStepInfo();
+    }
+
+    public void SetAccent(bool accent)
+    {
+        hasAccent = accent;
+        UpdateStepInfo();
+    }
+
+    public void SetSlide(bool slide)
+    {
+        hasSlide = slide;
+        UpdateStepInfo();
+    }
+
+    public void SetIsCurrentStep(bool isCurrent)
+    {
+        isCurrentStep = isCurrent;
+        UpdateStepInfo();
+    }
+
+    public void UpdateStepInfo()
+    {
+        // Update duration text
+        if (durationText != null)
         {
-            activeIndicator.SetActive(isActive);
+            durationText.text = currentDuration.ToString();
+        }
+
+        // Update note text
+        if (noteText != null)
+        {
+            noteText.text = currentNote >= 0 ? noteNames[currentNote] : "-";
+        }
+
+        // Update accent button color
+        if (accentButton != null)
+        {
+            ColorBlock colors = accentButton.colors;
+            colors.normalColor = hasAccent ? Color.yellow : Color.white;
+            accentButton.colors = colors;
+        }
+
+        // Update slide button color
+        if (slideButton != null)
+        {
+            ColorBlock colors = slideButton.colors;
+            colors.normalColor = hasSlide ? Color.blue : Color.white;
+            slideButton.colors = colors;
+        }
+
+        // Update current step indicator
+        if (currentStepIndicator != null)
+        {
+            currentStepIndicator.enabled = isCurrentStep;
         }
     }
 
-    private void OnDisable()
-    {
-        // Upewnij się, że wskaźnik jest wyłączony gdy obiekt jest dezaktywowany
-        SetStepActive(false);
-    }
+    public int GetStepIndex() => stepIndex;
+    public int GetNote() => currentNote;
+    public int GetDuration() => currentDuration;
+    public bool HasAccent() => hasAccent;
+    public bool HasSlide() => hasSlide;
 } 
