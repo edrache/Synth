@@ -2853,7 +2853,7 @@ MonoBehaviour:
   delayDecay: 0.1
   delaySustain: 0.7
   delayRelease: 0.2
-  currentSequence: {fileID: 11400000, guid: bb7eb2a55d6bd4ca79b1f69c1eceefc3, type: 2}
+  currentSequence: {fileID: 11400000, guid: cbc2a55be84e040538b5c36dfbd08f75, type: 2}
 --- !u!82 &938949299
 AudioSource:
   m_ObjectHideFlags: 0
@@ -3176,6 +3176,7 @@ GameObject:
   - component: {fileID: 1171899267}
   - component: {fileID: 1171899269}
   - component: {fileID: 1171899268}
+  - component: {fileID: 1171899270}
   m_Layer: 0
   m_Name: Modulator
   m_TagString: Untagged
@@ -3438,6 +3439,116 @@ MonoBehaviour:
       inSlope: 0
       outSlope: 0
       tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  durationType: 4
+  isLooping: 1
+  isActive: 1
+  startStopButton: {fileID: 1816877149}
+  loopToggle: {fileID: 1999286349}
+  activeToggle: {fileID: 187183841}
+  progressIndicator: {fileID: 2075094950}
+--- !u!114 &1171899270
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1171899263}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8c56105cc08e24ddf8cadb18a87205be, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  targetVCO: {fileID: 938949298}
+  parameterType: 13
+  minValue: 1
+  maxValue: 4
+  modulationCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: -0.0053291544
+      value: 0.4879946
+      inSlope: Infinity
+      outSlope: Infinity
+      tangentMode: 103
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 0.25194508
+      value: 0.37617922
+      inSlope: Infinity
+      outSlope: Infinity
+      tangentMode: 103
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0.5004548
+      value: 0.6201008
+      inSlope: Infinity
+      outSlope: Infinity
+      tangentMode: 103
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0.6817162
+      value: 0.6217237
+      inSlope: Infinity
+      outSlope: Infinity
+      tangentMode: 103
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0.6922969
+      value: 0.4213109
+      inSlope: Infinity
+      outSlope: Infinity
+      tangentMode: 103
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0.76704264
+      value: 0.501129
+      inSlope: Infinity
+      outSlope: Infinity
+      tangentMode: 103
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0.8480171
+      value: 0.42478123
+      inSlope: Infinity
+      outSlope: Infinity
+      tangentMode: 103
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0.92276275
+      value: 0.5002614
+      inSlope: Infinity
+      outSlope: Infinity
+      tangentMode: 103
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1.0012207
+      value: 0.5020294
+      inSlope: Infinity
+      outSlope: Infinity
+      tangentMode: 103
       weightedMode: 0
       inWeight: 0
       outWeight: 0
