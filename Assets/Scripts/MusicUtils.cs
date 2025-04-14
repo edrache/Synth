@@ -4,7 +4,7 @@ using System.Collections.Generic;
 public static class MusicUtils
 {
     public enum Note { C, CSharp, D, DSharp, E, F, FSharp, G, GSharp, A, ASharp, B }
-    public enum ScaleType { Chromatic, Major, Minor, Pentatonic, Blues, Dorian, Phrygian, Lydian, Mixolydian, Locrian }
+    public enum ScaleType { None, Chromatic, Major, Minor, Pentatonic, Blues, Dorian, Phrygian, Lydian, Mixolydian, Locrian }
     public enum NoteLength { Whole = 1, Half = 2, Quarter = 4, Eighth = 8, Sixteenth = 16, ThirtySecond = 32 }
 
     private static readonly float[] noteFrequencies = new float[]
@@ -14,6 +14,7 @@ public static class MusicUtils
 
     private static readonly Dictionary<ScaleType, int[]> scalePatterns = new Dictionary<ScaleType, int[]>
     {
+        { ScaleType.None, new int[] { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11 } },
         { ScaleType.Chromatic, new int[] { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11 } },
         { ScaleType.Major, new int[] { 0, 2, 4, 5, 7, 9, 11 } },
         { ScaleType.Minor, new int[] { 0, 2, 3, 5, 7, 8, 10 } },
@@ -39,6 +40,9 @@ public static class MusicUtils
 
     public static Note[] GetScaleNotes(Note rootNote, ScaleType scaleType)
     {
+        if (scaleType == ScaleType.None)
+            return new Note[] { rootNote };
+            
         int[] pattern = scalePatterns[scaleType];
         Note[] scaleNotes = new Note[pattern.Length];
         

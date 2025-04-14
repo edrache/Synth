@@ -47,29 +47,22 @@ public class VCOSequenceEditor : Editor
         EditorGUILayout.Space();
         EditorGUILayout.LabelField("Sequence Editor", EditorStyles.boldLabel);
 
+        // Scale selection
+        EditorGUILayout.Space();
+        EditorGUILayout.LabelField("Scale Selection", EditorStyles.boldLabel);
+        
+        EditorGUILayout.BeginHorizontal();
+        sequence.rootNote = (MusicUtils.Note)EditorGUILayout.EnumPopup("Root Note", sequence.rootNote);
+        sequence.scaleType = (MusicUtils.ScaleType)EditorGUILayout.EnumPopup("Scale", sequence.scaleType);
+        EditorGUILayout.EndHorizontal();
+
         // Sequence length control
+        EditorGUILayout.Space();
         EditorGUILayout.BeginHorizontal();
         stepsCount = EditorGUILayout.IntField("Number of Steps", stepsCount);
         if (GUILayout.Button("Resize"))
         {
             ResizeSequence(sequence);
-        }
-        EditorGUILayout.EndHorizontal();
-
-        // Scale preview section
-        EditorGUILayout.Space();
-        EditorGUILayout.LabelField("Scale Preview", EditorStyles.boldLabel);
-        
-        EditorGUILayout.BeginHorizontal();
-        rootNote = (MusicUtils.Note)EditorGUILayout.EnumPopup("Root Note", rootNote);
-        scaleType = (MusicUtils.ScaleType)EditorGUILayout.EnumPopup("Scale", scaleType);
-        EditorGUILayout.EndHorizontal();
-
-        EditorGUILayout.BeginHorizontal();
-        minOctave = EditorGUILayout.IntField("Octave", minOctave);
-        if (GUILayout.Button("Generate Scale Sequence"))
-        {
-            GenerateScaleSequence(sequence);
         }
         EditorGUILayout.EndHorizontal();
 
@@ -94,6 +87,12 @@ public class VCOSequenceEditor : Editor
                 step.octave = EditorGUILayout.IntField("Octave", step.octave);
                 EditorGUILayout.EndHorizontal();
                 step.UpdatePitchFromNote(globalOctaveShift);
+
+                // Show warning if note is not in scale
+                if (sequence.scaleType != MusicUtils.ScaleType.None && !sequence.IsNoteInScale(step.note))
+                {
+                    EditorGUILayout.HelpBox("Note is not in the selected scale!", MessageType.Warning);
+                }
             }
             else
             {
