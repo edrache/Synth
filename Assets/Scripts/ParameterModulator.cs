@@ -25,7 +25,10 @@ public class ParameterModulator : MonoBehaviour
         AttackTime,
         DecayTime,
         SustainLevel,
-        ReleaseTime
+        ReleaseTime,
+
+        // Octave modulation
+        OctaveShift
     }
 
     [System.Serializable]
@@ -130,8 +133,20 @@ public class ParameterModulator : MonoBehaviour
 
         float normalizedTime = currentTime / totalDuration;
         float curveValue = modulationCurve.Evaluate(normalizedTime);
-        float modulatedValue = Mathf.Lerp(minValue, maxValue, curveValue);
-        SetParameterValue(modulatedValue);
+
+        if (parameterType == ParameterType.OctaveShift)
+        {
+            // Dla modulacji oktaw używamy wartości z krzywej bezpośrednio
+            // Zaokrąglamy do najbliższej liczby całkowitej
+            int octaveShift = Mathf.RoundToInt(curveValue * 8 - 4); // Zakres od -4 do +4 oktaw
+            targetVCO.globalOctaveShift = octaveShift;
+        }
+        else
+        {
+            // Standardowa modulacja dla pozostałych parametrów
+            float modulatedValue = Mathf.Lerp(minValue, maxValue, curveValue);
+            SetParameterValue(modulatedValue);
+        }
     }
 
     private void UpdateUI()
@@ -178,7 +193,6 @@ public class ParameterModulator : MonoBehaviour
                 return targetVCO.delayFeedback;
             case ParameterType.DelayWidth:
                 return targetVCO.delayWidth;
-
             case ParameterType.AttackTime:
                 return targetVCO.attackTime;
             case ParameterType.DecayTime:
@@ -187,7 +201,8 @@ public class ParameterModulator : MonoBehaviour
                 return targetVCO.sustainLevel;
             case ParameterType.ReleaseTime:
                 return targetVCO.releaseTime;
-                
+            case ParameterType.OctaveShift:
+                return targetVCO.globalOctaveShift;
             default:
                 return 0f;
         }
@@ -224,7 +239,6 @@ public class ParameterModulator : MonoBehaviour
             case ParameterType.DelayWidth:
                 targetVCO.delayWidth = value;
                 break;
-
             case ParameterType.AttackTime:
                 targetVCO.attackTime = value;
                 break;
@@ -236,6 +250,9 @@ public class ParameterModulator : MonoBehaviour
                 break;
             case ParameterType.ReleaseTime:
                 targetVCO.releaseTime = value;
+                break;
+            case ParameterType.OctaveShift:
+                targetVCO.globalOctaveShift = Mathf.RoundToInt(value);
                 break;
         }
     }
