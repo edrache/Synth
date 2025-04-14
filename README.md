@@ -187,6 +187,26 @@ A Unity-based synthesizer with advanced audio processing capabilities.
   - Duration control
   - Slide and accent options
   - Note-based input with octave selection
+- Built-in sequence presets:
+  - Basic Sequence - Simple melodic pattern
+  - Blade 1 - Cyberpunk-inspired melody
+
+### User Interface
+- Interactive step sequencer grid
+- Real-time parameter controls
+- Visual feedback for:
+  - Current step
+  - Note duration
+  - Accent status
+  - Slide status
+- Envelope visualization for:
+  - Main amplitude envelope
+  - Filter envelope
+  - Chorus envelope
+  - Delay envelope
+- Parameter influence sliders for each envelope
+- BPM synchronization controls
+- Preset management system
 
 ## Usage
 
