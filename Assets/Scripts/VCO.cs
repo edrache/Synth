@@ -85,6 +85,8 @@ public class VCO : MonoBehaviour
     public float delayWidth = 0.5f; // Szerokość stereo
 
     [Header("Filter Envelope")]
+    [Range(0f, 1f)]
+    public float filterEnvelopeInfluence = 1f;
     [Range(0.001f, 2f)]
     public float filterAttack = 0.01f;
     [Range(0.001f, 2f)]
@@ -95,6 +97,8 @@ public class VCO : MonoBehaviour
     public float filterRelease = 0.2f;
 
     [Header("Chorus Envelope")]
+    [Range(0f, 1f)]
+    public float chorusEnvelopeInfluence = 1f;
     [Range(0.001f, 2f)]
     public float chorusAttack = 0.01f;
     [Range(0.001f, 2f)]
@@ -105,6 +109,8 @@ public class VCO : MonoBehaviour
     public float chorusRelease = 0.2f;
 
     [Header("Delay Envelope")]
+    [Range(0f, 1f)]
+    public float delayEnvelopeInfluence = 1f;
     [Range(0.001f, 2f)]
     public float delayAttack = 0.01f;
     [Range(0.001f, 2f)]
@@ -131,6 +137,30 @@ public class VCO : MonoBehaviour
     private float envelopeReleaseRate;
     private bool triggerEnvelope = false;
     private bool isReleasing = false;
+
+    // Filter envelope state
+    private float filterEnvelopeValue = 0f;
+    private float filterEnvelopeAttackRate;
+    private float filterEnvelopeDecayRate;
+    private float filterEnvelopeReleaseRate;
+    private bool triggerFilterEnvelope = false;
+    private bool isFilterReleasing = false;
+
+    // Chorus envelope state
+    private float chorusEnvelopeValue = 0f;
+    private float chorusEnvelopeAttackRate;
+    private float chorusEnvelopeDecayRate;
+    private float chorusEnvelopeReleaseRate;
+    private bool triggerChorusEnvelope = false;
+    private bool isChorusReleasing = false;
+
+    // Delay envelope state
+    private float delayEnvelopeValue = 0f;
+    private float delayEnvelopeAttackRate;
+    private float delayEnvelopeDecayRate;
+    private float delayEnvelopeReleaseRate;
+    private bool triggerDelayEnvelope = false;
+    private bool isDelayReleasing = false;
 
     private MoogFilter filter;
     private System.Random random = new System.Random();
@@ -190,6 +220,22 @@ public class VCO : MonoBehaviour
         envelopeAttackRate = 1f / (attackTime * sampleRate);
         envelopeDecayRate = 1f / (decayTime * sampleRate);
         envelopeReleaseRate = 1f / (releaseTime * sampleRate);
+        
+        // Initialize filter envelope rates
+        filterEnvelopeAttackRate = 1f / (filterAttack * sampleRate);
+        filterEnvelopeDecayRate = 1f / (filterDecay * sampleRate);
+        filterEnvelopeReleaseRate = 1f / (filterRelease * sampleRate);
+        
+        // Initialize chorus envelope rates
+        chorusEnvelopeAttackRate = 1f / (chorusAttack * sampleRate);
+        chorusEnvelopeDecayRate = 1f / (chorusDecay * sampleRate);
+        chorusEnvelopeReleaseRate = 1f / (chorusRelease * sampleRate);
+        
+        // Initialize delay envelope rates
+        delayEnvelopeAttackRate = 1f / (delayAttack * sampleRate);
+        delayEnvelopeDecayRate = 1f / (delayDecay * sampleRate);
+        delayEnvelopeReleaseRate = 1f / (delayRelease * sampleRate);
+        
         filter = new MoogFilter(sampleRate, filterType);
         currentFrequency = frequency;
         targetFrequency = frequency;
@@ -341,6 +387,21 @@ public class VCO : MonoBehaviour
         envelopeAttackRate = 1f / (attackTime * sampleRate);
         envelopeDecayRate = 1f / (decayTime * sampleRate);
         envelopeReleaseRate = 1f / (releaseTime * sampleRate);
+        
+        // Update filter envelope rates
+        filterEnvelopeAttackRate = 1f / (filterAttack * sampleRate);
+        filterEnvelopeDecayRate = 1f / (filterDecay * sampleRate);
+        filterEnvelopeReleaseRate = 1f / (filterRelease * sampleRate);
+        
+        // Update chorus envelope rates
+        chorusEnvelopeAttackRate = 1f / (chorusAttack * sampleRate);
+        chorusEnvelopeDecayRate = 1f / (chorusDecay * sampleRate);
+        chorusEnvelopeReleaseRate = 1f / (chorusRelease * sampleRate);
+        
+        // Update delay envelope rates
+        delayEnvelopeAttackRate = 1f / (delayAttack * sampleRate);
+        delayEnvelopeDecayRate = 1f / (delayDecay * sampleRate);
+        delayEnvelopeReleaseRate = 1f / (delayRelease * sampleRate);
     }
 
     void ApplyStep(Step step)
@@ -348,13 +409,11 @@ public class VCO : MonoBehaviour
         float adjustedPitch = step.pitch;
         if (step.useNote)
         {
-            // Jeśli używamy nut, przeliczamy pitch z uwzględnieniem globalnego przesunięcia oktawy
             step.UpdatePitchFromNote(globalOctaveShift);
             adjustedPitch = step.pitch;
         }
         else
         {
-            // Jeśli używamy częstotliwości, przesuwamy o oktawy (mnożymy/dzielimy przez 2 dla każdej oktawy)
             adjustedPitch *= Mathf.Pow(2, globalOctaveShift);
         }
 
@@ -377,23 +436,33 @@ public class VCO : MonoBehaviour
             }
             
             if (step.accent) 
+            {
                 envelopeValue = accentStrength;
+                filterEnvelopeValue = accentStrength;
+                chorusEnvelopeValue = accentStrength;
+                delayEnvelopeValue = accentStrength;
+            }
             else 
+            {
                 TriggerEnvelope();
+                TriggerFilterEnvelope();
+                TriggerChorusEnvelope();
+                TriggerDelayEnvelope();
+            }
         }
         else
         {
-            // For zero duration, mute the sound
             frequency = 0f;
             currentFrequency = 0f;
             targetFrequency = 0f;
             ReleaseEnvelope();
+            ReleaseFilterEnvelope();
+            ReleaseChorusEnvelope();
+            ReleaseDelayEnvelope();
         }
 
-        // Zawsze wywołuj zdarzenie zmiany kroku, niezależnie od duration
         OnStepChanged?.Invoke(adjustedPitch, (int)currentStep);
 
-        // Wywołaj ruch obiektu na podstawie wysokości nuty i numeru kroku
         NoteMovement noteMovement = GetComponent<NoteMovement>();
         if (noteMovement != null)
         {
@@ -410,6 +479,39 @@ public class VCO : MonoBehaviour
     public void ReleaseEnvelope()
     {
         isReleasing = true;
+    }
+
+    public void TriggerFilterEnvelope()
+    {
+        triggerFilterEnvelope = true;
+        isFilterReleasing = false;
+    }
+
+    public void ReleaseFilterEnvelope()
+    {
+        isFilterReleasing = true;
+    }
+
+    public void TriggerChorusEnvelope()
+    {
+        triggerChorusEnvelope = true;
+        isChorusReleasing = false;
+    }
+
+    public void ReleaseChorusEnvelope()
+    {
+        isChorusReleasing = true;
+    }
+
+    public void TriggerDelayEnvelope()
+    {
+        triggerDelayEnvelope = true;
+        isDelayReleasing = false;
+    }
+
+    public void ReleaseDelayEnvelope()
+    {
+        isDelayReleasing = true;
     }
 
     float SoftClip(float x)
@@ -483,6 +585,7 @@ public class VCO : MonoBehaviour
             if (phase >= 1.0)
                 phase -= 1.0;
 
+            // Update main envelope
             if (triggerEnvelope)
             {
                 envelopeValue += envelopeAttackRate;
@@ -509,18 +612,104 @@ public class VCO : MonoBehaviour
                 }
             }
 
-            float modulatedCutoff = currentCutoff + Mathf.Pow(envelopeValue, 2) * 8000f;
+            // Update filter envelope
+            if (triggerFilterEnvelope)
+            {
+                filterEnvelopeValue += filterEnvelopeAttackRate;
+                if (filterEnvelopeValue >= 1f)
+                {
+                    filterEnvelopeValue = 1f;
+                    triggerFilterEnvelope = false;
+                }
+            }
+            else if (!isFilterReleasing)
+            {
+                filterEnvelopeValue -= filterEnvelopeDecayRate;
+                if (filterEnvelopeValue <= filterSustain)
+                {
+                    filterEnvelopeValue = filterSustain;
+                }
+            }
+            else
+            {
+                filterEnvelopeValue -= filterEnvelopeReleaseRate;
+                if (filterEnvelopeValue <= 0f)
+                {
+                    filterEnvelopeValue = 0f;
+                }
+            }
+
+            // Update chorus envelope
+            if (triggerChorusEnvelope)
+            {
+                chorusEnvelopeValue += chorusEnvelopeAttackRate;
+                if (chorusEnvelopeValue >= 1f)
+                {
+                    chorusEnvelopeValue = 1f;
+                    triggerChorusEnvelope = false;
+                }
+            }
+            else if (!isChorusReleasing)
+            {
+                chorusEnvelopeValue -= chorusEnvelopeDecayRate;
+                if (chorusEnvelopeValue <= chorusSustain)
+                {
+                    chorusEnvelopeValue = chorusSustain;
+                }
+            }
+            else
+            {
+                chorusEnvelopeValue -= chorusEnvelopeReleaseRate;
+                if (chorusEnvelopeValue <= 0f)
+                {
+                    chorusEnvelopeValue = 0f;
+                }
+            }
+
+            // Update delay envelope
+            if (triggerDelayEnvelope)
+            {
+                delayEnvelopeValue += delayEnvelopeAttackRate;
+                if (delayEnvelopeValue >= 1f)
+                {
+                    delayEnvelopeValue = 1f;
+                    triggerDelayEnvelope = false;
+                }
+            }
+            else if (!isDelayReleasing)
+            {
+                delayEnvelopeValue -= delayEnvelopeDecayRate;
+                if (delayEnvelopeValue <= delaySustain)
+                {
+                    delayEnvelopeValue = delaySustain;
+                }
+            }
+            else
+            {
+                delayEnvelopeValue -= delayEnvelopeReleaseRate;
+                if (delayEnvelopeValue <= 0f)
+                {
+                    delayEnvelopeValue = 0f;
+                }
+            }
+
+            // Apply filter envelope to cutoff with influence
+            float envelopeModulation = Mathf.Lerp(1f, filterEnvelopeValue, filterEnvelopeInfluence);
+            float modulatedCutoff = baseCutoff + Mathf.Pow(envelopeModulation, 2) * 8000f;
             filter.SetParams(modulatedCutoff, resonance, filterQ);
             float filtered = filter.Process(sample);
 
-            // Apply chorus effect
+            // Apply chorus effect with envelope modulation
             if (chorusEnabled && chorusAmount > 0)
             {
                 float chorusLFO = Mathf.Sin(chorusPhase * 2f * Mathf.PI) * 0.5f + 0.5f;
                 chorusPhase += chorusRate / sampleRate;
                 if (chorusPhase >= 1f) chorusPhase -= 1f;
 
-                int delayLength = (int)(chorusDepth * sampleRate + chorusLFO * chorusDepth * sampleRate);
+                // Modulate chorus depth with envelope influence
+                float chorusEnvelopeModulation = Mathf.Lerp(1f, chorusEnvelopeValue, chorusEnvelopeInfluence);
+                float modulatedDepth = chorusDepth * chorusEnvelopeModulation;
+                int delayLength = (int)(modulatedDepth * sampleRate + chorusLFO * modulatedDepth * sampleRate);
                 delayLength = Mathf.Clamp(delayLength, 1, chorusBufferLength - 1);
 
                 int readPosition = chorusWritePosition - delayLength;
@@ -536,7 +725,7 @@ public class VCO : MonoBehaviour
 
                 float mixedSample = drySample + wetSample;
 
-                // Apply delay effect
+                // Apply delay effect with envelope modulation
                 if (delayTime != DelayTime.Off && delayTimeInSamples > 0)
                 {
                     int delayReadPosition = delayWritePosition - (int)delayTimeInSamples;
@@ -545,6 +734,10 @@ public class VCO : MonoBehaviour
                     // Get delayed samples
                     float delayedLeft = delayBufferLeft[delayReadPosition];
                     float delayedRight = delayBufferRight[delayReadPosition];
+
+                    // Modulate delay amount with envelope influence
+                    float delayEnvelopeModulation = Mathf.Lerp(1f, delayEnvelopeValue, delayEnvelopeInfluence);
+                    float modulatedDelayAmount = delayAmount * delayEnvelopeModulation;
 
                     // Write to delay buffer with feedback
                     delayBufferLeft[delayWritePosition] = mixedSample + delayedLeft * delayFeedback;
@@ -555,9 +748,9 @@ public class VCO : MonoBehaviour
                     float rightMix = delayedRight * (1f - delayWidth * 0.5f) + delayedLeft * (delayWidth * 0.5f);
 
                     // Add delayed signal to output
-                    data[i] += leftMix * delayAmount;
+                    data[i] += leftMix * modulatedDelayAmount;
                     if (channels > 1)
-                        data[i + 1] += rightMix * delayAmount;
+                        data[i + 1] += rightMix * modulatedDelayAmount;
 
                     // Increment and wrap delay write position
                     delayWritePosition = (delayWritePosition + 1) % delayBufferLength;
