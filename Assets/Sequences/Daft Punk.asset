@@ -1,0 +1,147 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ff77dd76dcb0e4a918b88cd4e4592b80, type: 3}
+  m_Name: Daft Punk
+  m_EditorClassIdentifier: 
+  sequenceName: Daft Punk
+  bpm: 120
+  rootNote: 5
+  scaleType: 1
+  steps:
+  - pitch: 174.61
+    slide: 0
+    accent: 1
+    accentStrength: 1.5
+    useNote: 1
+    note: 5
+    octave: 3
+    duration: 2
+  - pitch: 174.61
+    slide: 0
+    accent: 0
+    accentStrength: 1.2
+    useNote: 1
+    note: 5
+    octave: 3
+    duration: 2
+  - pitch: 174.61
+    slide: 0
+    accent: 0
+    accentStrength: 1.2
+    useNote: 1
+    note: 5
+    octave: 3
+    duration: 2
+  - pitch: 174.61
+    slide: 0
+    accent: 0
+    accentStrength: 1.2
+    useNote: 1
+    note: 5
+    octave: 3
+    duration: 2
+  - pitch: 155.56
+    slide: 0
+    accent: 1
+    accentStrength: 1.5
+    useNote: 1
+    note: 3
+    octave: 3
+    duration: 2
+  - pitch: 155.56
+    slide: 0
+    accent: 0
+    accentStrength: 1.2
+    useNote: 1
+    note: 3
+    octave: 3
+    duration: 2
+  - pitch: 155.56
+    slide: 0
+    accent: 0
+    accentStrength: 1.2
+    useNote: 1
+    note: 3
+    octave: 3
+    duration: 2
+  - pitch: 155.56
+    slide: 0
+    accent: 0
+    accentStrength: 1.2
+    useNote: 1
+    note: 3
+    octave: 3
+    duration: 2
+  - pitch: 146.83
+    slide: 0
+    accent: 1
+    accentStrength: 1.5
+    useNote: 1
+    note: 1
+    octave: 3
+    duration: 2
+  - pitch: 146.83
+    slide: 0
+    accent: 0
+    accentStrength: 1.2
+    useNote: 1
+    note: 1
+    octave: 3
+    duration: 2
+  - pitch: 146.83
+    slide: 0
+    accent: 0
+    accentStrength: 1.2
+    useNote: 1
+    note: 1
+    octave: 3
+    duration: 2
+  - pitch: 146.83
+    slide: 0
+    accent: 0
+    accentStrength: 1.2
+    useNote: 1
+    note: 1
+    octave: 3
+    duration: 2
+  - pitch: 155.56
+    slide: 0
+    accent: 1
+    accentStrength: 1.5
+    useNote: 1
+    note: 3
+    octave: 3
+    duration: 2
+  - pitch: 155.56
+    slide: 0
+    accent: 0
+    accentStrength: 1.2
+    useNote: 1
+    note: 3
+    octave: 3
+    duration: 2
+  - pitch: 155.56
+    slide: 0
+    accent: 0
+    accentStrength: 1.2
+    useNote: 1
+    note: 3
+    octave: 3
+    duration: 2
+  - pitch: 155.56
+    slide: 0
+    accent: 0
+    accentStrength: 1.2
+    useNote: 1
+    note: 3
+    octave: 3
+    duration: 2 
