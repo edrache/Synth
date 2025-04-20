@@ -28,4 +28,19 @@ public class Envelope
     }
 
     public bool IsSilent() => amplitude <= 0.001f && target == 0f;
+
+    public void SetSettings(EnvelopeSettings settings)
+    {
+        this.attack = settings.Attack;
+        this.release = settings.Release;
+    }
+
+    public EnvelopeSettings GetSettings()
+    {
+        return new EnvelopeSettings
+        {
+            Attack = this.attack,
+            Release = this.release
+        };
+    }
 }

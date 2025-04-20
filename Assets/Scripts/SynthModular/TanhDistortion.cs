@@ -14,4 +14,17 @@ public class TanhDistortion : IDistortion
     {
         return (float)Math.Tanh(sample * drive);
     }
+
+    public DistortionSettings GetSettings()
+    {
+        return new DistortionSettings
+        {
+            Drive = this.drive
+        };
+    }
+
+    public void SetSettings(DistortionSettings settings)
+    {
+        this.drive = settings.Drive;
+    }
 }

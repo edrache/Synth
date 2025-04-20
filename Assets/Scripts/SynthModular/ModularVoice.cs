@@ -53,4 +53,30 @@ public class ModularVoice
         float final = filtered * amp * 0.5f;
         return grainGate != null ? grainGate.Apply(final, step) : final;
     }
+
+    public SynthPreset SavePreset()
+    {
+        return new SynthPreset
+        {
+            Frequency = this.frequency,
+            OscillatorType = this.oscillator.GetType().Name,
+            EnvelopeSettings = this.envelope.GetSettings(),
+            FilterSettings = this.filter.GetSettings(),
+            DistortionSettings = this.distortion.GetSettings(),
+            GrainGateSettings = this.grainGate?.GetSettings()
+        };
+    }
+
+    public void LoadPreset(SynthPreset preset)
+    {
+        this.frequency = preset.Frequency;
+        this.oscillator = OscillatorFactory.Create(preset.OscillatorType);
+        this.envelope.SetSettings(preset.EnvelopeSettings);
+        this.filter.SetSettings(preset.FilterSettings);
+        this.distortion.SetSettings(preset.DistortionSettings);
+        if (preset.GrainGateSettings != null)
+        {
+            this.grainGate.SetSettings(preset.GrainGateSettings);
+        }
+    }
 }

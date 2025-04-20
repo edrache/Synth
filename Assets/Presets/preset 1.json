@@ -1,0 +1,21 @@
+{
+  "Frequency": 440.0,
+  "OscillatorType": "Saw",
+  "OscillatorTypeB": "Triangle",
+  "OscMix": 0.7,
+  "EnvelopeSettings": {
+    "Attack": 1.5,
+    "Release": 2.0
+  },
+  "FilterSettings": {
+    "Smoothing": 0.1
+  },
+  "DistortionSettings": {
+    "Drive": 0.3
+  },
+  "GrainGateSettings": {
+    "BaseRate": 10.0,
+    "BaseDuty": 0.6,
+    "JitterAmount": 0.05
+  }
+}

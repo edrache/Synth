@@ -1,0 +1,19 @@
+{
+  "Frequency": 440.0,
+  "OscillatorType": "Sine",
+  "EnvelopeSettings": {
+    "Attack": 0.5,
+    "Release": 0.2
+  },
+  "FilterSettings": {
+    "Smoothing": 0.05
+  },
+  "DistortionSettings": {
+    "Drive": 0.5
+  },
+  "GrainGateSettings": {
+    "BaseRate": 20.0,
+    "BaseDuty": 0.5,
+    "JitterAmount": 0.1
+  }
+}

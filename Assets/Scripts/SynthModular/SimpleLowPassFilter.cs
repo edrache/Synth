@@ -14,4 +14,17 @@ public class SimpleLowPassFilter : ILowPassFilter
         previous = output;
         return output;
     }
+
+    public FilterSettings GetSettings()
+    {
+        return new FilterSettings
+        {
+            Smoothing = this.smoothing
+        };
+    }
+
+    public void SetSettings(FilterSettings settings)
+    {
+        this.smoothing = settings.Smoothing;
+    }
 }

@@ -1,0 +1,22 @@
+{
+  "Frequency": 440.0,
+  "OscillatorType": "Square",
+  "OscillatorTypeB": "SubSine",
+  "OscMix": 0.4,
+  "EnableGrainGate": true,
+  "EnvelopeSettings": {
+    "Attack": 0.01,
+    "Release": 0.3
+  },
+  "FilterSettings": {
+    "Smoothing": 0.05
+  },
+  "DistortionSettings": {
+    "Drive": 0.7
+  },
+  "GrainGateSettings": {
+    "BaseRate": 15.0,
+    "BaseDuty": 0.4,
+    "JitterAmount": 0.02
+  }
+}

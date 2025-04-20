@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections.Generic;
+using System;
 
 [RequireComponent(typeof(AudioSource))]
 public class ModularSynth : MonoBehaviour
@@ -170,4 +171,46 @@ public class ModularSynth : MonoBehaviour
     }
 
     float MidiToFreq(int midi) => 440f * Mathf.Pow(2f, (midi - 69) / 12f);
+
+    public SynthPreset SavePreset()
+    {
+        SynthPreset preset = new SynthPreset
+        {
+            Frequency = 440f, // Example frequency, adjust as needed
+            OscillatorType = oscA.ToString(),
+            OscillatorTypeB = oscB.ToString(),
+            OscMix = this.oscMix,
+            EnableGrainGate = this.enableGrainGate,
+            EnvelopeSettings = new EnvelopeSettings { Attack = this.attack, Release = this.release },
+            FilterSettings = new FilterSettings { Smoothing = this.filterSmooth },
+            DistortionSettings = new DistortionSettings { Drive = this.drive },
+            GrainGateSettings = new GrainGateSettings { BaseRate = this.grainRate, BaseDuty = this.grainDuty, JitterAmount = this.grainJitter }
+        };
+
+        Debug.Log("Preset being saved with the following settings:");
+        Debug.Log($"Frequency: {preset.Frequency}");
+        Debug.Log($"OscillatorType: {preset.OscillatorType}, OscillatorTypeB: {preset.OscillatorTypeB}, OscMix: {preset.OscMix}");
+        Debug.Log($"EnableGrainGate: {preset.EnableGrainGate}");
+        Debug.Log($"Envelope Attack: {preset.EnvelopeSettings.Attack}, Release: {preset.EnvelopeSettings.Release}");
+        Debug.Log($"Filter Smoothing: {preset.FilterSettings.Smoothing}");
+        Debug.Log($"Distortion Drive: {preset.DistortionSettings.Drive}");
+        Debug.Log($"GrainGate BaseRate: {preset.GrainGateSettings.BaseRate}, BaseDuty: {preset.GrainGateSettings.BaseDuty}, JitterAmount: {preset.GrainGateSettings.JitterAmount}");
+
+        return preset;
+    }
+
+    public void LoadPreset(SynthPreset preset)
+    {
+        this.attack = preset.EnvelopeSettings.Attack;
+        this.release = preset.EnvelopeSettings.Release;
+        this.filterSmooth = preset.FilterSettings.Smoothing;
+        this.drive = preset.DistortionSettings.Drive;
+        this.grainRate = preset.GrainGateSettings.BaseRate;
+        this.grainDuty = preset.GrainGateSettings.BaseDuty;
+        this.grainJitter = preset.GrainGateSettings.JitterAmount;
+        this.oscA = (OscillatorType)Enum.Parse(typeof(OscillatorType), preset.OscillatorType);
+        this.oscB = (OscillatorType)Enum.Parse(typeof(OscillatorType), preset.OscillatorTypeB);
+        this.oscMix = preset.OscMix;
+        this.enableGrainGate = preset.EnableGrainGate;
+    }
 }

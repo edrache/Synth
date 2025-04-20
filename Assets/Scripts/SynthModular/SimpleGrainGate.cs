@@ -44,4 +44,22 @@ public class SimpleGrainGate : IGrainGate
 
         return grainTimer < dutyDuration ? input : 0f;
     }
+
+    public GrainGateSettings GetSettings()
+    {
+        return new GrainGateSettings
+        {
+            BaseRate = this.baseRate,
+            BaseDuty = this.baseDuty,
+            JitterAmount = this.jitterAmount
+        };
+    }
+
+    public void SetSettings(GrainGateSettings settings)
+    {
+        this.baseRate = settings.BaseRate;
+        this.baseDuty = settings.BaseDuty;
+        this.jitterAmount = settings.JitterAmount;
+        ResetGrain();
+    }
 }
