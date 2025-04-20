@@ -1,0 +1,64 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4f2ac59d3bbe94996950cef90eb0335c, type: 3}
+  m_Name: test
+  m_EditorClassIdentifier: 
+  notes:
+  - step: 0
+    midi: 60
+    length: 2
+  - step: 10
+    midi: 60
+    length: 1
+  - step: 12
+    midi: 60
+    length: 1
+  - step: 14
+    midi: 60
+    length: 1
+  - step: 16
+    midi: 60
+    length: 1
+  - step: 0
+    midi: 48
+    length: 1
+  - step: 8
+    midi: 48
+    length: 1
+  - step: 12
+    midi: 50
+    length: 1
+  - step: 14
+    midi: 48
+    length: 1
+  - step: 16
+    midi: 48
+    length: 1
+  - step: 22
+    midi: 60
+    length: 1
+  - step: 22
+    midi: 50
+    length: 1
+  - step: 24
+    midi: 60
+    length: 1
+  - step: 27
+    midi: 50
+    length: 1
+  - step: 30
+    midi: 48
+    length: 1
+  - step: 30
+    midi: 60
+    length: 1
+  bpm: 60

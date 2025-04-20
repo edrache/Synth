@@ -7,10 +7,9 @@ public static class MusicUtils
     public enum ScaleType { None, Chromatic, Major, Minor, Pentatonic, Blues, Dorian, Phrygian, Lydian, Mixolydian, Locrian }
     public enum NoteLength { Whole = 1, Half = 2, Quarter = 4, Eighth = 8, Sixteenth = 16, ThirtySecond = 32 }
 
-    private static readonly float[] noteFrequencies = new float[]
-    {
-        16.35f, 17.32f, 18.35f, 19.45f, 20.60f, 21.83f, 23.12f, 24.50f, 25.96f, 27.50f, 29.14f, 30.87f
-    };
+    // Standardowe strojenie A4 = 440Hz
+    private const float A4_FREQUENCY = 440f;
+    private const int A4_MIDI_NOTE = 69;
 
     private static readonly Dictionary<ScaleType, int[]> scalePatterns = new Dictionary<ScaleType, int[]>
     {
@@ -29,8 +28,14 @@ public static class MusicUtils
 
     public static float GetFrequency(Note note, int octave)
     {
-        int noteIndex = (int)note;
-        return noteFrequencies[noteIndex] * Mathf.Pow(2, octave);
+        // Oblicz numer nuty MIDI (A4 = 69)
+        int noteNumber = ((octave + 1) * 12) + (int)note;
+        
+        // Oblicz częstotliwość używając wzoru: f = 440 * 2^((n-69)/12)
+        // gdzie n to numer nuty MIDI
+        float frequency = A4_FREQUENCY * Mathf.Pow(2, (noteNumber - A4_MIDI_NOTE) / 12f);
+        
+        return frequency;
     }
 
     public static string GetNoteName(Note note)

@@ -1,225 +1,283 @@
-# Synth Game Project - FMOD Implementation Plan
+# Dungeon Synth Interactive Sound System
 
-## Obecny System (Unity Native Audio)
+## Założenia Projektu
+
+### Cel
+Stworzenie niskopoziomowego, reaktywnego systemu muzyki ambientowej w stylistyce Dungeon Synth, zintegrowanego z Unity przy użyciu FMOD Studio. System ma generować unikalną ścieżkę dźwiękową w zależności od kontekstu gry, z minimalnym zużyciem zasobów i pełną kompatybilnością z platformami PC i konsolowymi.
 
 ### Główne Funkcje
-- Synteza subtraktywna w czasie rzeczywistym
-- System sekwencera (16 kroków)
-- Efekty (chorus, delay)
-- System modulacji parametrów
-- Kontrola ruchu obiektów bazująca na dźwięku
+- Reaktywny system audio oparty na parametrach gry
+- Minimalistyczny zestaw sampli o jednolitym charakterze
+- Dynamiczna modulacja parametrów dźwięku
+- Efektywne zarządzanie zasobami
+- Pełna integracja z systemem gry
 
-### Szczegóły Techniczne
-- Implementacja w C# używając OnAudioFilterRead
-- Własny system syntezy
-- Synchronizacja z BPM
-- System presetów i sekwencji
+## Struktura Audio w FMOD Studio
 
-## Planowana Implementacja FMOD
-
-### Cele Migracji
-1. Lepsza wydajność audio
-2. Łatwiejsze zarządzanie samplami
-3. Zaawansowane efekty przestrzenne
-4. Lepsze miksowanie
-
-### Struktura FMOD Studio
-
-#### Banks
+### Banks
 1. Master Bank
    - Podstawowe sample
    - Wspólne efekty
+   - Główne miksy
+   - Routing grup
    
 2. Instruments Bank
-   - Dungeon Synth Instruments
-   - Ambient Pads
-   - Atmospheric Effects
+   - Pad / Dron (1-2 sample)
+   - Lead synth / melodyczny (1 sample)
+   - Organ / Choir / Strings (1-2 sample)
+   - Pluck / Bell FX (2-3 sample)
+   - Ambient tła (1 sample)
    
 3. Effects Bank
    - Reverb Presets
    - Delay Patterns
    - Modulation Effects
 
-#### Events
-1. Synthesizer Events
+### Events
+1. Instrument Events
    ```
-   /Synth/
-   ├── BaseSynth
-   ├── LeadSynth
-   └── Pads
+   /Instruments/
+   ├── Drones
+   │   ├── DarkPad
+   │   └── AmbientDrone
+   ├── Leads
+   │   ├── MainSynth
+   │   └── MelodicVoice
+   ├── Textures
+   │   ├── Organ
+   │   ├── Choir
+   │   └── Strings
+   └── FX
+       ├── Pluck
+       ├── Bell
+       └── Crystal
    ```
 
-2. Atmospheric Events
+2. Ambient Events
    ```
-   /Atmosphere/
+   /Ambient/
    ├── Background
-   ├── OneShots
+   │   ├── Cave
+   │   ├── Wind
+   │   └── Mystical
    └── Transitions
-   ```
-
-3. Effect Events
-   ```
-   /Effects/
-   ├── Reverb
-   ├── Delays
-   └── Modulation
+       ├── LocationChange
+       ├── TimeOfDay
+       └── StateChange
    ```
 
 ### Parametry FMOD
+1. Globalne Parametry
+   - Location (0-1)
+   - Tension (0-1)
+   - Lightness (0-1)
+   - TimeOfDay (0-1)
+   - PlayerState (0-1)
 
-#### Globalne
-- Master Volume
-- Reverb Amount
-- Delay Time
-- Modulation Rate
+2. Per-Instrument Parametry
+   - Pitch
+   - Filter Cutoff
+   - Volume
+   - Effect Sends
 
-#### Per-Instrument
-- Note/Pitch
-- Velocity
-- Filter Cutoff
-- Resonance
-- LFO Rate
-- Effect Sends
+3. Modulatory
+   - LFO (Rate, Depth)
+   - Envelope (AHDSR)
+   - Random Modulation
 
-### Integracja z Unity
+## System Kontroli w Unity
 
-#### Komponenty
-1. FMODSynthController
-   - Zarządzanie eventami FMOD
-   - Kontrola parametrów
-   - Synchronizacja z sekwencerem
+### Komponenty
+1. FMODGameStateController
+   ```csharp
+   public class FMODGameStateController : MonoBehaviour
+   {
+       // Parametry gry
+       [SerializeField] private float location;
+       [SerializeField] private float tension;
+       [SerializeField] private float lightness;
+       [SerializeField] private float timeOfDay;
+       [SerializeField] private float playerState;
 
-2. FMODSequencer
-   - Obsługa kroków sekwencji
-   - Kontrola BPM
-   - Triggering sampli
+       // Event References
+       [SerializeField] private string[] instrumentPaths;
+       [SerializeField] private string[] ambientPaths;
+   }
+   ```
 
-3. FMODParameterModulator
-   - Modulacja parametrów FMOD
-   - Krzywe modulacji
-   - Synchronizacja z BPM
+2. FMODParameterModulator
+   ```csharp
+   public class FMODParameterModulator : MonoBehaviour
+   {
+       [System.Serializable]
+       public class ModulationSettings
+       {
+           public string parameterName;
+           public AnimationCurve modulationCurve;
+           public float rate;
+           public float depth;
+       }
 
-4. FMODAtmosphereManager
-   - Zarządzanie ambientem
-   - Przejścia między stanami
-   - Kontrola warstw dźwiękowych
+       [SerializeField] private ModulationSettings[] modulations;
+   }
+   ```
+
+3. FMODBusManager
+   ```csharp
+   public class FMODBusManager : MonoBehaviour
+   {
+       [SerializeField] private string[] busPaths = new string[]
+       {
+           "bus:/Drones",
+           "bus:/Melodies",
+           "bus:/FX",
+           "bus:/Ambients"
+       };
+   }
+   ```
 
 ### Sample i Presety
 
-#### Dungeon Synth Collection
-1. Lead Instruments
-   - Vintage Synth Leads
-   - FM Bell Tones
-   - Crystal Sounds
+#### Wymagane Sample
+1. Drones (1-2 sample)
+   - Dark ambient pad
+   - Atmospheric drone
+   - Format: 44.1kHz/16bit WAV
+   - Długość: 4-8s loopable
 
-2. Pad Sounds
-   - Dark Ambient Pads
-   - Atmospheric Textures
-   - Drone Bases
+2. Leads (1 sample)
+   - Vintage synth lead
+   - Format: 44.1kHz/16bit WAV
+   - Długość: 2-4s
 
-3. Percussion
-   - Synthetic Drums
-   - Ambient Hits
-   - Textural Percussion
+3. Textures (1-2 sample)
+   - Organ/Choir/Strings
+   - Format: 44.1kHz/16bit WAV
+   - Długość: 4-8s loopable
+
+4. FX (2-3 sample)
+   - Pluck/Bell sounds
+   - Format: 44.1kHz/16bit WAV
+   - Długość: 1-2s
+
+5. Ambient (1 sample)
+   - Background texture
+   - Format: 44.1kHz/16bit WAV
+   - Długość: 8-16s loopable
 
 #### Efekty
 1. Reverb Spaces
-   - Dungeon Hall
-   - Crystal Cave
-   - Dark Chamber
+   - Small Dungeon (RT: ~1.5s)
+   - Large Hall (RT: ~2.5s)
+   - Crystal Cave (RT: ~3.5s)
 
 2. Delay Types
-   - Echo Chamber
-   - Tape Delay
-   - Granular Delay
+   - Sync delay (BPM)
+   - Tape echo emulation
+   - Granular delay
 
 3. Modulation
-   - Chorus Ensemble
-   - Phaser Effects
-   - Flanger
+   - Classic chorus
+   - Vintage phaser
+   - Crystal flanger
 
-### System Kontroli Parametrów
+## Interfejs Użytkownika
 
-#### Real-time Controls
-- Filter Envelope
-- Amplitude Modulation
-- Effect Parameters
-- Mix Controls
+### Główne Elementy
+1. State Controls
+   - Location slider
+   - Tension meter
+   - Lightness control
+   - Time of day selector
+   - Player state indicators
 
-#### Automation
-- Parameter Curves
-- Modulation Paths
-- Transition States
+2. Parameter Controls
+   - Instrument mix
+   - Effect sends
+   - Modulation depth
+   - Bus routing
 
-### Integracja z Istniejącym Systemem
-
-#### Zachowane Funkcje
-- System sekwencera (16 kroków)
-- Kontrola ruchu obiektów
-- System presetów
-- Interface użytkownika
-
-#### Nowe Możliwości
-- Zaawansowane efekty przestrzenne
-- Lepsze zarządzanie CPU
-- Więcej warstw dźwiękowych
-- Bardziej złożone przejścia
+3. Visualization
+   - Parameter meters
+   - State indicators
+   - Effect feedback
 
 ## Wymagania Techniczne
 
 ### FMOD Studio
 - Wersja: Najnowsza stabilna
 - Licencja: Darmowa (do $200k)
+- Minimum 16 kanałów audio
+- Obsługa modulacji LFO i Envelope
 
-### Unity Integration
+### Unity
+- Wersja: 2022.3 lub nowsza
 - FMOD Unity Integration Package
-- Minimum Unity 2022.3
+- Minimum 2GB RAM
+- DirectX 11 lub nowszy
 
-### Asset Management
-- System organizacji sampli
-- Struktura banków
-- System wersjonowania
+### Zasoby
+- Total sample size: ~100MB
+- Format: 44.1kHz/16bit WAV
+- Loop points w metadata
+- Crossfade dla loopów
 
-## Workflow Development
+## Plan Rozwoju
 
-1. Przygotowanie Projektu
+1. Setup (2-3 dni)
    - Instalacja FMOD Studio
-   - Konfiguracja Unity Integration
-   - Utworzenie podstawowej struktury
+   - Konfiguracja Unity
+   - Przygotowanie struktury
+   - Import sampli
 
-2. Implementacja Podstawowa
-   - Stworzenie podstawowych eventów
+2. Podstawy (4-5 dni)
    - Implementacja kontrolerów
-   - Integracja z UI
+   - Podstawowe eventy
+   - Testy integracji
 
-3. Rozwój Funkcjonalności
-   - Dodanie zaawansowanych efektów
-   - Implementacja systemu modulacji
-   - Integracja z systemem ruchu
+3. Rozwój (10-14 dni)
+   - System modulacji
+   - Efekty i routing
+   - Integracja z grą
 
-4. Optymalizacja
-   - Profiling audio
-   - Optymalizacja CPU
-   - Zarządzanie pamięcią
+4. Finalizacja (5-7 dni)
+   - Optymalizacja
+   - Testy wydajności
+   - Dokumentacja
+
+## Dobre Praktyki
+
+1. Audio Design
+   - Jednolity poziom głośności
+   - Płynne loopowanie
+   - Unikanie transientów
+   - Spójne brzmienie
+
+2. Implementacja
+   - Efektywne routing
+   - Optymalne użycie modulacji
+   - Minimalne zużycie CPU
+   - Czytelna struktura
+
+3. Optymalizacja
+   - Voice limiting
+   - Resource pooling
+   - Memory management
+   - Performance monitoring
 
 ## Następne Kroki
 
-1. Konfiguracja Środowiska
-   - Instalacja FMOD Studio
-   - Konfiguracja projektu Unity
-   - Przygotowanie struktury folderów
+1. Przygotowanie Projektu
+   - Setup FMOD
+   - Import sampli
+   - Podstawowa struktura
 
-2. Podstawowa Implementacja
-   - Stworzenie pierwszych eventów
-   - Implementacja podstawowego kontrolera
-   - Testy integracji
-
-3. Rozwój Systemu
-   - Dodawanie sampli
-   - Implementacja efektów
-   - Rozbudowa funkcjonalności
-
-4. Testy i Optymalizacja
+2. Pierwsze Testy
+   - Podstawowe eventy
+   - Kontrolery stanu
    - Testy wydajności
-   - Optymalizacja zasobów
-   - Finalne dostrojenie 
+
+3. Iteracyjny Rozwój
+   - System modulacji
+   - Efekty i routing
+   - Integracja z grą 

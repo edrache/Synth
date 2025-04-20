@@ -1,0 +1,67 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4f2ac59d3bbe94996950cef90eb0335c, type: 3}
+  m_Name: PianoRollData
+  m_EditorClassIdentifier: 
+  notes:
+  - step: 4
+    midi: 68
+    length: 6
+  - step: 7
+    midi: 68
+    length: 1
+  - step: 7
+    midi: 66
+    length: 1
+  - step: 7
+    midi: 64
+    length: 1
+  - step: 9
+    midi: 66
+    length: 1
+  - step: 13
+    midi: 66
+    length: 1
+  - step: 15
+    midi: 66
+    length: 1
+  - step: 18
+    midi: 66
+    length: 1
+  - step: 22
+    midi: 66
+    length: 9
+  - step: 9
+    midi: 68
+    length: 1
+  - step: 9
+    midi: 70
+    length: 1
+  - step: 15
+    midi: 68
+    length: 1
+  - step: 15
+    midi: 70
+    length: 1
+  - step: 18
+    midi: 68
+    length: 1
+  - step: 18
+    midi: 64
+    length: 1
+  - step: 2
+    midi: 66
+    length: 1
+  - step: 2
+    midi: 69
+    length: 1
+  bpm: 120
