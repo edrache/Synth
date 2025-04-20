@@ -51,8 +51,19 @@ public class ModularSynth : MonoBehaviour
 
         keyToNote = new()
         {
-            { KeyCode.A, 60 }, { KeyCode.S, 62 }, { KeyCode.D, 64 },
-            { KeyCode.F, 65 }, { KeyCode.G, 67 }, { KeyCode.H, 69 }, { KeyCode.J, 71 }
+            { KeyCode.A, 60 }, // C
+            { KeyCode.W, 61 }, // C#
+            { KeyCode.S, 62 }, // D
+            { KeyCode.E, 63 }, // D#
+            { KeyCode.D, 64 }, // E
+            { KeyCode.F, 65 }, // F
+            { KeyCode.T, 66 }, // F#
+            { KeyCode.G, 67 }, // G
+            { KeyCode.Y, 68 }, // G#
+            { KeyCode.H, 69 }, // A
+            { KeyCode.U, 70 }, // A#
+            { KeyCode.J, 71 }, // B
+            { KeyCode.K, 72 }  // C (octave up)
         };
 
         var source = GetComponent<AudioSource>();

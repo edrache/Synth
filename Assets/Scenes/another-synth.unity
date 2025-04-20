@@ -240,6 +240,54 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 50, y: -30, z: 0}
+--- !u!1 &412337585
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 412337586}
+  - component: {fileID: 412337587}
+  m_Layer: 0
+  m_Name: Presets
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &412337586
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 412337585}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 758002344}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &412337587
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 412337585}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a2a6afd1ea40b4bcc9442bcfcceb6b69, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  presetFilePath: Assets/Presets/preset1.json
+  modularSynth: {fileID: 758002341}
+  presetFileName: preset 2.json
+  presetFile: {fileID: 4900000, guid: 1cce0548bbd954c3882ac7c7ea619d9d, type: 3}
 --- !u!1 &758002340
 GameObject:
   m_ObjectHideFlags: 0
@@ -252,7 +300,6 @@ GameObject:
   - component: {fileID: 758002343}
   - component: {fileID: 758002342}
   - component: {fileID: 758002341}
-  - component: {fileID: 758002345}
   m_Layer: 0
   m_Name: ModularSynth
   m_TagString: Untagged
@@ -272,17 +319,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fba62e7ccaa7b449c8c0011bb2de80c2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  attack: 0.5
-  release: 1.5
+  attack: 0.01
+  release: 0.3
   filterSmooth: 0.05
-  drive: 0.5
-  oscA: 0
-  oscB: 1
-  oscMix: 0.5
-  enableGrainGate: 0
-  grainRate: 20
-  grainDuty: 0.5
-  grainJitter: 0.1
+  drive: 0.7
+  oscA: 1
+  oscB: 7
+  oscMix: 0.4
+  enableGrainGate: 1
+  grainRate: 15
+  grainDuty: 0.4
+  grainJitter: 0.02
   octaveOffset: 0
 --- !u!164 &758002342
 AudioReverbFilter:
@@ -416,22 +463,10 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 412337586}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &758002345
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 758002340}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 70dad3622443642cf84f6e11de53cd52, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  pianoRollData: {fileID: 11400000, guid: c1285350d19fa49a6aeb78281d34124b, type: 2}
 --- !u!1 &961739749
 GameObject:
   m_ObjectHideFlags: 0
@@ -697,17 +732,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fa9d39066716b433199bfb28f2805494, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  attack: 0.5
-  release: 10
-  octaveOffset: -1
-  addSoftNoise: 0
-  noiseLevel: 0.05
-  noiseGrainHz: 60
-  useLowPassFilter: 1
-  filterSmoothing: 0.05
-  enableReverb: 1
-  reverbPreset: 9
-  reverbLevel: 0.8
 --- !u!4 &1971787547
 Transform:
   m_ObjectHideFlags: 0
