@@ -10,6 +10,8 @@ public class PianoRollBehaviour : PlayableBehaviour
 
     public override void OnBehaviourPlay(Playable playable, FrameData info)
     {
+        if (note == -1) return;
+
         if (synth == null)
         {
             var director = playable.GetGraph().GetResolver() as PlayableDirector;

@@ -126,7 +126,7 @@ public class PianoRollClipEditor : Editor
 {
     private static readonly string[] noteNames = new string[]
     {
-        "C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"
+        "Rest", "C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"
     };
 
     public override void OnInspectorGUI()
@@ -136,17 +136,28 @@ public class PianoRollClipEditor : Editor
 
         EditorGUI.BeginChangeCheck();
 
-        int octave = (clip.note / 12) - 1;
-        int noteIndex = clip.note % 12;
+        // -1 oznacza ciszę (rest)
+        int noteIndex = clip.note == -1 ? 0 : (clip.note % 12) + 1;
+        int octave = clip.note == -1 ? 0 : (clip.note / 12) - 1;
         
         EditorGUILayout.BeginHorizontal();
         noteIndex = EditorGUILayout.Popup("Note", noteIndex, noteNames);
-        octave = EditorGUILayout.IntField("Octave", octave);
+        if (noteIndex > 0) // Jeśli nie jest to cisza
+        {
+            octave = EditorGUILayout.IntField("Octave", octave);
+        }
         EditorGUILayout.EndHorizontal();
 
         if (EditorGUI.EndChangeCheck())
         {
-            clip.note = (octave + 1) * 12 + noteIndex;
+            if (noteIndex == 0) // Cisza
+            {
+                clip.note = -1;
+            }
+            else
+            {
+                clip.note = (octave + 1) * 12 + (noteIndex - 1);
+            }
             EditorUtility.SetDirty(clip);
         }
 

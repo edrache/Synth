@@ -5,14 +5,16 @@ using UnityEngine.Timeline;
 [System.Serializable]
 public class PianoRollClip : PlayableAsset, ITimelineClipAsset
 {
-    public int note;
-    public new float duration;
+    public int note = 60; // Middle C
+    public float duration;
     public float startTime;
 
-    public ClipCaps clipCaps
+    private static readonly string[] noteNames = new string[]
     {
-        get { return ClipCaps.None; }
-    }
+        "Rest", "C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"
+    };
+
+    public ClipCaps clipCaps => ClipCaps.None;
 
     public override Playable CreatePlayable(PlayableGraph graph, GameObject owner)
     {
@@ -20,5 +22,14 @@ public class PianoRollClip : PlayableAsset, ITimelineClipAsset
         var behaviour = playable.GetBehaviour();
         behaviour.note = note;
         return playable;
+    }
+
+    public string GetDisplayName()
+    {
+        if (note == -1) return "Rest";
+        
+        int octave = (note / 12) - 1;
+        int noteIndex = note % 12;
+        return $"{noteNames[noteIndex + 1]}{octave}";
     }
 } 

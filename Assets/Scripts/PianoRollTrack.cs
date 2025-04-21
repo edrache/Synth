@@ -18,7 +18,6 @@ public class PianoRollTrack : TrackAsset
     protected override void OnCreateClip(TimelineClip clip)
     {
         base.OnCreateClip(clip);
-        clip.displayName = "Note";
         
         var pianoRollClip = clip.asset as PianoRollClip;
         if (pianoRollClip != null)
@@ -26,6 +25,7 @@ public class PianoRollTrack : TrackAsset
             pianoRollClip.note = 60; // Middle C
             pianoRollClip.duration = (float)clip.duration;
             pianoRollClip.startTime = (float)clip.start;
+            clip.displayName = pianoRollClip.GetDisplayName();
         }
     }
 
@@ -40,6 +40,7 @@ public class PianoRollTrack : TrackAsset
             {
                 pianoRollClip.duration = (float)clip.duration;
                 pianoRollClip.startTime = (float)clip.start;
+                clip.displayName = pianoRollClip.GetDisplayName();
             }
         }
     }
