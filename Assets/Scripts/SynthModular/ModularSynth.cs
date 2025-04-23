@@ -1,6 +1,7 @@
 using UnityEngine;
 using System.Collections.Generic;
 using System;
+using System.Linq; // Add LINQ support
 
 [RequireComponent(typeof(AudioSource))]
 public class ModularSynth : MonoBehaviour
@@ -8,6 +9,28 @@ public class ModularSynth : MonoBehaviour
     private List<ModularVoice> voices = new();
     private float sampleRate;
     private int nextVoiceId = 1;
+    private TimelineBPMController bpmController;
+
+    [Header("Arpeggiator")]
+    public bool enableArpeggiator = false;
+    [Range(1, 32)]
+    [Tooltip("Division of the beat (4 = sixteenth notes, 2 = eighth notes, 1 = quarter notes)")]
+    public int arpDivision = 4;
+    
+    [Tooltip("How the arpeggiator plays notes")]
+    public ArpeggiatorMode arpMode = ArpeggiatorMode.SingleNote;
+    
+    [Range(1, 4)]
+    [Tooltip("How many octaves the arpeggiator can span. Example: if you press C4 and range is 2, ScaleUp will go up to C6")]
+    public int arpOctaveRange = 1;
+
+    private ArpeggiatorMode previousArpMode;
+    private float arpTimer = 0f;
+    private List<float> arpNotes = new();
+    private int currentArpIndex = 0;
+    private float baseFrequency; // Frequency of the currently held note
+    private List<int> availableScaleNotes = new(); // Store all available notes for the sequence
+    private int originalMidiNote; // Store the original note pressed
 
     [Header("Synth Settings")]
     public float attack = 0.5f;
@@ -41,6 +64,24 @@ public class ModularSynth : MonoBehaviour
         SubSine
     }
 
+    public enum ArpeggiatorMode
+    {
+        [InspectorName("Single Note (Repeat)")]
+        SingleNote,      // Just repeat the same note
+        [InspectorName("Scale Up")]
+        ScaleUp,        // Go up the scale from the pressed note
+        [InspectorName("Scale Down")]
+        ScaleDown,      // Go down the scale from the pressed note
+        [InspectorName("Up (Multiple Notes)")]
+        Up,             // Original up mode
+        [InspectorName("Down (Multiple Notes)")]
+        Down,           // Original down mode
+        [InspectorName("Up-Down (Multiple Notes)")]
+        UpDown,         // Original up-down mode
+        [InspectorName("Random (Multiple Notes)")]
+        Random          // Original random mode
+    }
+
     private Dictionary<KeyCode, int> keyToNote;
 
     void Start()
@@ -48,6 +89,7 @@ public class ModularSynth : MonoBehaviour
         if (!Application.isPlaying) return;
 
         sampleRate = AudioSettings.outputSampleRate;
+        bpmController = FindObjectOfType<TimelineBPMController>();
 
         keyToNote = new()
         {
@@ -78,15 +120,89 @@ public class ModularSynth : MonoBehaviour
         if (!Application.isPlaying || keyToNote == null)
             return;
 
+        // Reset index when mode changes
+        if (previousArpMode != arpMode)
+        {
+            currentArpIndex = 0;
+            availableScaleNotes.Clear(); // Clear the scale notes when mode changes
+            previousArpMode = arpMode;
+            Debug.Log($"Arpeggiator mode changed to: {arpMode}");
+        }
+
+        bool anyKeyHeld = false;
+        bool anyTimelineNoteActive = arpNotes.Count > 0; // Check if there are any timeline notes
+
         foreach (var kvp in keyToNote)
         {
             int midi = kvp.Value + octaveOffset * 12;
 
             if (Input.GetKeyDown(kvp.Key))
-                AddVoice(MidiToFreq(midi));
+            {
+                float freq = MidiToFreq(midi);
+                Debug.Log($"Key pressed: {kvp.Key}, MIDI={midi}, Frequency={freq}Hz");
+                
+                if (enableArpeggiator)
+                {
+                    arpNotes.Clear();
+                    availableScaleNotes.Clear(); // Clear the scale notes when new key is pressed
+                    arpNotes.Add(freq);
+                    currentArpIndex = -1; // Start at -1 so first increment puts us at 0
+                    arpTimer = 0f;
+                    Debug.Log($"Added note: {freq}Hz (MIDI: {midi})");
+                }
+                else
+                {
+                    AddVoice(freq);
+                }
+            }
+
+            if (Input.GetKey(kvp.Key))
+            {
+                anyKeyHeld = true;
+            }
 
             if (Input.GetKeyUp(kvp.Key))
-                StopVoice(MidiToFreq(midi));
+            {
+                float freq = MidiToFreq(midi);
+                Debug.Log($"Key released: {kvp.Key}, MIDI={midi}, Frequency={freq}Hz");
+                
+                if (enableArpeggiator)
+                {
+                    arpNotes.Clear();
+                    availableScaleNotes.Clear();
+                    StopAllVoices();
+                    Debug.Log("Cleared all arpeggiator notes");
+                }
+                else
+                {
+                    StopVoice(freq);
+                }
+            }
+        }
+
+        // If no keys are held and no timeline notes are active, make sure arpeggiator is stopped
+        if (!anyKeyHeld && !anyTimelineNoteActive && enableArpeggiator)
+        {
+            if (arpNotes.Count > 0)
+            {
+                arpNotes.Clear();
+                StopAllVoices();
+                Debug.Log("No keys or timeline notes held - stopped arpeggiator");
+            }
+        }
+
+        // Handle arpeggiator
+        if (enableArpeggiator && arpNotes.Count > 0 && bpmController != null)
+        {
+            float beatDuration = 60f / bpmController.BPM;
+            float arpInterval = beatDuration / arpDivision;
+            
+            arpTimer += Time.deltaTime;
+            if (arpTimer >= arpInterval)
+            {
+                arpTimer = 0f;
+                PlayNextArpNote();
+            }
         }
 
         if (Input.GetKeyDown(KeyCode.Z))
@@ -94,6 +210,133 @@ public class ModularSynth : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.X))
             octaveOffset = Mathf.Min(octaveOffset + 1, 1);
+    }
+
+    private void OnDisable()
+    {
+        // Clean up when component is disabled
+        arpNotes.Clear();
+        StopAllVoices();
+    }
+
+    private void StopAllVoices()
+    {
+        foreach (var voice in voices.ToArray()) // Create a copy of the list to avoid modification during iteration
+        {
+            if (voice != null)
+            {
+                voice.NoteOff();
+            }
+        }
+        voices.RemoveAll(v => v == null || !v.IsActive);
+    }
+
+    private void PlayNextArpNote()
+    {
+        if (arpNotes.Count == 0) return;
+
+        StopAllVoices();
+
+        switch (arpMode)
+        {
+            case ArpeggiatorMode.SingleNote:
+                // Just keep playing the same note
+                AddVoice(arpNotes[0]);
+                break;
+
+            case ArpeggiatorMode.ScaleUp:
+                if (bpmController != null)
+                {
+                    // If we haven't generated the scale notes yet or we're starting a new sequence
+                    if (availableScaleNotes.Count == 0)
+                    {
+                        // Get the current MIDI note number
+                        float freq = arpNotes[0];
+                        originalMidiNote = Mathf.RoundToInt(12 * Mathf.Log(freq / 440.0f, 2) + 69);
+                        
+                        // Get the scale notes
+                        int[] scaleNotes = bpmController.GetScaleNotes();
+                        
+                        // Find all possible notes in our range
+                        availableScaleNotes.Add(originalMidiNote);
+                        
+                        // Add all scale notes within our octave range
+                        foreach (int scaleNote in scaleNotes)
+                        {
+                            for (int octave = 0; octave < arpOctaveRange; octave++)
+                            {
+                                int noteInRange = scaleNote + (12 * octave);
+                                if (noteInRange > originalMidiNote && noteInRange <= originalMidiNote + (12 * arpOctaveRange))
+                                {
+                                    availableScaleNotes.Add(noteInRange);
+                                }
+                            }
+                        }
+                        
+                        // Sort the notes
+                        availableScaleNotes.Sort();
+                        currentArpIndex = -1; // Start at -1 so first increment puts us at 0
+
+                        string availableNoteNames = string.Join(", ", availableScaleNotes.Select(n => GetNoteNameFromMidi(n)).ToArray());
+                        Debug.Log($"Generated scale sequence: {availableNoteNames}");
+                    }
+
+                    // Get the next note in sequence
+                    currentArpIndex = (currentArpIndex + 1) % availableScaleNotes.Count;
+                    int nextNote = availableScaleNotes[currentArpIndex];
+                    
+                    // Play the note
+                    float nextFreq = MidiToFreq(nextNote);
+                    AddVoice(nextFreq);
+                    
+                    Debug.Log($"Playing note {currentArpIndex + 1} of {availableScaleNotes.Count}: {GetNoteNameFromMidi(nextNote)}");
+                }
+                break;
+
+            case ArpeggiatorMode.ScaleDown:
+                // Similar logic for scale down will be added here
+                break;
+
+            case ArpeggiatorMode.Up:
+                currentArpIndex = (currentArpIndex + 1) % arpNotes.Count;
+                AddVoice(arpNotes[currentArpIndex]);
+                break;
+
+            case ArpeggiatorMode.Down:
+                currentArpIndex = (currentArpIndex - 1 + arpNotes.Count) % arpNotes.Count;
+                AddVoice(arpNotes[currentArpIndex]);
+                break;
+
+            case ArpeggiatorMode.UpDown:
+                if (arpNotes.Count == 1)
+                {
+                    AddVoice(arpNotes[0]);
+                }
+                else
+                {
+                    if (currentArpIndex == arpNotes.Count - 1)
+                        currentArpIndex = arpNotes.Count - 2;
+                    else if (currentArpIndex == 0)
+                        currentArpIndex = 1;
+                    else
+                        currentArpIndex = (currentArpIndex + 1) % arpNotes.Count;
+                    AddVoice(arpNotes[currentArpIndex]);
+                }
+                break;
+
+            case ArpeggiatorMode.Random:
+                currentArpIndex = UnityEngine.Random.Range(0, arpNotes.Count);
+                AddVoice(arpNotes[currentArpIndex]);
+                break;
+        }
+    }
+
+    private string GetNoteNameFromMidi(int midiNote)
+    {
+        string[] noteNames = { "C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B" };
+        int noteIndex = midiNote % 12;
+        int octave = (midiNote / 12) - 1;
+        return $"{noteNames[noteIndex]}{octave}";
     }
 
     public int AddVoice(float freq)
@@ -223,5 +466,41 @@ public class ModularSynth : MonoBehaviour
         this.oscB = (OscillatorType)Enum.Parse(typeof(OscillatorType), preset.OscillatorTypeB);
         this.oscMix = preset.OscMix;
         this.enableGrainGate = preset.EnableGrainGate;
+    }
+
+    // Metody do obsługi nut z timeline
+    public void PlayTimelineNote(int midiNote, float duration)
+    {
+        if (enableArpeggiator)
+        {
+            float freq = MidiToFreq(midiNote);
+            arpNotes.Clear();
+            availableScaleNotes.Clear();
+            arpNotes.Add(freq);
+            currentArpIndex = -1;
+            arpTimer = 0f;
+            Debug.Log($"Timeline note added to arpeggiator: {freq}Hz (MIDI: {midiNote})");
+        }
+        else
+        {
+            float freq = MidiToFreq(midiNote);
+            AddVoice(freq);
+        }
+    }
+
+    public void StopTimelineNote(int midiNote)
+    {
+        if (enableArpeggiator)
+        {
+            arpNotes.Clear();
+            availableScaleNotes.Clear();
+            StopAllVoices();
+            Debug.Log("Stopped timeline arpeggiator note");
+        }
+        else
+        {
+            float freq = MidiToFreq(midiNote);
+            StopVoice(freq);
+        }
     }
 }

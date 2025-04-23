@@ -7,6 +7,7 @@ public class PianoRollBehaviour : PlayableBehaviour
     public int note;
     private ModularSynth synth;
     private int voiceId = -1;
+    private float duration;
 
     public override void OnBehaviourPlay(Playable playable, FrameData info)
     {
@@ -47,9 +48,9 @@ public class PianoRollBehaviour : PlayableBehaviour
 
         if (synth != null)
         {
-            float frequency = 440f * Mathf.Pow(2f, (note - 69) / 12f);
-            voiceId = synth.AddVoice(frequency);
-            Debug.Log($"Playing note {note} (frequency: {frequency}Hz) on synth: {synth.name}");
+            duration = (float)playable.GetDuration();
+            synth.PlayTimelineNote(note, duration);
+            Debug.Log($"Playing timeline note {note} with duration {duration}s on synth: {synth.name}");
         }
         else
         {
@@ -59,11 +60,10 @@ public class PianoRollBehaviour : PlayableBehaviour
 
     public override void OnBehaviourPause(Playable playable, FrameData info)
     {
-        if (synth != null && voiceId != -1)
+        if (synth != null)
         {
-            synth.StopVoiceById(voiceId);
-            voiceId = -1;
-            Debug.Log($"Stopped note on synth: {synth.name}");
+            synth.StopTimelineNote(note);
+            Debug.Log($"Stopped timeline note {note} on synth: {synth.name}");
         }
     }
 } 

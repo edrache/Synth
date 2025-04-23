@@ -256,7 +256,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!320 &281100527
 PlayableDirector:
   m_ObjectHideFlags: 0
@@ -353,7 +353,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!320 &476434866
 PlayableDirector:
   m_ObjectHideFlags: 0
@@ -404,7 +404,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &591561767
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -417,6 +417,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fba62e7ccaa7b449c8c0011bb2de80c2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  enableArpeggiator: 0
+  arpDivision: 4
+  arpMode: 0
+  arpOctaveRange: 1
   attack: 1
   release: 0.3
   filterSmooth: 0.05
@@ -596,6 +600,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fba62e7ccaa7b449c8c0011bb2de80c2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  enableArpeggiator: 1
+  arpDivision: 10
+  arpMode: 2
+  arpOctaveRange: 2
   attack: 1
   release: 0.3
   filterSmooth: 0.05
@@ -958,7 +966,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d07e51346ef2d42e1b984fa2e28aefe9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bpm: 40
+  currentBPM: 60
+  currentScale: 0
+  currentRootNote: 60
 --- !u!4 &1238965311
 Transform:
   m_ObjectHideFlags: 0
