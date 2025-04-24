@@ -601,8 +601,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enableArpeggiator: 1
-  arpDivision: 10
-  arpMode: 2
+  arpDivision: 2
+  arpMode: 0
   arpOctaveRange: 2
   attack: 1
   release: 0.3

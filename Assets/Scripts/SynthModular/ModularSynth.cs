@@ -130,8 +130,15 @@ public class ModularSynth : MonoBehaviour
         }
 
         bool anyKeyHeld = false;
-        bool anyTimelineNoteActive = arpNotes.Count > 0; // Check if there are any timeline notes
+        bool anyTimelineNoteActive = false;
 
+        // Check for timeline notes first
+        if (enableArpeggiator && arpNotes.Count > 0)
+        {
+            anyTimelineNoteActive = true;
+        }
+
+        // Then check keyboard keys
         foreach (var kvp in keyToNote)
         {
             int midi = kvp.Value + octaveOffset * 12;
@@ -180,14 +187,15 @@ public class ModularSynth : MonoBehaviour
             }
         }
 
-        // If no keys are held and no timeline notes are active, make sure arpeggiator is stopped
+        // Only stop arpeggiator if there are no active notes from any source
         if (!anyKeyHeld && !anyTimelineNoteActive && enableArpeggiator)
         {
             if (arpNotes.Count > 0)
             {
                 arpNotes.Clear();
+                availableScaleNotes.Clear();
                 StopAllVoices();
-                Debug.Log("No keys or timeline notes held - stopped arpeggiator");
+                Debug.Log("No active notes - stopped arpeggiator");
             }
         }
 
@@ -294,7 +302,90 @@ public class ModularSynth : MonoBehaviour
                 break;
 
             case ArpeggiatorMode.ScaleDown:
-                // Similar logic for scale down will be added here
+                if (bpmController != null)
+                {
+                    if (availableScaleNotes.Count == 0)
+                    {
+                        float freq = arpNotes[0];
+                        originalMidiNote = Mathf.RoundToInt(12 * Mathf.Log(freq / 440.0f, 2) + 69);
+                        int[] scaleNotes = bpmController.GetScaleNotes();
+                        
+                        Debug.Log($"Starting ScaleDown from note {GetNoteNameFromMidi(originalMidiNote)}");
+                        Debug.Log($"Scale notes: {string.Join(", ", scaleNotes.Select(n => GetNoteNameFromMidi(n)))}");
+                        
+                        // Start with the original note
+                        availableScaleNotes.Add(originalMidiNote);
+                        
+                        // Find the position of our note in the scale
+                        int noteIndexInScale = -1;
+                        int originalNoteInOctave = originalMidiNote % 12;
+                        for (int i = 0; i < scaleNotes.Length; i++)
+                        {
+                            if (scaleNotes[i] % 12 == originalNoteInOctave)
+                            {
+                                noteIndexInScale = i;
+                                break;
+                            }
+                        }
+                        
+                        if (noteIndexInScale == -1)
+                        {
+                            Debug.LogError($"Note {GetNoteNameFromMidi(originalMidiNote)} not found in scale!");
+                            break;
+                        }
+                        
+                        // Generate all notes below the original note
+                        for (int octave = 0; octave < arpOctaveRange; octave++)
+                        {
+                            int currentOctave = (originalMidiNote / 12) - octave;
+                            
+                            // Start from the note below our original note in the scale
+                            for (int i = noteIndexInScale - 1; i >= 0; i--)
+                            {
+                                int note = scaleNotes[i] % 12; // Get note without octave
+                                int fullNote = currentOctave * 12 + note;
+                                
+                                if (fullNote < originalMidiNote && fullNote >= originalMidiNote - (12 * arpOctaveRange))
+                                {
+                                    if (!availableScaleNotes.Contains(fullNote))
+                                    {
+                                        availableScaleNotes.Add(fullNote);
+                                        Debug.Log($"Added note: {GetNoteNameFromMidi(fullNote)}");
+                                    }
+                                }
+                            }
+                            
+                            // For the next octave, start from the highest note in the scale
+                            for (int i = scaleNotes.Length - 1; i >= 0; i--)
+                            {
+                                int note = scaleNotes[i] % 12; // Get note without octave
+                                int fullNote = (currentOctave - 1) * 12 + note;
+                                
+                                if (fullNote < originalMidiNote && fullNote >= originalMidiNote - (12 * arpOctaveRange))
+                                {
+                                    if (!availableScaleNotes.Contains(fullNote))
+                                    {
+                                        availableScaleNotes.Add(fullNote);
+                                        Debug.Log($"Added note: {GetNoteNameFromMidi(fullNote)}");
+                                    }
+                                }
+                            }
+                        }
+                        
+                        availableScaleNotes.Sort((a, b) => b.CompareTo(a));
+                        currentArpIndex = -1;
+                        
+                        string availableNoteNames = string.Join(", ", availableScaleNotes.Select(n => GetNoteNameFromMidi(n)).ToArray());
+                        Debug.Log($"Final scale sequence (down): {availableNoteNames}");
+                    }
+
+                    currentArpIndex = (currentArpIndex + 1) % availableScaleNotes.Count;
+                    int nextNote = availableScaleNotes[currentArpIndex];
+                    float nextFreq = MidiToFreq(nextNote);
+                    AddVoice(nextFreq);
+                    
+                    Debug.Log($"Playing note {currentArpIndex + 1} of {availableScaleNotes.Count}: {GetNoteNameFromMidi(nextNote)}");
+                }
                 break;
 
             case ArpeggiatorMode.Up:
