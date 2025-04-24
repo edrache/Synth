@@ -2,6 +2,7 @@ using UnityEngine;
 using System.Collections.Generic;
 using System;
 using System.Linq; // Add LINQ support
+using System.Collections;
 
 [RequireComponent(typeof(AudioSource))]
 public class ModularSynth : MonoBehaviour
@@ -575,8 +576,19 @@ public class ModularSynth : MonoBehaviour
         else
         {
             float freq = MidiToFreq(midiNote);
-            AddVoice(freq);
+            int voiceId = AddVoice(freq);
+            Debug.Log($"Playing timeline note {GetNoteNameFromMidi(midiNote)} for {duration}s");
+            
+            // Start coroutine to stop the note after duration
+            StartCoroutine(StopNoteAfterDuration(voiceId, duration));
         }
+    }
+
+    private System.Collections.IEnumerator StopNoteAfterDuration(int voiceId, float duration)
+    {
+        yield return new WaitForSeconds(duration);
+        StopVoiceById(voiceId);
+        Debug.Log($"Stopped timeline note after {duration}s");
     }
 
     public void StopTimelineNote(int midiNote)
