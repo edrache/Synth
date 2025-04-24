@@ -428,11 +428,73 @@ MonoBehaviour:
   oscA: 1
   oscB: 7
   oscMix: 1
+  morphSpeed: 0.1
+  morphPhase: 0
+  morphingOscillators:
+  - enabled: 1
+    type: 0
+  - enabled: 1
+    type: 0
+  - enabled: 1
+    type: 0
+  - enabled: 1
+    type: 0
   enableGrainGate: 0
   grainRate: 15
   grainDuty: 0.4
   grainJitter: 0.02
   octaveOffset: 0
+  customWaveCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 0.25
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 0.5
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 0.75
+      value: -1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!164 &591561768
 AudioReverbFilter:
   m_ObjectHideFlags: 0
@@ -600,7 +662,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fba62e7ccaa7b449c8c0011bb2de80c2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enableArpeggiator: 1
+  enableArpeggiator: 0
   arpDivision: 2
   arpMode: 0
   arpOctaveRange: 2
@@ -608,14 +670,76 @@ MonoBehaviour:
   release: 0.3
   filterSmooth: 0.05
   drive: 0.7
-  oscA: 1
+  oscA: 9
   oscB: 7
   oscMix: 0
+  morphSpeed: 0.1
+  morphPhase: 0
+  morphingOscillators:
+  - enabled: 1
+    type: 0
+  - enabled: 1
+    type: 0
+  - enabled: 1
+    type: 0
+  - enabled: 1
+    type: 0
   enableGrainGate: 0
   grainRate: 15
   grainDuty: 0.4
   grainJitter: 0.02
   octaveOffset: 0
+  customWaveCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 0.25
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 0.5
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 0.75
+      value: -1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!164 &758002342
 AudioReverbFilter:
   m_ObjectHideFlags: 0

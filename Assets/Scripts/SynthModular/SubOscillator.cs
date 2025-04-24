@@ -13,4 +13,9 @@ public class SubOscillator : IOscillator
     {
         return baseOsc.GetSample(phase * 0.5f); // oktawa niżej
     }
+
+    public void Reset()
+    {
+        baseOsc.Reset();
+    }
 }

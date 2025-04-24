@@ -8,4 +8,9 @@ public class NoiseOscillator : IOscillator
     {
         return (float)(rand.NextDouble() * 2.0 - 1.0);
     }
+
+    public void Reset()
+    {
+        // Noise oscillator doesn't need to reset any state
+    }
 }

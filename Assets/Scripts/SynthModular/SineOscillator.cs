@@ -6,4 +6,9 @@ public class SineOscillator : IOscillator
     {
         return Mathf.Sin(phase);
     }
+
+    public void Reset()
+    {
+        // Sine oscillator doesn't need to reset any state
+    }
 }

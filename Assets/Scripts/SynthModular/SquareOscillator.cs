@@ -6,4 +6,9 @@ public class SquareOscillator : IOscillator
     {
         return Mathf.Sin(phase) >= 0f ? 1f : -1f;
     }
+
+    public void Reset()
+    {
+        // Square oscillator doesn't need to reset any state
+    }
 }

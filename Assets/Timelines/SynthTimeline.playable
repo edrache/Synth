@@ -1615,7 +1615,7 @@ MonoBehaviour:
     m_PreExtrapolationMode: 0
     m_PostExtrapolationTime: 0
     m_PreExtrapolationTime: 0
-    m_DisplayName: F3
+    m_DisplayName: F#3
   - m_Version: 1
     m_Start: 0.5
     m_ClipIn: 0
@@ -2681,7 +2681,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 83e504c0c134746e39bbd0cc9eee425c, type: 3}
   m_Name: PianoRollClip(Clone)(Clone)(Clone)
   m_EditorClassIdentifier: 
-  note: 57
+  note: 58
   duration: 7.919195
   startTime: 0
 --- !u!114 &2252525601653028276
@@ -2711,7 +2711,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 83e504c0c134746e39bbd0cc9eee425c, type: 3}
   m_Name: PianoRollClip(Clone)
   m_EditorClassIdentifier: 
-  note: 53
+  note: 54
   duration: 0.25
   startTime: 0
 --- !u!114 &5393045574232358300
@@ -2759,7 +2759,7 @@ MonoBehaviour:
   m_Version: 3
   m_AnimClip: {fileID: 0}
   m_Locked: 0
-  m_Muted: 1
+  m_Muted: 0
   m_CustomPlayableFullTypename: 
   m_Curves: {fileID: 0}
   m_Parent: {fileID: 11400000}
@@ -2833,7 +2833,7 @@ MonoBehaviour:
     m_PreExtrapolationMode: 0
     m_PostExtrapolationTime: 0
     m_PreExtrapolationTime: 0
-    m_DisplayName: A3
+    m_DisplayName: A#3
   m_Markers:
     m_Objects: []
   targetSynthName: ModularSynth-GRAIN

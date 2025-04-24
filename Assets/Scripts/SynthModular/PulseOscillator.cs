@@ -18,4 +18,9 @@ public class PulseOscillator : IOscillator
     {
         pulseWidth = Mathf.Clamp01(width);
     }
+
+    public void Reset()
+    {
+        // Pulse oscillator doesn't need to reset any state
+    }
 }

@@ -17,4 +17,10 @@ public class DualOscillator : IOscillator
     {
         return Mathf.Lerp(oscA.GetSample(phase), oscB.GetSample(phase), mix);
     }
+
+    public void Reset()
+    {
+        oscA.Reset();
+        oscB.Reset();
+    }
 }

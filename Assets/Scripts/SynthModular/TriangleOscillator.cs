@@ -6,4 +6,9 @@ public class TriangleOscillator : IOscillator
     {
         return 2f * Mathf.Abs(2f * (phase / (2f * Mathf.PI) - Mathf.Floor(phase / (2f * Mathf.PI) + 0.5f))) - 1f;
     }
+
+    public void Reset()
+    {
+        // Triangle oscillator doesn't need to reset any state
+    }
 }

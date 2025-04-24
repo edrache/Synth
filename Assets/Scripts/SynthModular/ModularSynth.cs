@@ -44,6 +44,11 @@ public class ModularSynth : MonoBehaviour
     public OscillatorType oscB = OscillatorType.Square;
     [Range(0f, 1f)] public float oscMix = 0.5f;
 
+    [Header("Morphing Oscillator Settings")]
+    [Range(0.01f, 1f)] public float morphSpeed = 0.1f;
+    [Range(0f, 1f)] public float morphPhase = 0f;
+    public MorphingOscillator.OscillatorSlot[] morphingOscillators = new MorphingOscillator.OscillatorSlot[4];
+
     [Header("Grain Gate")]
     public bool enableGrainGate = false;
     public float grainRate = 20f;
@@ -52,6 +57,15 @@ public class ModularSynth : MonoBehaviour
 
     [Header("Octave Control")]
     public int octaveOffset = 0;
+
+    [Header("Custom Wave Oscillator")]
+    public AnimationCurve customWaveCurve = new AnimationCurve(
+        new Keyframe(0f, 0f),
+        new Keyframe(0.25f, 1f),
+        new Keyframe(0.5f, 0f),
+        new Keyframe(0.75f, -1f),
+        new Keyframe(1f, 0f)
+    );
 
     public enum OscillatorType
     {
@@ -62,7 +76,9 @@ public class ModularSynth : MonoBehaviour
         Noise,
         HalfSine,
         Pulse,
-        SubSine
+        SubSine,
+        Morphing,
+        Custom
     }
 
     public enum ArpeggiatorMode
@@ -512,6 +528,8 @@ public class ModularSynth : MonoBehaviour
             OscillatorType.HalfSine => new HalfSineOscillator(),
             OscillatorType.Pulse => new PulseOscillator(0.25f),
             OscillatorType.SubSine => new SubOscillator(new SineOscillator()),
+            OscillatorType.Morphing => new MorphingOscillator(morphSpeed, morphingOscillators),
+            OscillatorType.Custom => new CustomWaveOscillator(customWaveCurve),
             _ => new SineOscillator()
         };
     }
