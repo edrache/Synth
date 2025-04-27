@@ -67,6 +67,10 @@ public class ModularSynth : MonoBehaviour
         new Keyframe(1f, 0f)
     );
 
+    [Header("Effects")]
+    public bool enableTextureEffect = false;
+    private TextureEffect textureEffect;
+
     public enum OscillatorType
     {
         Sine,
@@ -107,6 +111,7 @@ public class ModularSynth : MonoBehaviour
 
         sampleRate = AudioSettings.outputSampleRate;
         bpmController = FindObjectOfType<TimelineBPMController>();
+        textureEffect = GetComponent<TextureEffect>();
 
         keyToNote = new()
         {
@@ -508,6 +513,12 @@ public class ModularSynth : MonoBehaviour
             }
 
             sample = Mathf.Clamp(sample, -1f, 1f);
+
+            // Apply texture effect if enabled
+            if (enableTextureEffect && textureEffect != null)
+            {
+                sample = textureEffect.ProcessSample(sample);
+            }
 
             for (int c = 0; c < channels; c++)
                 data[i + c] = sample;
