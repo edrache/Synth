@@ -2682,7 +2682,7 @@ MonoBehaviour:
   m_Name: PianoRollClip(Clone)(Clone)(Clone)
   m_EditorClassIdentifier: 
   note: 58
-  duration: 7.919195
+  duration: 3.45
   startTime: 0
 --- !u!114 &2252525601653028276
 MonoBehaviour:
