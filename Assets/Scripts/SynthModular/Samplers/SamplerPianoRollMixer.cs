@@ -1,0 +1,55 @@
+using UnityEngine;
+using UnityEngine.Playables;
+using System.Collections.Generic;
+
+public class SamplerPianoRollMixer : PlayableBehaviour
+{
+    public Sampler sampler;
+    private HashSet<int> currentlyPlayingNotes = new HashSet<int>();
+
+    public override void ProcessFrame(Playable playable, FrameData info, object playerData)
+    {
+        if (sampler == null)
+            return;
+
+        int inputCount = playable.GetInputCount();
+        HashSet<int> notesToStop = new HashSet<int>(currentlyPlayingNotes);
+
+        for (int i = 0; i < inputCount; i++)
+        {
+            float inputWeight = playable.GetInputWeight(i);
+            ScriptPlayable<SamplerPianoRollBehaviour> inputPlayable = (ScriptPlayable<SamplerPianoRollBehaviour>)playable.GetInput(i);
+            SamplerPianoRollBehaviour input = inputPlayable.GetBehaviour();
+
+            if (inputWeight > 0)
+            {
+                if (!currentlyPlayingNotes.Contains(input.midiNote))
+                {
+                    sampler.PlayNote(input.midiNote);
+                    currentlyPlayingNotes.Add(input.midiNote);
+                }
+                notesToStop.Remove(input.midiNote);
+            }
+        }
+
+        // Stop notes that are no longer playing
+        foreach (var note in notesToStop)
+        {
+            sampler.StopNote(note);
+            currentlyPlayingNotes.Remove(note);
+        }
+    }
+
+    public override void OnPlayableDestroy(Playable playable)
+    {
+        // Clean up when the playable is destroyed
+        if (sampler != null)
+        {
+            foreach (var note in currentlyPlayingNotes)
+            {
+                sampler.StopNote(note);
+            }
+        }
+        currentlyPlayingNotes.Clear();
+    }
+} 

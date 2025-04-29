@@ -14,7 +14,7 @@ public class TimelineBPMControllerEditor : Editor
         // BPM Section
         EditorGUILayout.LabelField("Tempo", EditorStyles.boldLabel);
         var newBPM = EditorGUILayout.Slider("BPM", controller.BPM, 20f, 300f);
-        
+
         EditorGUILayout.Space();
         EditorGUILayout.HelpBox(
             "4.00 on timeline = 4 bars (16 beats)\n" +

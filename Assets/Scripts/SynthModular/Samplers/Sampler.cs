@@ -31,9 +31,21 @@ public class Sampler : MonoBehaviour, ISampler
     private void Awake()
     {
         audioSource = GetComponent<AudioSource>();
+        if (audioSource == null)
+        {
+            Debug.LogError("AudioSource component not found on Sampler GameObject!");
+            enabled = false;
+            return;
+        }
+
         activeVoices = new Dictionary<int, AudioSource>();
         sampleRate = AudioSettings.outputSampleRate;
         UpdateRootNote();
+
+        if (sample == null)
+        {
+            Debug.LogWarning("No sample loaded in Sampler. Please load a sample before playing notes.");
+        }
     }
 
     private void UpdateRootNote()
@@ -44,15 +56,32 @@ public class Sampler : MonoBehaviour, ISampler
 
     public void LoadSample(AudioClip clip, int rootNote)
     {
+        if (clip == null)
+        {
+            Debug.LogError("Cannot load null sample!");
+            return;
+        }
+
         sample = clip;
         this.rootNote = (Note)(rootNote % 12);
         this.octave = (rootNote / 12) - 1;
         UpdateRootNote();
+        Debug.Log($"Sample loaded: {clip.name}, root note: {this.rootNote}, octave: {this.octave}");
     }
 
     public void PlayNote(int midiNote)
     {
-        if (sample == null) return;
+        if (sample == null)
+        {
+            Debug.LogWarning("Cannot play note: no sample loaded!");
+            return;
+        }
+
+        if (audioSource == null)
+        {
+            Debug.LogError("AudioSource not initialized!");
+            return;
+        }
 
         // Calculate pitch based on root note
         float targetFreq = MidiToFreq(midiNote);
@@ -68,6 +97,7 @@ public class Sampler : MonoBehaviour, ISampler
         voice.Play();
 
         activeVoices[midiNote] = voice;
+        Debug.Log($"Playing note {midiNote} with pitch {pitch}");
 
         // If oneShot is enabled, start coroutine to clean up after sample finishes
         if (oneShot)
@@ -93,6 +123,7 @@ public class Sampler : MonoBehaviour, ISampler
             voice.Stop();
             Destroy(voice);
             activeVoices.Remove(midiNote);
+            Debug.Log($"Stopped note {midiNote}");
         }
     }
 
