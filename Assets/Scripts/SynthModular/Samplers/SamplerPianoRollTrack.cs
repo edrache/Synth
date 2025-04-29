@@ -5,7 +5,7 @@ using UnityEngine.Playables;
 [TrackColor(0.5f, 0.5f, 0.5f)]
 [TrackClipType(typeof(SamplerPianoRollClip))]
 [TrackBindingType(typeof(Sampler))]
-public class SamplerPianoRollTrack : TrackAsset
+public class SamplerPianoRollTrack : TrackAsset, IPianoRollTrack
 {
     [SerializeField]
     private string targetSamplerName;
@@ -14,6 +14,32 @@ public class SamplerPianoRollTrack : TrackAsset
     {
         get => targetSamplerName;
         set => targetSamplerName = value;
+    }
+
+    public TimelineClip CreateClip()
+    {
+        var clip = base.CreateDefaultClip();
+        var samplerClip = clip.asset as SamplerPianoRollClip;
+        if (samplerClip != null)
+        {
+            samplerClip.midiNote = 60; // Middle C
+            samplerClip.duration = (float)clip.duration;
+            samplerClip.startTime = (float)clip.start;
+            clip.displayName = samplerClip.GetDisplayName();
+        }
+        return clip;
+    }
+
+    public void DeleteClip(TimelineClip clip)
+    {
+        if (clip != null)
+        {
+            var timelineAsset = clip.parentTrack.timelineAsset;
+            if (timelineAsset != null)
+            {
+                timelineAsset.DeleteClip(clip);
+            }
+        }
     }
 
     protected override void OnCreateClip(TimelineClip clip)

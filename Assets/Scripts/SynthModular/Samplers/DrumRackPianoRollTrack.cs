@@ -4,7 +4,7 @@ using UnityEngine.Playables;
 
 [TrackColor(0.8f, 0.2f, 0.2f)]
 [TrackClipType(typeof(DrumRackPianoRollClip))]
-public class DrumRackPianoRollTrack : TrackAsset
+public class DrumRackPianoRollTrack : TrackAsset, IPianoRollTrack
 {
     [SerializeField]
     private string targetSamplerName;
@@ -13,6 +13,32 @@ public class DrumRackPianoRollTrack : TrackAsset
     {
         get => targetSamplerName;
         set => targetSamplerName = value;
+    }
+
+    public TimelineClip CreateClip()
+    {
+        var clip = base.CreateDefaultClip();
+        var drumRackClip = clip.asset as DrumRackPianoRollClip;
+        if (drumRackClip != null)
+        {
+            drumRackClip.note = Note.C;
+            drumRackClip.duration = (float)clip.duration;
+            drumRackClip.startTime = (float)clip.start;
+            clip.displayName = drumRackClip.GetDisplayName();
+        }
+        return clip;
+    }
+
+    public void DeleteClip(TimelineClip clip)
+    {
+        if (clip != null)
+        {
+            var timelineAsset = clip.parentTrack.timelineAsset;
+            if (timelineAsset != null)
+            {
+                timelineAsset.DeleteClip(clip);
+            }
+        }
     }
 
     protected override void OnCreateClip(TimelineClip clip)
