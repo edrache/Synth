@@ -5,6 +5,7 @@ using UnityEngine.Playables;
 using UnityEngine.Timeline;
 using TMPro;
 using System.Collections.Generic;
+using System.Linq;
 
 public class PianoKeyboard : MonoBehaviour
 {
@@ -42,6 +43,14 @@ public class PianoKeyboard : MonoBehaviour
     public Sampler sampler;
     public DrumRackSampler drumRackSampler;
 
+    [Header("Sequence Settings")]
+    public Button sequenceButton;
+    public Button restButton;  // Przycisk do wstawiania przerw
+    public Color sequenceActiveColor = Color.red;
+    public Color sequenceInactiveColor = Color.white;
+    [Tooltip("Jeśli włączone, wszystkie nuty w sekwencji będą miały taką samą długość")]
+    public bool equalNoteDuration = false;
+
     private List<Button> whiteKeys = new List<Button>();
     private List<Button> blackKeys = new List<Button>();
     private Dictionary<Button, int> keyToMidiNote = new Dictionary<Button, int>();
@@ -51,12 +60,34 @@ public class PianoKeyboard : MonoBehaviour
     private int selectedTrackIndex = 0;
     private Dictionary<int, float> noteStartTimes = new Dictionary<int, float>();
     private Dictionary<int, bool> noteAddedToTimeline = new Dictionary<int, bool>();
+    private bool isRecordingSequence = false;
+    private List<SequenceNote> recordedNotes = new List<SequenceNote>();
+    private float sequenceStartTime;
+    private bool sequencePendingAdd = false;
+    private float lastTimelineTime = 0f;
+
+    private struct SequenceNote
+    {
+        public int midiNote;
+        public float timeOffset;
+        public float duration;
+        public bool isRest;  // Czy to jest przerwa
+
+        public SequenceNote(int note, float offset, float dur, bool rest = false)
+        {
+            midiNote = note;
+            timeOffset = offset;
+            duration = dur;
+            isRest = rest;
+        }
+    }
 
     private void Start()
     {
         FindReferences();
         InitializeUI();
         GenerateKeyboard();
+        InitializeSequencer();
     }
 
     private void FindReferences()
@@ -164,13 +195,169 @@ public class PianoKeyboard : MonoBehaviour
         }
     }
 
+    private void InitializeSequencer()
+    {
+        if (sequenceButton != null)
+        {
+            sequenceButton.onClick.AddListener(ToggleSequenceRecording);
+            var buttonImage = sequenceButton.GetComponent<Image>();
+            if (buttonImage != null)
+            {
+                buttonImage.color = sequenceInactiveColor;
+            }
+        }
+
+        if (restButton != null)
+        {
+            restButton.onClick.AddListener(AddRestToSequence);
+            restButton.interactable = false; // Domyślnie nieaktywny
+        }
+    }
+
+    private void ToggleSequenceRecording()
+    {
+        isRecordingSequence = !isRecordingSequence;
+
+        if (isRecordingSequence)
+        {
+            // Wyczyść poprzednią sekwencję
+            recordedNotes.Clear();
+            
+            // Jeśli poprzednia sekwencja czeka na dodanie, dodaj ją teraz
+            if (sequencePendingAdd)
+            {
+                AddSequenceToTimeline();
+            }
+
+            // Wyczyść ścieżkę przed rozpoczęciem nowego nagrywania
+            ClearTrackClips();
+
+            sequenceStartTime = Time.time;
+            Debug.Log("Rozpoczęto nagrywanie nowej sekwencji");
+
+            // Aktywuj przycisk przerwy podczas nagrywania
+            if (restButton != null)
+            {
+                restButton.interactable = true;
+            }
+
+            if (sequenceButton != null)
+            {
+                var buttonImage = sequenceButton.GetComponent<Image>();
+                if (buttonImage != null)
+                {
+                    buttonImage.color = sequenceActiveColor;
+                }
+            }
+        }
+        else
+        {
+            if (recordedNotes.Count > 0)
+            {
+                PrepareSequenceForTimeline();
+            }
+
+            // Dezaktywuj przycisk przerwy po zakończeniu nagrywania
+            if (restButton != null)
+            {
+                restButton.interactable = false;
+            }
+
+            if (sequenceButton != null)
+            {
+                var buttonImage = sequenceButton.GetComponent<Image>();
+                if (buttonImage != null)
+                {
+                    buttonImage.color = sequenceInactiveColor;
+                }
+            }
+        }
+    }
+
+    private void ClearTrackClips()
+    {
+        if (timeline == null || selectedTrackIndex >= pianoRollTracks.Count) return;
+
+        var track = pianoRollTracks[selectedTrackIndex];
+        if (track == null) return;
+
+        // Zapamiętaj stan Timeline
+        bool wasPlaying = timeline.state == PlayState.Playing;
+        float currentTime = (float)timeline.time;
+        double playbackSpeed = timeline.playableGraph.GetRootPlayable(0).GetSpeed();
+
+        // Zatrzymaj Timeline na czas czyszczenia
+        if (wasPlaying)
+        {
+            timeline.Pause();
+        }
+
+        // Usuń wszystkie klipy
+        var timelineAsset = timeline.playableAsset as TimelineAsset;
+        if (timelineAsset != null)
+        {
+            var clips = track.GetClips().ToList();
+            foreach (var clip in clips)
+            {
+                track.DeleteClip(clip);
+            }
+        }
+
+        // Przywróć stan Timeline
+        timeline.time = currentTime;
+        timeline.playableGraph.GetRootPlayable(0).SetSpeed(playbackSpeed);
+        
+        if (wasPlaying)
+        {
+            timeline.Play();
+        }
+        else
+        {
+            timeline.Evaluate();
+        }
+
+        Debug.Log($"Wyczyszczono ścieżkę {track.name} przed rozpoczęciem nowego nagrywania");
+    }
+
+    private void AddRestToSequence()
+    {
+        if (!isRecordingSequence) return;
+
+        float currentTime = Time.time;
+        float timeOffset = currentTime - sequenceStartTime;
+        
+        // Dodaj przerwę z domyślną długością
+        recordedNotes.Add(new SequenceNote(0, timeOffset, 0.1f, true));
+        Debug.Log("Dodano przerwę do sekwencji");
+    }
+
+    private void PrepareSequenceForTimeline()
+    {
+        if (timeline == null || recordedNotes.Count == 0) return;
+
+        // Oznacz sekwencję jako gotową do dodania
+        sequencePendingAdd = true;
+        Debug.Log($"Sekwencja gotowa do dodania: {recordedNotes.Count} nut");
+    }
+
     private void Update()
     {
-        // Tylko aktualizuj wartość slidera, nie wpływaj na Timeline
+        // Aktualizacja slidera bez wpływania na Timeline
         if (timeline != null && timelineSlider != null && !timelineSlider.gameObject.GetComponent<EventSystem>()?.currentSelectedGameObject == timelineSlider.gameObject)
         {
             float normalizedTime = (float)(timeline.time / timeline.duration);
             timelineSlider.SetValueWithoutNotify(normalizedTime);
+
+            // Sprawdź czy Timeline zakończył odtwarzanie
+            if (timeline.time < lastTimelineTime && sequencePendingAdd)
+            {
+                // Zapamiętaj aktualną prędkość przed dodaniem sekwencji
+                double currentSpeed = timeline.playableGraph.GetRootPlayable(0).GetSpeed();
+                AddSequenceToTimeline();
+                // Przywróć prędkość po dodaniu sekwencji
+                timeline.playableGraph.GetRootPlayable(0).SetSpeed(currentSpeed);
+            }
+            lastTimelineTime = (float)timeline.time;
         }
     }
 
@@ -229,14 +416,100 @@ public class PianoKeyboard : MonoBehaviour
         }
     }
 
+    private void AddSequenceToTimeline()
+    {
+        if (!sequencePendingAdd || recordedNotes.Count == 0 || timeline == null || 
+            selectedTrackIndex >= pianoRollTracks.Count) return;
+
+        var track = pianoRollTracks[selectedTrackIndex];
+        if (track == null) return;
+
+        // Zapamiętaj stan Timeline przed modyfikacjami
+        bool wasPlaying = timeline.state == PlayState.Playing;
+        float currentTime = (float)timeline.time;
+        double playbackSpeed = timeline.playableGraph.GetRootPlayable(0).GetSpeed();
+
+        // Zatrzymaj Timeline na czas modyfikacji
+        if (wasPlaying)
+        {
+            timeline.Pause();
+        }
+
+        // Usuń wszystkie istniejące klipy na ścieżce
+        var timelineAsset = timeline.playableAsset as TimelineAsset;
+        if (timelineAsset != null)
+        {
+            var clips = track.GetClips().ToList();
+            foreach (var clip in clips)
+            {
+                track.DeleteClip(clip);
+            }
+        }
+
+        float timelineDuration = (float)timeline.duration;
+        float firstNoteTime = recordedNotes.Min(n => n.timeOffset);
+        float lastNoteEnd = recordedNotes.Max(n => n.timeOffset + n.duration);
+        float sequenceDuration = lastNoteEnd - firstNoteTime;
+        float timeScale = timelineDuration / sequenceDuration;
+
+        if (equalNoteDuration)
+        {
+            float equalDuration = timelineDuration / recordedNotes.Count;
+            var sortedNotes = recordedNotes.OrderBy(n => n.timeOffset).ToList();
+            
+            for (int i = 0; i < sortedNotes.Count; i++)
+            {
+                float scaledTime = i * equalDuration;
+                if (!sortedNotes[i].isRest)  // Dodaj nutę tylko jeśli to nie jest przerwa
+                {
+                    PianoRollManager.AddNote(timeline, track.name, sortedNotes[i].midiNote, scaledTime, equalDuration);
+                }
+            }
+        }
+        else
+        {
+            foreach (var note in recordedNotes)
+            {
+                if (!note.isRest)  // Dodaj nutę tylko jeśli to nie jest przerwa
+                {
+                    float normalizedStartTime = note.timeOffset - firstNoteTime;
+                    float scaledTime = normalizedStartTime * timeScale;
+                    float scaledDuration = note.duration * timeScale;
+                    PianoRollManager.AddNote(timeline, track.name, note.midiNote, scaledTime, scaledDuration);
+                }
+            }
+        }
+
+        // Przywróć stan Timeline
+        timeline.time = currentTime;
+        timeline.playableGraph.GetRootPlayable(0).SetSpeed(playbackSpeed);
+        
+        if (wasPlaying)
+        {
+            timeline.Play();
+        }
+        else
+        {
+            timeline.Evaluate();
+        }
+
+        Debug.Log($"Dodano nową sekwencję: {recordedNotes.Count(n => !n.isRest)} nut i {recordedNotes.Count(n => n.isRest)} przerw do timeline");
+        sequencePendingAdd = false;
+        recordedNotes.Clear();
+    }
+
     private void OnKeyDown(int midiNote)
     {
         if (!activeNotes.Contains(midiNote))
         {
             activeNotes.Add(midiNote);
             
-            // Zapisz czas rozpoczęcia nuty
-            if (dynamicNoteDuration)
+            // Zapisz czas rozpoczęcia nuty dla trybu sekwencji
+            if (isRecordingSequence)
+            {
+                noteStartTimes[midiNote] = Time.time;
+            }
+            else if (dynamicNoteDuration)
             {
                 noteStartTimes[midiNote] = (float)timeline.time;
                 noteAddedToTimeline[midiNote] = false;
@@ -246,23 +519,65 @@ public class PianoKeyboard : MonoBehaviour
             if (modularSynth != null)
             {
                 modularSynth.PlayNote(midiNote);
-                Debug.Log($"ModularSynth gra nutę: {GetNoteName(midiNote)} (MIDI: {midiNote})");
             }
             else if (sampler != null)
             {
                 sampler.PlayNote(midiNote);
-                Debug.Log($"Sampler gra nutę: {GetNoteName(midiNote)} (MIDI: {midiNote})");
             }
             else if (drumRackSampler != null)
             {
                 drumRackSampler.PlayNote((Note)(midiNote % 12));
-                Debug.Log($"DrumRackSampler gra nutę: {GetNoteName(midiNote)} (MIDI: {midiNote})");
             }
 
-            // Dodaj nutę do timeline tylko jeśli nie używamy dynamicznej długości
-            if (!dynamicNoteDuration)
+            // Dodaj nutę do timeline tylko jeśli nie nagrywamy sekwencji i nie używamy dynamicznej długości
+            if (!isRecordingSequence && !dynamicNoteDuration)
             {
                 AddNoteToTimeline(midiNote, (float)timeline.time, noteDuration);
+            }
+        }
+    }
+
+    private void OnKeyUp(int midiNote)
+    {
+        if (activeNotes.Contains(midiNote))
+        {
+            float noteStartTime = noteStartTimes[midiNote];
+            float currentTime = isRecordingSequence ? Time.time : (float)timeline.time;
+            float duration = currentTime - noteStartTime;
+            duration = Mathf.Max(duration, 0.1f);
+
+            // Dodaj nutę do sekwencji jeśli nagrywamy
+            if (isRecordingSequence)
+            {
+                float timeOffset = noteStartTime - sequenceStartTime;
+                recordedNotes.Add(new SequenceNote(midiNote, timeOffset, duration));
+            }
+            // W przeciwnym razie dodaj do timeline jeśli używamy dynamicznej długości
+            else if (dynamicNoteDuration && !noteAddedToTimeline[midiNote])
+            {
+                AddNoteToTimeline(midiNote, noteStartTime, duration);
+                noteAddedToTimeline[midiNote] = true;
+            }
+
+            activeNotes.Remove(midiNote);
+            if (modularSynth != null)
+            {
+                modularSynth.StopNote(midiNote);
+            }
+            else if (sampler != null)
+            {
+                sampler.StopNote(midiNote);
+            }
+            else if (drumRackSampler != null)
+            {
+                drumRackSampler.StopNote((Note)(midiNote % 12));
+            }
+
+            // Wyczyść dane o czasie nuty
+            if (dynamicNoteDuration)
+            {
+                noteStartTimes.Remove(midiNote);
+                noteAddedToTimeline.Remove(midiNote);
             }
         }
     }
@@ -370,52 +685,21 @@ public class PianoKeyboard : MonoBehaviour
         return noteIndex == 1 || noteIndex == 3 || noteIndex == 6 || noteIndex == 8 || noteIndex == 10;
     }
 
-    private void OnKeyUp(int midiNote)
-    {
-        if (activeNotes.Contains(midiNote))
-        {
-            // Dodaj nutę do timeline jeśli używamy dynamicznej długości
-            if (dynamicNoteDuration && !noteAddedToTimeline[midiNote])
-            {
-                float startTime = noteStartTimes[midiNote];
-                float duration = (float)timeline.time - startTime;
-                duration = Mathf.Max(duration, 0.1f);
-                
-                AddNoteToTimeline(midiNote, startTime, duration);
-                noteAddedToTimeline[midiNote] = true;
-            }
-
-            activeNotes.Remove(midiNote);
-            if (modularSynth != null)
-            {
-                modularSynth.StopNote(midiNote);
-                Debug.Log($"ModularSynth zatrzymał nutę: {GetNoteName(midiNote)} (MIDI: {midiNote})");
-            }
-            else if (sampler != null)
-            {
-                sampler.StopNote(midiNote);
-                Debug.Log($"Sampler zatrzymał nutę: {GetNoteName(midiNote)} (MIDI: {midiNote})");
-            }
-            else if (drumRackSampler != null)
-            {
-                drumRackSampler.StopNote((Note)(midiNote % 12));
-                Debug.Log($"DrumRackSampler zatrzymał nutę: {GetNoteName(midiNote)} (MIDI: {midiNote})");
-            }
-
-            // Wyczyść dane o czasie nuty
-            if (dynamicNoteDuration)
-            {
-                noteStartTimes.Remove(midiNote);
-                noteAddedToTimeline.Remove(midiNote);
-            }
-        }
-    }
-
     private void OnDestroy()
     {
         if (timelineSlider != null)
         {
             timelineSlider.onValueChanged.RemoveListener(OnSliderValueChanged);
+        }
+
+        if (sequenceButton != null)
+        {
+            sequenceButton.onClick.RemoveListener(ToggleSequenceRecording);
+        }
+
+        if (restButton != null)
+        {
+            restButton.onClick.RemoveListener(AddRestToSequence);
         }
 
         // Stop all active notes
@@ -431,5 +715,6 @@ public class PianoKeyboard : MonoBehaviour
         activeNotes.Clear();
         noteStartTimes.Clear();
         noteAddedToTimeline.Clear();
+        recordedNotes.Clear();
     }
 } 
