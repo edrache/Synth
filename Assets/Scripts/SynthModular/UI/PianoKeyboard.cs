@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
+using UnityEngine.Playables;
 using TMPro;
 using System.Collections.Generic;
 
@@ -21,6 +22,9 @@ public class PianoKeyboard : MonoBehaviour
     [Header("References")]
     public GameObject keyPrefab;
     public Transform keysContainer;
+    public PlayableDirector timeline;
+    public Slider timelineSlider;
+    public bool enableTimelineControl = true;
 
     [Header("Synth Settings")]
     [Tooltip("Przypisz jeden z syntezatorów")]
@@ -56,7 +60,56 @@ public class PianoKeyboard : MonoBehaviour
             return;
         }
 
+        if (timeline == null)
+        {
+            timeline = FindObjectOfType<PlayableDirector>();
+            if (timeline == null)
+            {
+                Debug.LogWarning("Nie znaleziono Timeline! Slider czasu będzie nieaktywny.");
+                if (timelineSlider != null)
+                {
+                    timelineSlider.gameObject.SetActive(false);
+                }
+                enableTimelineControl = false;
+            }
+        }
+
+        if (timelineSlider != null && enableTimelineControl)
+        {
+            timelineSlider.minValue = 0f;
+            timelineSlider.maxValue = 1f;
+            timelineSlider.onValueChanged.AddListener(OnSliderValueChanged);
+        }
+
         GenerateKeyboard();
+    }
+
+    private void Update()
+    {
+        if (timeline != null && timelineSlider != null && enableTimelineControl)
+        {
+            // Aktualizuj wartość slidera tylko jeśli nie jest aktualnie przeciągany
+            if (!timelineSlider.gameObject.GetComponent<EventSystem>()?.currentSelectedGameObject == timelineSlider.gameObject)
+            {
+                float normalizedTime = (float)(timeline.time / timeline.duration);
+                timelineSlider.value = normalizedTime;
+            }
+        }
+    }
+
+    private void OnSliderValueChanged(float value)
+    {
+        if (timeline != null && enableTimelineControl)
+        {
+            // Ustaw czas w timeline
+            timeline.time = value * timeline.duration;
+            
+            // Jeśli timeline nie jest w trybie odtwarzania, zatrzymaj na wybranej pozycji
+            if (timeline.state != PlayState.Playing)
+            {
+                timeline.Evaluate();
+            }
+        }
     }
 
     private void GenerateKeyboard()
@@ -208,6 +261,11 @@ public class PianoKeyboard : MonoBehaviour
 
     private void OnDestroy()
     {
+        if (timelineSlider != null)
+        {
+            timelineSlider.onValueChanged.RemoveListener(OnSliderValueChanged);
+        }
+
         // Stop all active notes
         foreach (int midiNote in activeNotes)
         {
