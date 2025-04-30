@@ -81,6 +81,12 @@ public class DrumRackSampler : MonoBehaviour, IDrumRackSampler
         }
     }
 
+    public void PlayNote(int midiNote)
+    {
+        Note note = (Note)(midiNote % 12);
+        PlayNote(note);
+    }
+
     public void PlayNote(Note note)
     {
         if (!samples.TryGetValue(note, out var clip) || clip == null) return;
@@ -110,6 +116,12 @@ public class DrumRackSampler : MonoBehaviour, IDrumRackSampler
             Destroy(voice);
             activeVoices.Remove(note);
         }
+    }
+
+    public void StopNote(int midiNote)
+    {
+        Note note = (Note)(midiNote % 12);
+        StopNote(note);
     }
 
     public void StopNote(Note note)

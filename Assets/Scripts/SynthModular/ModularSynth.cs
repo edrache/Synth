@@ -635,4 +635,16 @@ public class ModularSynth : MonoBehaviour
             StopVoice(freq);
         }
     }
+
+    public void PlayNote(int midiNote)
+    {
+        float freq = MidiToFreq(midiNote);
+        AddVoice(freq);
+    }
+
+    public void StopNote(int midiNote)
+    {
+        float freq = MidiToFreq(midiNote);
+        StopVoice(freq);
+    }
 }
