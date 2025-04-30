@@ -33,6 +33,8 @@ public class PianoKeyboard : MonoBehaviour
     public bool addNotesToTimeline = false;
     [Tooltip("Jeśli włączone, długość nuty będzie zależna od czasu przytrzymania klawisza")]
     public bool dynamicNoteDuration = false;
+    [Tooltip("Jeśli włączone, nakładające się klipy zostaną automatycznie usunięte")]
+    public bool removeOverlappingClips = false;
 
     [Header("Synth Settings")]
     [Tooltip("Przypisz jeden z syntezatorów")]
@@ -164,26 +166,66 @@ public class PianoKeyboard : MonoBehaviour
 
     private void Update()
     {
-        if (timeline != null && timelineSlider != null && enableTimelineControl)
+        // Tylko aktualizuj wartość slidera, nie wpływaj na Timeline
+        if (timeline != null && timelineSlider != null && !timelineSlider.gameObject.GetComponent<EventSystem>()?.currentSelectedGameObject == timelineSlider.gameObject)
         {
-            // Aktualizuj wartość slidera tylko jeśli nie jest aktualnie przeciągany
-            if (!timelineSlider.gameObject.GetComponent<EventSystem>()?.currentSelectedGameObject == timelineSlider.gameObject)
-            {
-                float normalizedTime = (float)(timeline.time / timeline.duration);
-                timelineSlider.value = normalizedTime;
-            }
+            float normalizedTime = (float)(timeline.time / timeline.duration);
+            timelineSlider.SetValueWithoutNotify(normalizedTime);
         }
     }
 
     private void OnSliderValueChanged(float value)
     {
-        if (timeline != null && enableTimelineControl)
+        // Usuwamy kontrolę nad Timeline z PianoKeyboard
+        Debug.Log($"Slider zmieniony na wartość: {value}");
+    }
+
+    private void AddNoteToTimeline(int midiNote, float startTime, float duration)
+    {
+        if (!addNotesToTimeline || timeline == null || selectedTrackIndex >= pianoRollTracks.Count) return;
+
+        var track = pianoRollTracks[selectedTrackIndex];
+        if (track == null) return;
+
+        // Zapamiętaj aktualny stan Timeline
+        bool wasPlaying = timeline.state == PlayState.Playing;
+        float currentTime = (float)timeline.time;
+        double currentSpeed = timeline.playableGraph.GetRootPlayable(0).GetSpeed();
+
+        if (removeOverlappingClips)
         {
-            timeline.time = value * timeline.duration;
-            if (timeline.state != PlayState.Playing)
+            var timelineAsset = timeline.playableAsset as TimelineAsset;
+            if (timelineAsset != null)
             {
-                timeline.Evaluate();
+                var clips = track.GetClips();
+                List<TimelineClip> clipsToRemove = new List<TimelineClip>();
+
+                foreach (var clip in clips)
+                {
+                    bool overlaps = (clip.start < (startTime + duration)) && ((clip.start + clip.duration) > startTime);
+                    if (overlaps)
+                    {
+                        clipsToRemove.Add(clip);
+                        Debug.Log($"Znaleziono nakładający się klip w czasie {clip.start}s - zostanie usunięty");
+                    }
+                }
+
+                foreach (var clip in clipsToRemove)
+                {
+                    track.DeleteClip(clip);
+                }
             }
+        }
+
+        PianoRollManager.AddNote(timeline, track.name, midiNote, startTime, duration);
+        Debug.Log($"Dodano nutę do timeline: {GetNoteName(midiNote)} na ścieżce {track.name} w czasie {startTime}s z długością {duration}s");
+
+        // Przywróć stan Timeline
+        timeline.playableGraph.GetRootPlayable(0).SetSpeed(currentSpeed);
+        timeline.time = currentTime;
+        if (wasPlaying && timeline.state != PlayState.Playing)
+        {
+            timeline.Play();
         }
     }
 
@@ -218,12 +260,9 @@ public class PianoKeyboard : MonoBehaviour
             }
 
             // Dodaj nutę do timeline tylko jeśli nie używamy dynamicznej długości
-            if (addNotesToTimeline && timeline != null && selectedTrackIndex < pianoRollTracks.Count && !dynamicNoteDuration)
+            if (!dynamicNoteDuration)
             {
-                var track = pianoRollTracks[selectedTrackIndex];
-                float startTime = (float)timeline.time;
-                PianoRollManager.AddNote(timeline, track.name, midiNote, startTime, noteDuration);
-                Debug.Log($"Dodano nutę do timeline: {GetNoteName(midiNote)} na ścieżce {track.name} w czasie {startTime}s");
+                AddNoteToTimeline(midiNote, (float)timeline.time, noteDuration);
             }
         }
     }
@@ -336,19 +375,14 @@ public class PianoKeyboard : MonoBehaviour
         if (activeNotes.Contains(midiNote))
         {
             // Dodaj nutę do timeline jeśli używamy dynamicznej długości
-            if (addNotesToTimeline && timeline != null && selectedTrackIndex < pianoRollTracks.Count && 
-                dynamicNoteDuration && !noteAddedToTimeline[midiNote])
+            if (dynamicNoteDuration && !noteAddedToTimeline[midiNote])
             {
-                var track = pianoRollTracks[selectedTrackIndex];
                 float startTime = noteStartTimes[midiNote];
                 float duration = (float)timeline.time - startTime;
-                
-                // Upewnij się, że nuta ma minimalną długość
                 duration = Mathf.Max(duration, 0.1f);
                 
-                PianoRollManager.AddNote(timeline, track.name, midiNote, startTime, duration);
+                AddNoteToTimeline(midiNote, startTime, duration);
                 noteAddedToTimeline[midiNote] = true;
-                Debug.Log($"Dodano nutę do timeline: {GetNoteName(midiNote)} na ścieżce {track.name} w czasie {startTime}s z długością {duration}s");
             }
 
             activeNotes.Remove(midiNote);
