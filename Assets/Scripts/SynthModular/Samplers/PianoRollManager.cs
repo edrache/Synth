@@ -56,8 +56,17 @@ public static class PianoRollManager
             return null;
         }
 
+        // Store current time
+        double currentTime = timeline.time;
+
         // Create new clip
         var clip = track.CreateClip();
+        if (clip == null)
+        {
+            Debug.LogError("Failed to create clip!");
+            return null;
+        }
+
         clip.start = startTime;
         clip.duration = duration;
 
@@ -98,6 +107,9 @@ public static class PianoRollManager
 
         // Refresh the timeline
         timeline.RebuildGraph();
+
+        // Restore the time
+        timeline.time = currentTime;
 
         return clip;
     }
