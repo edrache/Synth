@@ -13,12 +13,16 @@ public class PianoRollUI : MonoBehaviour
     public int midiNote = 60;
     public float duration = 1f;
     public float startTime = 0f;
+    [Range(0f, 1f)]
+    public float velocity = 0.8f;
 
     [Header("UI Elements")]
     public TMP_InputField noteInput;
     public TMP_InputField durationInput;
     public TMP_InputField startTimeInput;
+    public TMP_InputField velocityInput;
     public Button addNoteButton;
+    public Button setVelocityButton;
     public TMP_Dropdown trackDropdown;
 
     private List<TrackAsset> pianoRollTracks = new List<TrackAsset>();
@@ -101,6 +105,34 @@ public class PianoRollUI : MonoBehaviour
                 Debug.Log($"Found track dropdown: {trackDropdown.name}");
             }
         }
+
+        if (velocityInput == null)
+        {
+            var inputs = GetComponentsInChildren<TMP_InputField>();
+            foreach (var input in inputs)
+            {
+                if (input != noteInput && input != durationInput && input != startTimeInput)
+                {
+                    velocityInput = input;
+                    Debug.Log($"Found velocity input field: {velocityInput.name}");
+                    break;
+                }
+            }
+        }
+
+        if (setVelocityButton == null)
+        {
+            var buttons = GetComponentsInChildren<Button>();
+            foreach (var button in buttons)
+            {
+                if (button != addNoteButton)
+                {
+                    setVelocityButton = button;
+                    Debug.Log($"Found set velocity button: {setVelocityButton.name}");
+                    break;
+                }
+            }
+        }
     }
 
     private void InitializeUI()
@@ -126,6 +158,17 @@ public class PianoRollUI : MonoBehaviour
         if (addNoteButton != null)
         {
             addNoteButton.onClick.AddListener(OnAddNoteClicked);
+        }
+
+        if (velocityInput != null)
+        {
+            velocityInput.text = velocity.ToString();
+            velocityInput.onValueChanged.AddListener(OnVelocityChanged);
+        }
+
+        if (setVelocityButton != null)
+        {
+            setVelocityButton.onClick.AddListener(OnSetVelocityClicked);
         }
     }
 
@@ -210,6 +253,68 @@ public class PianoRollUI : MonoBehaviour
         }
     }
 
+    private void OnVelocityChanged(string value)
+    {
+        if (float.TryParse(value, out float result))
+        {
+            velocity = Mathf.Clamp01(result);
+            velocityInput.text = velocity.ToString();
+        }
+    }
+
+    private void OnSetVelocityClicked()
+    {
+        if (timeline == null)
+        {
+            Debug.LogError("Timeline reference is missing!");
+            return;
+        }
+
+        if (pianoRollTracks.Count == 0)
+        {
+            Debug.LogError("No PianoRoll tracks found in the timeline!");
+            return;
+        }
+
+        if (trackIndex < 0 || trackIndex >= pianoRollTracks.Count)
+        {
+            Debug.LogError($"Invalid track index: {trackIndex}. Available tracks: {pianoRollTracks.Count}");
+            return;
+        }
+
+        var track = pianoRollTracks[trackIndex] as IPianoRollTrack;
+        if (track == null)
+        {
+            Debug.LogError("Selected track is not a PianoRoll track!");
+            return;
+        }
+
+        // Store current time
+        double currentTime = timeline.time;
+
+        var clips = track.GetClips();
+        foreach (var clip in clips)
+        {
+            var pianoRollClip = clip.asset as PianoRollClip;
+            if (pianoRollClip != null)
+            {
+                pianoRollClip.velocity = velocity;
+                Debug.Log($"Set velocity to {velocity} for note: {pianoRollClip.note}");
+                
+                // Update clip display name
+                clip.displayName = pianoRollClip.GetDisplayName();
+            }
+        }
+
+        // Rebuild timeline graph to apply changes
+        timeline.RebuildGraph();
+        
+        // Restore timeline position
+        timeline.time = currentTime;
+        
+        Debug.Log($"Set velocity to {velocity} for all notes in track: {track.name} and rebuilt timeline graph");
+    }
+
     private void OnAddNoteClicked()
     {
         if (timeline == null)
@@ -237,6 +342,7 @@ public class PianoRollUI : MonoBehaviour
             return;
         }
 
-        PianoRollManager.AddNote(timeline, track.name, midiNote, startTime, duration);
+        Debug.Log($"Adding note: MIDI={midiNote}, StartTime={startTime}, Duration={duration}, Velocity={velocity}");
+        PianoRollManager.AddNote(timeline, track.name, midiNote, startTime, duration, velocity);
     }
 } 

@@ -4,6 +4,7 @@ public class ModularVoice
 {
     public int id;
     public float frequency;
+    public float velocity;
     private float phase;
     private float sampleRate;
 
@@ -23,7 +24,8 @@ public class ModularVoice
         Envelope envelope,
         ILowPassFilter filter,
         IDistortion distortion,
-        IGrainGate grainGate = null)
+        IGrainGate grainGate = null,
+        float velocity = 0.8f)
     {
         this.id = id;
         this.frequency = frequency;
@@ -33,6 +35,7 @@ public class ModularVoice
         this.filter = filter;
         this.distortion = distortion;
         this.grainGate = grainGate;
+        this.velocity = velocity;
 
         envelope.NoteOn();
     }
@@ -50,7 +53,7 @@ public class ModularVoice
         float filtered = filter.Apply(shaped);
         float amp = envelope.Next(step);
 
-        float final = filtered * amp * 0.5f;
+        float final = filtered * amp * velocity * 0.5f;
         return grainGate != null ? grainGate.Apply(final, step) : final;
     }
 

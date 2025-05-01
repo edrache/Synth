@@ -12,6 +12,14 @@ public class ModularSynth : MonoBehaviour
     private float sampleRate;
     private int nextVoiceId = 1;
     private TimelineBPMController bpmController;
+    private Dictionary<int, TimelineNote> timelineNotes = new();
+
+    private struct TimelineNote
+    {
+        public int midiNote;
+        public float velocity;
+        public float duration;
+    }
 
     [Header("Arpeggiator")]
     public bool enableArpeggiator = false;
@@ -458,7 +466,7 @@ public class ModularSynth : MonoBehaviour
         return $"{noteNames[noteIndex]}{octave}";
     }
 
-    public int AddVoice(float freq)
+    public int AddVoice(float freq, float velocity = 0.8f)
     {
         IOscillator osc = new DualOscillator(
             MakeOscillator(oscA),
@@ -477,7 +485,8 @@ public class ModularSynth : MonoBehaviour
             new Envelope(attack, release),
             new SimpleLowPassFilter(filterSmooth),
             new TanhDistortion(drive),
-            gate
+            gate,
+            velocity
         ));
 
         return voiceId;
@@ -609,27 +618,22 @@ public class ModularSynth : MonoBehaviour
     }
 
     // Metody do obsługi nut z timeline
-    public void PlayTimelineNote(int midiNote, float duration)
+    public void PlayTimelineNote(int midiNote, float duration, float velocity = 0.8f)
     {
-        if (enableArpeggiator)
+        if (timelineNotes.ContainsKey(midiNote))
         {
-            float freq = MidiToFreq(midiNote);
-            arpNotes.Clear();
-            availableScaleNotes.Clear();
-            arpNotes.Add(freq);
-            currentArpIndex = -1;
-            arpTimer = 0f;
-            Debug.Log($"Timeline note added to arpeggiator: {freq}Hz (MIDI: {midiNote})");
+            StopTimelineNote(midiNote);
         }
-        else
+
+        var note = new TimelineNote
         {
-            float freq = MidiToFreq(midiNote);
-            int voiceId = AddVoice(freq);
-            Debug.Log($"Playing timeline note {GetNoteNameFromMidi(midiNote)} for {duration}s");
-            
-            // Start coroutine to stop the note after duration
-            StartCoroutine(StopNoteAfterDuration(voiceId, duration));
-        }
+            midiNote = midiNote,
+            velocity = velocity,
+            duration = duration
+        };
+
+        timelineNotes[midiNote] = note;
+        PlayNote(midiNote, velocity);
     }
 
     private System.Collections.IEnumerator StopNoteAfterDuration(int voiceId, float duration)
@@ -655,10 +659,10 @@ public class ModularSynth : MonoBehaviour
         }
     }
 
-    public void PlayNote(int midiNote)
+    public void PlayNote(int midiNote, float velocity = 0.8f)
     {
         float freq = MidiToFreq(midiNote);
-        AddVoice(freq);
+        AddVoice(freq, velocity);
     }
 
     public void StopNote(int midiNote)

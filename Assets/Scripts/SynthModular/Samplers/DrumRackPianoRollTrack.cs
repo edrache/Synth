@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.Timeline;
 using UnityEngine.Playables;
+using System.Collections.Generic;
 
 [TrackColor(0.8f, 0.2f, 0.2f)]
 [TrackClipType(typeof(DrumRackPianoRollClip))]
@@ -39,6 +40,11 @@ public class DrumRackPianoRollTrack : TrackAsset, IPianoRollTrack
                 timelineAsset.DeleteClip(clip);
             }
         }
+    }
+
+    public IEnumerable<TimelineClip> GetClips()
+    {
+        return base.GetClips();
     }
 
     protected override void OnCreateClip(TimelineClip clip)

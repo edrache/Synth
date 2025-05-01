@@ -8,6 +8,8 @@ public class SamplerPianoRollClip : PlayableAsset, ITimelineClipAsset
     public int midiNote;
     public float duration;
     public float startTime;
+    [Range(0f, 1f)]
+    [Tooltip("Głośność nuty (0 = cisza, 1 = maksymalna głośność)")]
     public float velocity = 1f;
 
     private static readonly string[] noteNames = new string[]
@@ -22,7 +24,10 @@ public class SamplerPianoRollClip : PlayableAsset, ITimelineClipAsset
         var playable = ScriptPlayable<SamplerPianoRollBehaviour>.Create(graph);
         var behaviour = playable.GetBehaviour();
         behaviour.midiNote = midiNote;
+        behaviour.duration = duration;
+        behaviour.startTime = startTime;
         behaviour.velocity = velocity;
+        Debug.Log($"Creating playable for note {GetDisplayName()} with velocity {velocity}");
         return playable;
     }
 
@@ -32,6 +37,6 @@ public class SamplerPianoRollClip : PlayableAsset, ITimelineClipAsset
         
         int octave = (midiNote / 12) - 1;
         int noteIndex = midiNote % 12;
-        return $"{noteNames[noteIndex + 1]}{octave}";
+        return $"{noteNames[noteIndex + 1]}{octave} (v:{velocity:F2})";
     }
 } 

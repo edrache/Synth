@@ -25,7 +25,8 @@ public class SamplerPianoRollMixer : PlayableBehaviour
             {
                 if (!currentlyPlayingNotes.Contains(input.midiNote))
                 {
-                    sampler.PlayNote(input.midiNote);
+                    Debug.Log($"Mixer playing note {input.midiNote} with velocity {input.velocity}");
+                    sampler.PlayNote(input.midiNote, input.velocity);
                     currentlyPlayingNotes.Add(input.midiNote);
                 }
                 notesToStop.Remove(input.midiNote);

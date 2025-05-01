@@ -5,6 +5,7 @@ using UnityEngine.Timeline;
 public class PianoRollBehaviour : PlayableBehaviour
 {
     public int note;
+    public float velocity = 0.8f;
     private ModularSynth synth;
     private float duration;
     private TimelineBPMController bpmController;
@@ -69,8 +70,8 @@ public class PianoRollBehaviour : PlayableBehaviour
                 Debug.Log($"Note {GetNoteName(note)} corrected to {GetNoteName(correctedNote)} to match current scale");
             }
             
-            synth.PlayTimelineNote(correctedNote, duration);
-            Debug.Log($"Playing timeline note {GetNoteName(correctedNote)} with duration {duration}s on synth: {synth.name}");
+            synth.PlayTimelineNote(correctedNote, duration, velocity);
+            Debug.Log($"Playing timeline note {GetNoteName(correctedNote)} with duration {duration}s and velocity {velocity} on synth: {synth.name}");
         }
         else
         {

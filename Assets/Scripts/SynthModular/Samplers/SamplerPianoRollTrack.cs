@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.Timeline;
 using UnityEngine.Playables;
+using System.Collections.Generic;
 
 [TrackColor(0.5f, 0.5f, 0.5f)]
 [TrackClipType(typeof(SamplerPianoRollClip))]
@@ -22,7 +23,6 @@ public class SamplerPianoRollTrack : TrackAsset, IPianoRollTrack
         var samplerClip = clip.asset as SamplerPianoRollClip;
         if (samplerClip != null)
         {
-            samplerClip.midiNote = 60; // Middle C
             samplerClip.duration = (float)clip.duration;
             samplerClip.startTime = (float)clip.start;
             clip.displayName = samplerClip.GetDisplayName();
@@ -40,6 +40,11 @@ public class SamplerPianoRollTrack : TrackAsset, IPianoRollTrack
                 timelineAsset.DeleteClip(clip);
             }
         }
+    }
+
+    public IEnumerable<TimelineClip> GetClips()
+    {
+        return base.GetClips();
     }
 
     protected override void OnCreateClip(TimelineClip clip)
@@ -72,7 +77,7 @@ public class SamplerPianoRollTrack : TrackAsset, IPianoRollTrack
         var sampler = FindSampler(go) as Sampler;
         if (sampler == null)
         {
-            Debug.LogError($"Sampler not found on GameObject {go.name}. Make sure the Sampler component is attached to the GameObject.");
+            Debug.LogError($"Sampler not found on GameObject {go.name}. Make sure the Sampler component is attached to the GameObject and the track is bound to it in Timeline.");
             return mixer;
         }
 
@@ -90,15 +95,26 @@ public class SamplerPianoRollTrack : TrackAsset, IPianoRollTrack
     private ISampler FindSampler(GameObject go)
     {
         if (string.IsNullOrEmpty(targetSamplerName))
-            return go.GetComponent<ISampler>();
+        {
+            var sampler = go.GetComponent<ISampler>();
+            if (sampler == null)
+            {
+                Debug.LogError($"No ISampler component found on GameObject {go.name}");
+            }
+            return sampler;
+        }
 
         var samplers = go.GetComponents<ISampler>();
         foreach (var sampler in samplers)
         {
             if (sampler.GetType().Name == targetSamplerName)
+            {
+                Debug.Log($"Found sampler of type {targetSamplerName} on GameObject {go.name}");
                 return sampler;
+            }
         }
 
+        Debug.LogError($"No sampler of type {targetSamplerName} found on GameObject {go.name}");
         return null;
     }
 } 

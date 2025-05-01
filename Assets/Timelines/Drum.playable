@@ -160,213 +160,6 @@ MonoBehaviour:
     m_PreExtrapolationTime: 0
     m_DisplayName: C
   - m_Version: 1
-    m_Start: 3
-    m_ClipIn: 0
-    m_Asset: {fileID: -5317910062094749221}
-    m_Duration: 0.30000000000000004
-    m_TimeScale: 1
-    m_ParentTrack: {fileID: -6705398931722697360}
-    m_EaseInDuration: 0
-    m_EaseOutDuration: 0
-    m_BlendInDuration: 0
-    m_BlendOutDuration: 0
-    m_MixInCurve:
-      serializedVersion: 2
-      m_Curve:
-      - serializedVersion: 3
-        time: 0
-        value: 0
-        inSlope: 0
-        outSlope: 0
-        tangentMode: 0
-        weightedMode: 0
-        inWeight: 0
-        outWeight: 0
-      - serializedVersion: 3
-        time: 1
-        value: 1
-        inSlope: 0
-        outSlope: 0
-        tangentMode: 0
-        weightedMode: 0
-        inWeight: 0
-        outWeight: 0
-      m_PreInfinity: 2
-      m_PostInfinity: 2
-      m_RotationOrder: 4
-    m_MixOutCurve:
-      serializedVersion: 2
-      m_Curve:
-      - serializedVersion: 3
-        time: 0
-        value: 1
-        inSlope: 0
-        outSlope: 0
-        tangentMode: 0
-        weightedMode: 0
-        inWeight: 0
-        outWeight: 0
-      - serializedVersion: 3
-        time: 1
-        value: 0
-        inSlope: 0
-        outSlope: 0
-        tangentMode: 0
-        weightedMode: 0
-        inWeight: 0
-        outWeight: 0
-      m_PreInfinity: 2
-      m_PostInfinity: 2
-      m_RotationOrder: 4
-    m_BlendInCurveMode: 0
-    m_BlendOutCurveMode: 0
-    m_ExposedParameterNames: []
-    m_AnimationCurves: {fileID: 0}
-    m_Recordable: 0
-    m_PostExtrapolationMode: 0
-    m_PreExtrapolationMode: 0
-    m_PostExtrapolationTime: 0
-    m_PreExtrapolationTime: 0
-    m_DisplayName: CSharp
-  - m_Version: 1
-    m_Start: 1
-    m_ClipIn: 0
-    m_Asset: {fileID: -3376224082026661276}
-    m_Duration: 0.30000000000000004
-    m_TimeScale: 1
-    m_ParentTrack: {fileID: -6705398931722697360}
-    m_EaseInDuration: 0
-    m_EaseOutDuration: 0
-    m_BlendInDuration: 0
-    m_BlendOutDuration: 0
-    m_MixInCurve:
-      serializedVersion: 2
-      m_Curve:
-      - serializedVersion: 3
-        time: 0
-        value: 0
-        inSlope: 0
-        outSlope: 0
-        tangentMode: 0
-        weightedMode: 0
-        inWeight: 0
-        outWeight: 0
-      - serializedVersion: 3
-        time: 1
-        value: 1
-        inSlope: 0
-        outSlope: 0
-        tangentMode: 0
-        weightedMode: 0
-        inWeight: 0
-        outWeight: 0
-      m_PreInfinity: 2
-      m_PostInfinity: 2
-      m_RotationOrder: 4
-    m_MixOutCurve:
-      serializedVersion: 2
-      m_Curve:
-      - serializedVersion: 3
-        time: 0
-        value: 1
-        inSlope: 0
-        outSlope: 0
-        tangentMode: 0
-        weightedMode: 0
-        inWeight: 0
-        outWeight: 0
-      - serializedVersion: 3
-        time: 1
-        value: 0
-        inSlope: 0
-        outSlope: 0
-        tangentMode: 0
-        weightedMode: 0
-        inWeight: 0
-        outWeight: 0
-      m_PreInfinity: 2
-      m_PostInfinity: 2
-      m_RotationOrder: 4
-    m_BlendInCurveMode: 0
-    m_BlendOutCurveMode: 0
-    m_ExposedParameterNames: []
-    m_AnimationCurves: {fileID: 0}
-    m_Recordable: 0
-    m_PostExtrapolationMode: 0
-    m_PreExtrapolationMode: 0
-    m_PostExtrapolationTime: 0
-    m_PreExtrapolationTime: 0
-    m_DisplayName: CSharp
-  - m_Version: 1
-    m_Start: 7.9
-    m_ClipIn: 0
-    m_Asset: {fileID: 4620154159671341168}
-    m_Duration: 0.09999999999999964
-    m_TimeScale: 1
-    m_ParentTrack: {fileID: -6705398931722697360}
-    m_EaseInDuration: 0
-    m_EaseOutDuration: 0
-    m_BlendInDuration: 0
-    m_BlendOutDuration: 0
-    m_MixInCurve:
-      serializedVersion: 2
-      m_Curve:
-      - serializedVersion: 3
-        time: 0
-        value: 0
-        inSlope: 0
-        outSlope: 0
-        tangentMode: 0
-        weightedMode: 0
-        inWeight: 0
-        outWeight: 0
-      - serializedVersion: 3
-        time: 1
-        value: 1
-        inSlope: 0
-        outSlope: 0
-        tangentMode: 0
-        weightedMode: 0
-        inWeight: 0
-        outWeight: 0
-      m_PreInfinity: 2
-      m_PostInfinity: 2
-      m_RotationOrder: 4
-    m_MixOutCurve:
-      serializedVersion: 2
-      m_Curve:
-      - serializedVersion: 3
-        time: 0
-        value: 1
-        inSlope: 0
-        outSlope: 0
-        tangentMode: 0
-        weightedMode: 0
-        inWeight: 0
-        outWeight: 0
-      - serializedVersion: 3
-        time: 1
-        value: 0
-        inSlope: 0
-        outSlope: 0
-        tangentMode: 0
-        weightedMode: 0
-        inWeight: 0
-        outWeight: 0
-      m_PreInfinity: 2
-      m_PostInfinity: 2
-      m_RotationOrder: 4
-    m_BlendInCurveMode: 0
-    m_BlendOutCurveMode: 0
-    m_ExposedParameterNames: []
-    m_AnimationCurves: {fileID: 0}
-    m_Recordable: 0
-    m_PostExtrapolationMode: 0
-    m_PreExtrapolationMode: 0
-    m_PostExtrapolationTime: 0
-    m_PreExtrapolationTime: 0
-    m_DisplayName: B
-  - m_Version: 1
     m_Start: 4
     m_ClipIn: 0
     m_Asset: {fileID: -755940961772407344}
@@ -435,75 +228,6 @@ MonoBehaviour:
     m_PostExtrapolationTime: 0
     m_PreExtrapolationTime: 0
     m_DisplayName: C
-  - m_Version: 1
-    m_Start: 4.999999999999999
-    m_ClipIn: 0
-    m_Asset: {fileID: 418312146181294493}
-    m_Duration: 0.30000000000000004
-    m_TimeScale: 1
-    m_ParentTrack: {fileID: -6705398931722697360}
-    m_EaseInDuration: 0
-    m_EaseOutDuration: 0
-    m_BlendInDuration: 0
-    m_BlendOutDuration: 0
-    m_MixInCurve:
-      serializedVersion: 2
-      m_Curve:
-      - serializedVersion: 3
-        time: 0
-        value: 0
-        inSlope: 0
-        outSlope: 0
-        tangentMode: 0
-        weightedMode: 0
-        inWeight: 0
-        outWeight: 0
-      - serializedVersion: 3
-        time: 1
-        value: 1
-        inSlope: 0
-        outSlope: 0
-        tangentMode: 0
-        weightedMode: 0
-        inWeight: 0
-        outWeight: 0
-      m_PreInfinity: 2
-      m_PostInfinity: 2
-      m_RotationOrder: 4
-    m_MixOutCurve:
-      serializedVersion: 2
-      m_Curve:
-      - serializedVersion: 3
-        time: 0
-        value: 1
-        inSlope: 0
-        outSlope: 0
-        tangentMode: 0
-        weightedMode: 0
-        inWeight: 0
-        outWeight: 0
-      - serializedVersion: 3
-        time: 1
-        value: 0
-        inSlope: 0
-        outSlope: 0
-        tangentMode: 0
-        weightedMode: 0
-        inWeight: 0
-        outWeight: 0
-      m_PreInfinity: 2
-      m_PostInfinity: 2
-      m_RotationOrder: 4
-    m_BlendInCurveMode: 0
-    m_BlendOutCurveMode: 0
-    m_ExposedParameterNames: []
-    m_AnimationCurves: {fileID: 0}
-    m_Recordable: 0
-    m_PostExtrapolationMode: 0
-    m_PreExtrapolationMode: 0
-    m_PostExtrapolationTime: 0
-    m_PreExtrapolationTime: 0
-    m_DisplayName: CSharp
   - m_Version: 1
     m_Start: 6
     m_ClipIn: 0
@@ -574,9 +298,9 @@ MonoBehaviour:
     m_PreExtrapolationTime: 0
     m_DisplayName: C
   - m_Version: 1
-    m_Start: 7.000000000000002
+    m_Start: 2.5
     m_ClipIn: 0
-    m_Asset: {fileID: -3035484376404737123}
+    m_Asset: {fileID: 8403171342516379338}
     m_Duration: 0.30000000000000004
     m_TimeScale: 1
     m_ParentTrack: {fileID: -6705398931722697360}
@@ -641,80 +365,11 @@ MonoBehaviour:
     m_PreExtrapolationMode: 0
     m_PostExtrapolationTime: 0
     m_PreExtrapolationTime: 0
-    m_DisplayName: CSharp
+    m_DisplayName: C
   - m_Version: 1
-    m_Start: 7.5
+    m_Start: 6.55
     m_ClipIn: 0
-    m_Asset: {fileID: 2299853995905956851}
-    m_Duration: 0.30000000000000004
-    m_TimeScale: 1
-    m_ParentTrack: {fileID: -6705398931722697360}
-    m_EaseInDuration: 0
-    m_EaseOutDuration: 0
-    m_BlendInDuration: 0
-    m_BlendOutDuration: 0
-    m_MixInCurve:
-      serializedVersion: 2
-      m_Curve:
-      - serializedVersion: 3
-        time: 0
-        value: 0
-        inSlope: 0
-        outSlope: 0
-        tangentMode: 0
-        weightedMode: 0
-        inWeight: 0
-        outWeight: 0
-      - serializedVersion: 3
-        time: 1
-        value: 1
-        inSlope: 0
-        outSlope: 0
-        tangentMode: 0
-        weightedMode: 0
-        inWeight: 0
-        outWeight: 0
-      m_PreInfinity: 2
-      m_PostInfinity: 2
-      m_RotationOrder: 4
-    m_MixOutCurve:
-      serializedVersion: 2
-      m_Curve:
-      - serializedVersion: 3
-        time: 0
-        value: 1
-        inSlope: 0
-        outSlope: 0
-        tangentMode: 0
-        weightedMode: 0
-        inWeight: 0
-        outWeight: 0
-      - serializedVersion: 3
-        time: 1
-        value: 0
-        inSlope: 0
-        outSlope: 0
-        tangentMode: 0
-        weightedMode: 0
-        inWeight: 0
-        outWeight: 0
-      m_PreInfinity: 2
-      m_PostInfinity: 2
-      m_RotationOrder: 4
-    m_BlendInCurveMode: 0
-    m_BlendOutCurveMode: 0
-    m_ExposedParameterNames: []
-    m_AnimationCurves: {fileID: 0}
-    m_Recordable: 0
-    m_PostExtrapolationMode: 0
-    m_PreExtrapolationMode: 0
-    m_PostExtrapolationTime: 0
-    m_PreExtrapolationTime: 0
-    m_DisplayName: CSharp
-  - m_Version: 1
-    m_Start: 6.5
-    m_ClipIn: 0
-    m_Asset: {fileID: -6146915636831193808}
+    m_Asset: {fileID: 8896485183148980987}
     m_Duration: 0.30000000000000004
     m_TimeScale: 1
     m_ParentTrack: {fileID: -6705398931722697360}
@@ -783,21 +438,6 @@ MonoBehaviour:
   m_Markers:
     m_Objects: []
   targetSamplerName: DrumRackSampler
---- !u!114 &-6146915636831193808
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5d873ea6d38e242bb9ab5edbd8769c6b, type: 3}
-  m_Name: DrumRackPianoRollClip(Clone)
-  m_EditorClassIdentifier: 
-  note: 0
-  duration: 0.3
-  startTime: 6.5
 --- !u!114 &-6026111502087970266
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -813,51 +453,6 @@ MonoBehaviour:
   note: 0
   duration: 0.3
   startTime: 0.001
---- !u!114 &-5317910062094749221
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5d873ea6d38e242bb9ab5edbd8769c6b, type: 3}
-  m_Name: DrumRackPianoRollClip(Clone)(Clone)
-  m_EditorClassIdentifier: 
-  note: 1
-  duration: 0.3
-  startTime: 3
---- !u!114 &-3376224082026661276
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5d873ea6d38e242bb9ab5edbd8769c6b, type: 3}
-  m_Name: DrumRackPianoRollClip(Clone)(Clone)(Clone)
-  m_EditorClassIdentifier: 
-  note: 1
-  duration: 0.3
-  startTime: 1
---- !u!114 &-3035484376404737123
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5d873ea6d38e242bb9ab5edbd8769c6b, type: 3}
-  m_Name: DrumRackPianoRollClip(Clone)(Clone)(Clone)
-  m_EditorClassIdentifier: 
-  note: 1
-  duration: 0.3
-  startTime: 7
 --- !u!114 &-2453915207401917512
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -903,27 +498,12 @@ MonoBehaviour:
   m_Version: 0
   m_Tracks:
   - {fileID: -6705398931722697360}
-  m_FixedDuration: 0
+  m_FixedDuration: 8
   m_EditorSettings:
     m_Framerate: 20
     m_ScenePreview: 1
-  m_DurationMode: 0
+  m_DurationMode: 1
   m_MarkerTrack: {fileID: 0}
---- !u!114 &418312146181294493
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5d873ea6d38e242bb9ab5edbd8769c6b, type: 3}
-  m_Name: DrumRackPianoRollClip(Clone)(Clone)(Clone)(Clone)
-  m_EditorClassIdentifier: 
-  note: 1
-  duration: 0.3
-  startTime: 5
 --- !u!114 &2078326947918900372
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -939,36 +519,6 @@ MonoBehaviour:
   note: 0
   duration: 0.3
   startTime: 2
---- !u!114 &2299853995905956851
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5d873ea6d38e242bb9ab5edbd8769c6b, type: 3}
-  m_Name: DrumRackPianoRollClip(Clone)(Clone)(Clone)(Clone)
-  m_EditorClassIdentifier: 
-  note: 1
-  duration: 0.3
-  startTime: 7.5
---- !u!114 &4620154159671341168
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5d873ea6d38e242bb9ab5edbd8769c6b, type: 3}
-  m_Name: DrumRackPianoRollClip(Clone)(Clone)(Clone)(Clone)
-  m_EditorClassIdentifier: 
-  note: 11
-  duration: 0.1
-  startTime: 7.9
 --- !u!114 &8298394486256075717
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -984,3 +534,33 @@ MonoBehaviour:
   note: 0
   duration: 0.3
   startTime: 6
+--- !u!114 &8403171342516379338
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5d873ea6d38e242bb9ab5edbd8769c6b, type: 3}
+  m_Name: DrumRackPianoRollClip(Clone)(Clone)
+  m_EditorClassIdentifier: 
+  note: 0
+  duration: 0.3
+  startTime: 2.5
+--- !u!114 &8896485183148980987
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5d873ea6d38e242bb9ab5edbd8769c6b, type: 3}
+  m_Name: DrumRackPianoRollClip(Clone)(Clone)(Clone)
+  m_EditorClassIdentifier: 
+  note: 0
+  duration: 0.3
+  startTime: 6.55

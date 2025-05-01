@@ -71,6 +71,11 @@ public class Sampler : MonoBehaviour, ISampler
 
     public void PlayNote(int midiNote)
     {
+        PlayNote(midiNote, 0.8f);
+    }
+
+    public void PlayNote(int midiNote, float velocity)
+    {
         if (sample == null)
         {
             Debug.LogWarning("Cannot play note: no sample loaded!");
@@ -83,23 +88,20 @@ public class Sampler : MonoBehaviour, ISampler
             return;
         }
 
-        // Calculate pitch based on root note
         float targetFreq = MidiToFreq(midiNote);
         float pitch = targetFreq / rootFrequency;
 
-        // Create new voice
         var voice = gameObject.AddComponent<AudioSource>();
         voice.clip = sample;
-        voice.volume = volume;
+        voice.volume = volume * velocity;
         voice.panStereo = pan;
         voice.pitch = pitch;
         voice.loop = false;
         voice.Play();
 
         activeVoices[midiNote] = voice;
-        Debug.Log($"Playing note {midiNote} with pitch {pitch}");
+        Debug.Log($"Playing note {midiNote} with pitch {pitch} and velocity {velocity}");
 
-        // If oneShot is enabled, start coroutine to clean up after sample finishes
         if (oneShot)
         {
             StartCoroutine(CleanupVoiceAfterPlayback(voice, midiNote));

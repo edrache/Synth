@@ -36,6 +36,9 @@ public class PianoKeyboard : MonoBehaviour
     public bool dynamicNoteDuration = false;
     [Tooltip("Jeśli włączone, nakładające się klipy zostaną automatycznie usunięte")]
     public bool removeOverlappingClips = false;
+    [Range(0f, 1f)]
+    [Tooltip("Głośność dodawanych nut (0 = cisza, 1 = maksymalna głośność)")]
+    public float noteVelocity = 0.8f;
 
     [Header("Synth Settings")]
     [Tooltip("Przypisz jeden z syntezatorów")]
@@ -278,7 +281,7 @@ public class PianoKeyboard : MonoBehaviour
     {
         if (timeline == null || selectedTrackIndex >= pianoRollTracks.Count) return;
 
-        var track = pianoRollTracks[selectedTrackIndex];
+        var track = pianoRollTracks[selectedTrackIndex] as IPianoRollTrack;
         if (track == null) return;
 
         // Zapamiętaj stan Timeline
@@ -369,50 +372,56 @@ public class PianoKeyboard : MonoBehaviour
 
     private void AddNoteToTimeline(int midiNote, float startTime, float duration)
     {
-        if (!addNotesToTimeline || timeline == null || selectedTrackIndex >= pianoRollTracks.Count) return;
+        if (timeline == null || selectedTrackIndex >= pianoRollTracks.Count) return;
 
-        var track = pianoRollTracks[selectedTrackIndex];
+        var track = pianoRollTracks[selectedTrackIndex] as IPianoRollTrack;
         if (track == null) return;
 
-        // Zapamiętaj aktualny stan Timeline
-        bool wasPlaying = timeline.state == PlayState.Playing;
-        float currentTime = (float)timeline.time;
-        double currentSpeed = timeline.playableGraph.GetRootPlayable(0).GetSpeed();
-
+        // Clear any existing clips at this time if removeOverlappingClips is enabled
         if (removeOverlappingClips)
         {
             var timelineAsset = timeline.playableAsset as TimelineAsset;
             if (timelineAsset != null)
             {
-                var clips = track.GetClips();
-                List<TimelineClip> clipsToRemove = new List<TimelineClip>();
+                var overlappingClips = timelineAsset.GetOutputTracks()
+                    .Where(t => t == pianoRollTracks[selectedTrackIndex])
+                    .SelectMany(t => t.GetClips())
+                    .Where(existingClip => 
+                        (existingClip.start <= startTime && existingClip.end > startTime) || 
+                        (existingClip.start < startTime + duration && existingClip.end >= startTime + duration) ||
+                        (existingClip.start >= startTime && existingClip.end <= startTime + duration))
+                    .ToList();
 
-                foreach (var clip in clips)
+                foreach (var overlappingClip in overlappingClips)
                 {
-                    bool overlaps = (clip.start < (startTime + duration)) && ((clip.start + clip.duration) > startTime);
-                    if (overlaps)
-                    {
-                        clipsToRemove.Add(clip);
-                        Debug.Log($"Znaleziono nakładający się klip w czasie {clip.start}s - zostanie usunięty");
-                    }
-                }
-
-                foreach (var clip in clipsToRemove)
-                {
-                    track.DeleteClip(clip);
+                    track.DeleteClip(overlappingClip);
                 }
             }
         }
 
-        PianoRollManager.AddNote(timeline, track.name, midiNote, startTime, duration);
-        Debug.Log($"Dodano nutę do timeline: {GetNoteName(midiNote)} na ścieżce {track.name} w czasie {startTime}s z długością {duration}s");
-
-        // Przywróć stan Timeline
-        timeline.playableGraph.GetRootPlayable(0).SetSpeed(currentSpeed);
-        timeline.time = currentTime;
-        if (wasPlaying && timeline.state != PlayState.Playing)
+        var clip = track.CreateClip();
+        if (clip != null)
         {
-            timeline.Play();
+            clip.start = startTime;
+            clip.duration = duration;
+
+            var samplerClip = clip.asset as SamplerPianoRollClip;
+            if (samplerClip != null)
+            {
+                samplerClip.midiNote = midiNote;
+                samplerClip.duration = duration;
+                samplerClip.startTime = startTime;
+                samplerClip.velocity = noteVelocity;
+                clip.displayName = samplerClip.GetDisplayName();
+                Debug.Log($"Dodano nutę MIDI {midiNote} do SamplerPianoRollClip");
+            }
+            else
+            {
+                Debug.LogError("Nie można przekonwertować klipu na SamplerPianoRollClip");
+            }
+
+            timeline.RebuildGraph();
+            Debug.Log($"Added note {midiNote} at time {startTime} with duration {duration}");
         }
     }
 
@@ -421,7 +430,7 @@ public class PianoKeyboard : MonoBehaviour
         if (!sequencePendingAdd || recordedNotes.Count == 0 || timeline == null || 
             selectedTrackIndex >= pianoRollTracks.Count) return;
 
-        var track = pianoRollTracks[selectedTrackIndex];
+        var track = pianoRollTracks[selectedTrackIndex] as IPianoRollTrack;
         if (track == null) return;
 
         // Zapamiętaj stan Timeline przed modyfikacjami
@@ -462,7 +471,7 @@ public class PianoKeyboard : MonoBehaviour
                 float scaledTime = i * equalDuration;
                 if (!sortedNotes[i].isRest)  // Dodaj nutę tylko jeśli to nie jest przerwa
                 {
-                    PianoRollManager.AddNote(timeline, track.name, sortedNotes[i].midiNote, scaledTime, equalDuration);
+                    AddNoteToTimeline(sortedNotes[i].midiNote, scaledTime, equalDuration);
                 }
             }
         }
@@ -475,7 +484,7 @@ public class PianoKeyboard : MonoBehaviour
                     float normalizedStartTime = note.timeOffset - firstNoteTime;
                     float scaledTime = normalizedStartTime * timeScale;
                     float scaledDuration = note.duration * timeScale;
-                    PianoRollManager.AddNote(timeline, track.name, note.midiNote, scaledTime, scaledDuration);
+                    AddNoteToTimeline(note.midiNote, scaledTime, scaledDuration);
                 }
             }
         }

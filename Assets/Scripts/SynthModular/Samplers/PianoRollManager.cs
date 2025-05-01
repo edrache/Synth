@@ -38,8 +38,9 @@ public static class PianoRollManager
     /// <param name="midiNote">MIDI note number to add</param>
     /// <param name="startTime">Start time in seconds</param>
     /// <param name="duration">Duration in seconds</param>
+    /// <param name="velocity">Velocity of the note (0-1)</param>
     /// <returns>The created TimelineClip</returns>
-    public static TimelineClip AddNote(PlayableDirector timeline, string trackName, int midiNote, float startTime, float duration)
+    public static TimelineClip AddNote(PlayableDirector timeline, string trackName, int midiNote, float startTime, float duration, float velocity = 0.8f)
     {
         if (timeline == null)
         {
@@ -79,7 +80,9 @@ public static class PianoRollManager
                 samplerClip.midiNote = midiNote;
                 samplerClip.duration = duration;
                 samplerClip.startTime = startTime;
+                samplerClip.velocity = velocity;
                 clip.displayName = samplerClip.GetDisplayName();
+                Debug.Log($"Added sampler note with velocity: {velocity}");
             }
         }
         else if (track is DrumRackPianoRollTrack)
@@ -101,7 +104,9 @@ public static class PianoRollManager
                 pianoRollClip.note = midiNote;
                 pianoRollClip.duration = duration;
                 pianoRollClip.startTime = startTime;
+                pianoRollClip.velocity = velocity;
                 clip.displayName = pianoRollClip.GetDisplayName();
+                Debug.Log($"Added piano roll note with velocity: {velocity}");
             }
         }
 
