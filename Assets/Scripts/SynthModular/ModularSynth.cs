@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System;
 using System.Linq; // Add LINQ support
 using System.Collections;
+using SynthModular.Effects;
 
 [RequireComponent(typeof(AudioSource))]
 public class ModularSynth : MonoBehaviour
@@ -70,6 +71,8 @@ public class ModularSynth : MonoBehaviour
     [Header("Effects")]
     public bool enableTextureEffect = false;
     private TextureEffect textureEffect;
+    public bool enableSaturator = true;
+    private Saturator saturator;
 
     public enum OscillatorType
     {
@@ -135,6 +138,9 @@ public class ModularSynth : MonoBehaviour
         source.loop = true;
         source.spatialBlend = 0f;
         source.Play();
+
+        // Inicjalizacja efektów
+        saturator = gameObject.AddComponent<Saturator>();
     }
 
     void Update()
@@ -501,6 +507,7 @@ public class ModularSynth : MonoBehaviour
     void OnAudioFilterRead(float[] data, int channels)
     {
         float step = 1f / sampleRate;
+        float[] tempBuffer = new float[data.Length];
 
         for (int i = 0; i < data.Length; i += channels)
         {
@@ -520,9 +527,21 @@ public class ModularSynth : MonoBehaviour
                 sample = textureEffect.ProcessSample(sample);
             }
 
+            // Kopiuj próbkę do wszystkich kanałów
             for (int c = 0; c < channels; c++)
-                data[i + c] = sample;
+            {
+                tempBuffer[i + c] = sample;
+            }
         }
+
+        // Zastosuj saturator na całym buforze raz
+        if (enableSaturator && saturator != null)
+        {
+            saturator.ProcessBuffer(tempBuffer);
+        }
+
+        // Skopiuj przetworzone dane do bufora wyjściowego
+        System.Array.Copy(tempBuffer, data, data.Length);
 
         voices.RemoveAll(v => v == null || !v.IsActive);
     }
@@ -646,5 +665,14 @@ public class ModularSynth : MonoBehaviour
     {
         float freq = MidiToFreq(midiNote);
         StopVoice(freq);
+    }
+
+    private void OnDestroy()
+    {
+        // Wyczyść efekty
+        if (saturator != null)
+        {
+            Destroy(saturator);
+        }
     }
 }
