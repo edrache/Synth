@@ -2,6 +2,12 @@ using UnityEngine;
 using System.Collections.Generic;
 using System.Collections;
 
+public enum DecayTimeUnit
+{
+    Seconds,
+    Beats
+}
+
 [RequireComponent(typeof(AudioSource))]
 public class Sampler : MonoBehaviour, ISampler
 {
@@ -15,6 +21,13 @@ public class Sampler : MonoBehaviour, ISampler
     [Header("Playback Settings")]
     [Range(0f, 1f)] public float volume = 1f;
     [Range(0f, 1f)] public float pan = 0f;
+
+    [Header("Envelope Settings")]
+    [Tooltip("Krzywa zanikania dźwięku po puszczeniu nuty (tylko gdy OneShot = false). Oś X: czas [s], oś Y: głośność (1 = velocity nuty, 0 = cisza)")]
+    public AnimationCurve decayCurve = AnimationCurve.EaseInOut(0, 1, 1, 0);
+    [Tooltip("Jednostka czasu zanikania dźwięku")] public DecayTimeUnit decayTimeUnit = DecayTimeUnit.Seconds;
+    [Tooltip("Czas trwania zanikania dźwięku (w sekundach lub beatach)")]
+    public float decayTime = 1.0f;
 
     private AudioSource audioSource;
     private Dictionary<int, AudioSource> activeVoices;
@@ -120,10 +133,41 @@ public class Sampler : MonoBehaviour, ISampler
     {
         if (!oneShot && activeVoices.TryGetValue(midiNote, out var voice))
         {
-            voice.Stop();
-            Destroy(voice);
+            if (voice == null)
+                return;
+            StartCoroutine(FadeOutAndStop(voice, midiNote));
             activeVoices.Remove(midiNote);
         }
+    }
+
+    private float GetDecayTimeSeconds()
+    {
+        float bpm = 120f;
+        var bpmController = FindObjectOfType<TimelineBPMController>();
+        if (bpmController != null)
+            bpm = bpmController.BPM;
+        if (decayTimeUnit == DecayTimeUnit.Seconds)
+            return decayTime;
+        else // Beats
+            return 60f * decayTime / Mathf.Max(1f, bpm);
+    }
+
+    private System.Collections.IEnumerator FadeOutAndStop(AudioSource voice, int midiNote)
+    {
+        float startVolume = voice.volume;
+        float elapsed = 0f;
+        float decayDuration = GetDecayTimeSeconds();
+        while (elapsed < decayDuration)
+        {
+            float t = decayDuration > 0f ? (elapsed / decayDuration) : 1f;
+            float curveValue = decayCurve.Evaluate(t);
+            voice.volume = startVolume * curveValue;
+            elapsed += Time.deltaTime;
+            yield return null;
+        }
+        voice.volume = 0f;
+        voice.Stop();
+        Destroy(voice);
     }
 
     public void SetOctave(int octave)

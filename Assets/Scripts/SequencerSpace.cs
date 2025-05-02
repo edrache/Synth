@@ -42,7 +42,7 @@ public class SequencerSpace : MonoBehaviour
     
     [Header("Space Settings")]
     [Tooltip("Długość timeline w sekundach odpowiadająca szerokości przestrzeni")]
-    [SerializeField] private float timelineLength = 4f;
+    public float timelineLength = 4f;
     [Tooltip("Bazowa nuta MIDI dla Z = 0")]
     [SerializeField] private int baseMidiNote = 60; // C4
     [Tooltip("Ile półtonów odpowiada jednostce na osi Z")]
@@ -52,13 +52,15 @@ public class SequencerSpace : MonoBehaviour
     
     [Header("Note Mapping Settings")]
     [Tooltip("Skala muzyczna, w której pojawiają się nuty")]
-    [SerializeField] private MusicalScale scale = MusicalScale.Major;
+    public MusicalScale scale = MusicalScale.Major;
     [Tooltip("Dźwięk podstawowy skali (tonacja)")]
     [SerializeField] private NoteName rootNote = NoteName.C;
     [Tooltip("Najniższa oktawa (włącznie)")]
-    [SerializeField] private int minOctave = 3;
+    public int minOctave = 3;
     [Tooltip("Najwyższa oktawa (włącznie)")]
-    [SerializeField] private int maxOctave = 5;
+    public int maxOctave = 5;
+    [Tooltip("Długość nuty w sekundach dla każdego obiektu")]
+    public float noteDuration = 0.25f;
 
     private float lastTimelineTime = 0f;
     private List<GameObject> trackedObjects = new List<GameObject>();
@@ -93,10 +95,11 @@ public class SequencerSpace : MonoBehaviour
 
     private void Update()
     {
-        // Sprawdź czy timeline zakończył odtwarzanie
         float currentTime = (float)timeline.time;
+        // Sprawdź czy Timeline zakończył przebieg (np. wrócił do początku)
         if (currentTime < lastTimelineTime)
         {
+            UpdateTrackedObjects(); // aktualizuj listę obiektów tylko na końcu przebiegu Timeline
             if (sequenceNeedsUpdate)
             {
                 UpdateSequence();
@@ -229,9 +232,9 @@ public class SequencerSpace : MonoBehaviour
                         continue;
                     }
                     clip.start = timePosition;
-                    clip.duration = 0.25f;
+                    clip.duration = noteDuration;
                     samplerClip.midiNote = midiNote;
-                    samplerClip.duration = 0.25f;
+                    samplerClip.duration = noteDuration;
                     samplerClip.startTime = timePosition;
                     samplerClip.velocity = 0.8f;
                     clip.displayName = $"Note {midiNote} at {timePosition:F2}s";
@@ -253,7 +256,15 @@ public class SequencerSpace : MonoBehaviour
         int[] intervals = scaleIntervals[(int)scale];
         int notesPerOctave = intervals.Length;
         int totalNotes = (maxOctave - minOctave + 1) * notesPerOctave;
-        int noteIndex = Mathf.Clamp(Mathf.RoundToInt(z), 0, totalNotes - 1);
+        var boxCollider = GetComponent<BoxCollider>();
+        if (boxCollider == null) return midiBase;
+        float zSize = boxCollider.size.z;
+        float zMin = -zSize / 2f;
+        float zMax = zSize / 2f;
+        // z: pozycja względem środka collidera
+        float zNorm = Mathf.Clamp((z - zMin) / (zMax - zMin), 0f, 0.9999f); // 0...1
+        int noteIndex = Mathf.FloorToInt(zNorm * totalNotes);
+        noteIndex = Mathf.Clamp(noteIndex, 0, totalNotes - 1);
         int octave = minOctave + (noteIndex / notesPerOctave);
         int interval = intervals[noteIndex % notesPerOctave];
         int root = (int)rootNote;
