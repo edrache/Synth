@@ -66,7 +66,6 @@ public class Sampler : MonoBehaviour, ISampler
         this.rootNote = (Note)(rootNote % 12);
         this.octave = (rootNote / 12) - 1;
         UpdateRootNote();
-        Debug.Log($"Sample loaded: {clip.name}, root note: {this.rootNote}, octave: {this.octave}");
     }
 
     public void PlayNote(int midiNote)
@@ -100,7 +99,6 @@ public class Sampler : MonoBehaviour, ISampler
         voice.Play();
 
         activeVoices[midiNote] = voice;
-        Debug.Log($"Playing note {midiNote} with pitch {pitch} and velocity {velocity}");
 
         if (oneShot)
         {
@@ -125,7 +123,6 @@ public class Sampler : MonoBehaviour, ISampler
             voice.Stop();
             Destroy(voice);
             activeVoices.Remove(midiNote);
-            Debug.Log($"Stopped note {midiNote}");
         }
     }
 

@@ -27,7 +27,6 @@ public class SamplerPianoRollClip : PlayableAsset, ITimelineClipAsset
         behaviour.duration = duration;
         behaviour.startTime = startTime;
         behaviour.velocity = velocity;
-        Debug.Log($"Creating playable for note {GetDisplayName()} with velocity {velocity}");
         return playable;
     }
 

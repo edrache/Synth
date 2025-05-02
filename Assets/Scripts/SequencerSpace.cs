@@ -8,6 +8,31 @@ using System.Linq;
 using UnityEditor;
 #endif
 
+public enum MusicalScale
+{
+    Chromatic,
+    Major,
+    Minor,
+    PentatonicMajor,
+    PentatonicMinor
+}
+
+public enum NoteName
+{
+    C = 0,
+    Cs = 1,
+    D = 2,
+    Ds = 3,
+    E = 4,
+    F = 5,
+    Fs = 6,
+    G = 7,
+    Gs = 8,
+    A = 9,
+    As = 10,
+    B = 11
+}
+
 public class SequencerSpace : MonoBehaviour
 {
     [Header("Timeline Settings")]
@@ -16,20 +41,42 @@ public class SequencerSpace : MonoBehaviour
     [SerializeField] private int trackIndex = 0;
     
     [Header("Space Settings")]
-    [Tooltip("Szerokość przestrzeni sekwencera (oś X)")]
-    [SerializeField] private float spaceWidth = 10f;
-    [Tooltip("Ile sekund na timeline odpowiada szerokości przestrzeni")]
+    [Tooltip("Długość timeline w sekundach odpowiadająca szerokości przestrzeni")]
     [SerializeField] private float timelineLength = 4f;
-    [Tooltip("Ile półtonów odpowiada jednostce na osi Z")]
-    [SerializeField] private float semitonesPerUnit = 1f;
     [Tooltip("Bazowa nuta MIDI dla Z = 0")]
     [SerializeField] private int baseMidiNote = 60; // C4
+    [Tooltip("Ile półtonów odpowiada jednostce na osi Z")]
+    [SerializeField] private float semitonesPerUnit = 1f;
     [Tooltip("Warstwa obiektów do śledzenia")]
     [SerializeField] private LayerMask objectsLayer;
+    
+    [Header("Note Mapping Settings")]
+    [Tooltip("Skala muzyczna, w której pojawiają się nuty")]
+    [SerializeField] private MusicalScale scale = MusicalScale.Major;
+    [Tooltip("Dźwięk podstawowy skali (tonacja)")]
+    [SerializeField] private NoteName rootNote = NoteName.C;
+    [Tooltip("Najniższa oktawa (włącznie)")]
+    [SerializeField] private int minOctave = 3;
+    [Tooltip("Najwyższa oktawa (włącznie)")]
+    [SerializeField] private int maxOctave = 5;
 
     private float lastTimelineTime = 0f;
     private List<GameObject> trackedObjects = new List<GameObject>();
     private bool sequenceNeedsUpdate = false;
+
+    private static readonly int[][] scaleIntervals = new int[][]
+    {
+        // Chromatic
+        new int[] { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11 },
+        // Major
+        new int[] { 0, 2, 4, 5, 7, 9, 11 },
+        // Minor
+        new int[] { 0, 2, 3, 5, 7, 8, 10 },
+        // Pentatonic Major
+        new int[] { 0, 2, 4, 7, 9 },
+        // Pentatonic Minor
+        new int[] { 0, 3, 5, 7, 10 }
+    };
 
     private void Start()
     {
@@ -65,15 +112,17 @@ public class SequencerSpace : MonoBehaviour
     private void UpdateTrackedObjects()
     {
         trackedObjects.Clear();
-        Vector3 boxCenter = transform.position;
-        Vector3 boxSize = new Vector3(spaceWidth, 20f, 20f);
+        var boxCollider = GetComponent<BoxCollider>();
+        if (boxCollider == null) return;
+        Vector3 boxCenter = boxCollider.transform.TransformPoint(boxCollider.center);
+        Vector3 boxSize = Vector3.Scale(boxCollider.size, boxCollider.transform.lossyScale);
 
         Debug.Log($"Szukam obiektów w obszarze: pozycja={boxCenter}, rozmiar={boxSize}, warstwa={objectsLayer}");
         
         Collider[] colliders = Physics.OverlapBox(
             boxCenter,
             boxSize * 0.5f,
-            Quaternion.identity,
+            boxCollider.transform.rotation,
             objectsLayer
         );
 
@@ -145,13 +194,17 @@ public class SequencerSpace : MonoBehaviour
 
         // Dodaj nowe klipy na podstawie pozycji obiektów
         Debug.Log($"Przetwarzam {trackedObjects.Count} obiektów");
+        var boxCollider = GetComponent<BoxCollider>();
+        if (boxCollider == null) return;
+        Vector3 boxCenter = boxCollider.transform.TransformPoint(boxCollider.center);
+        float width = boxCollider.size.x;
         foreach (var obj in trackedObjects)
         {
             if (obj != null)
             {
-                Vector3 pos = obj.transform.position - transform.position;
-                float timePosition = (pos.x / spaceWidth) * timelineLength;
-                int midiNote = Mathf.RoundToInt(baseMidiNote + (pos.z * semitonesPerUnit));
+                Vector3 pos = obj.transform.position - boxCenter;
+                float timePosition = (pos.x / width) * timelineLength + (timelineLength / 2f);
+                int midiNote = GetNearestScaleNote(baseMidiNote, pos.z * semitonesPerUnit);
                 
                 Debug.Log($"Obiekt {obj.name}: pozycja={pos}, czas={timePosition:F2}s, nuta={midiNote} ({GetNoteName(midiNote)})");
                 
@@ -159,26 +212,30 @@ public class SequencerSpace : MonoBehaviour
                 if (timePosition >= 0 && timePosition < timelineLength)
                 {
                     var clip = pianoRollTrack.CreateClip();
-                    if (clip != null)
+                    if (clip == null)
                     {
-                        clip.start = timePosition;
-                        clip.duration = 0.25f;
-
-                        var samplerClip = clip.asset as SamplerPianoRollClip;
-                        if (samplerClip != null)
-                        {
-                            samplerClip.midiNote = midiNote;
-                            samplerClip.duration = 0.25f;
-                            samplerClip.startTime = timePosition;
-                            samplerClip.velocity = 0.8f;
-                            clip.displayName = $"Note {midiNote} at {timePosition:F2}s";
-                            Debug.Log($"Dodano klip: {clip.displayName}");
-                        }
-                        else
-                        {
-                            Debug.LogError($"Nie można utworzyć SamplerPianoRollClip dla obiektu {obj.name}");
-                        }
+                        Debug.LogError($"Nie udało się utworzyć klipu dla obiektu {obj.name}!");
+                        continue;
                     }
+                    if (clip.asset == null)
+                    {
+                        Debug.LogError($"Klip {clip.displayName} nie ma przypisanego assetu!");
+                        continue;
+                    }
+                    var samplerClip = clip.asset as SamplerPianoRollClip;
+                    if (samplerClip == null)
+                    {
+                        Debug.LogError($"Asset klipu nie jest typu SamplerPianoRollClip! Typ: {clip.asset.GetType().Name}");
+                        continue;
+                    }
+                    clip.start = timePosition;
+                    clip.duration = 0.25f;
+                    samplerClip.midiNote = midiNote;
+                    samplerClip.duration = 0.25f;
+                    samplerClip.startTime = timePosition;
+                    samplerClip.velocity = 0.8f;
+                    clip.displayName = $"Note {midiNote} at {timePosition:F2}s";
+                    Debug.Log($"Dodano klip: {clip.displayName}");
                 }
                 else
                 {
@@ -191,48 +248,68 @@ public class SequencerSpace : MonoBehaviour
         Debug.Log("Zakończono aktualizację sekwencji");
     }
 
+    private int GetNearestScaleNote(int midiBase, float z)
+    {
+        int[] intervals = scaleIntervals[(int)scale];
+        int notesPerOctave = intervals.Length;
+        int totalNotes = (maxOctave - minOctave + 1) * notesPerOctave;
+        int noteIndex = Mathf.Clamp(Mathf.RoundToInt(z), 0, totalNotes - 1);
+        int octave = minOctave + (noteIndex / notesPerOctave);
+        int interval = intervals[noteIndex % notesPerOctave];
+        int root = (int)rootNote;
+        return (octave + 1) * 12 + root + interval;
+    }
+
     private void OnDrawGizmos()
     {
-        // Rysuj granice przestrzeni sekwencera
+        var boxCollider = GetComponent<BoxCollider>();
+        if (boxCollider == null) return;
         Gizmos.color = Color.cyan;
-        Gizmos.DrawWireCube(
-            transform.position,
-            new Vector3(spaceWidth, 0.1f, 20f)
-        );
+        Matrix4x4 oldMatrix = Gizmos.matrix;
+        Gizmos.matrix = boxCollider.transform.localToWorldMatrix;
+        Gizmos.DrawWireCube(boxCollider.center, boxCollider.size);
+        Gizmos.matrix = oldMatrix;
 
         // Rysuj znaczniki czasu
         Gizmos.color = Color.yellow;
         for (int i = 0; i <= 4; i++)
         {
-            float x = (i / 4f) * spaceWidth - (spaceWidth / 2f);
+            float x = (i / 4f) * boxCollider.size.x - (boxCollider.size.x / 2f);
+            Vector3 basePos = boxCollider.transform.TransformPoint(boxCollider.center);
             Gizmos.DrawLine(
-                transform.position + new Vector3(x, 0, -10f),
-                transform.position + new Vector3(x, 0, 10f)
+                basePos + new Vector3(x, 0, -boxCollider.size.z / 2f),
+                basePos + new Vector3(x, 0, boxCollider.size.z / 2f)
             );
-            
 #if UNITY_EDITOR
             UnityEditor.Handles.Label(
-                transform.position + new Vector3(x, 0.5f, 0),
-                $"{i}s"
+                basePos + new Vector3(x, 0.5f, 0),
+                $"{(i * timelineLength / 4f):F2}s"
             );
 #endif
         }
 
-        // Rysuj znaczniki nut
+        // Rysuj znaczniki nut zgodnie ze skalą i zakresem oktaw
         Gizmos.color = Color.green;
-        for (int i = -10; i <= 10; i++)
+        int[] intervals = scaleIntervals[(int)scale];
+        int notesPerOctave = intervals.Length;
+        int totalNotes = (maxOctave - minOctave + 1) * notesPerOctave;
+        float zStep = boxCollider.size.z / (float)totalNotes;
+        Vector3 basePosZ = boxCollider.transform.TransformPoint(boxCollider.center);
+        for (int i = 0; i < totalNotes; i++)
         {
-            float z = i;
-            int note = baseMidiNote + Mathf.RoundToInt(i * semitonesPerUnit);
+            int octave = minOctave + (i / notesPerOctave);
+            int interval = intervals[i % notesPerOctave];
+            int root = (int)rootNote;
+            int midiNote = (octave + 1) * 12 + root + interval;
+            float z = -boxCollider.size.z / 2f + i * zStep;
             Gizmos.DrawLine(
-                transform.position + new Vector3(-spaceWidth/2f, 0, z),
-                transform.position + new Vector3(spaceWidth/2f, 0, z)
+                basePosZ + new Vector3(-boxCollider.size.x / 2f, 0, z),
+                basePosZ + new Vector3(boxCollider.size.x / 2f, 0, z)
             );
-            
 #if UNITY_EDITOR
             UnityEditor.Handles.Label(
-                transform.position + new Vector3(-spaceWidth/2f - 0.5f, 0.5f, z),
-                GetNoteName(note)
+                basePosZ + new Vector3(-boxCollider.size.x / 2f - 0.5f, 0.5f, z),
+                GetNoteName(midiNote)
             );
 #endif
         }
@@ -250,13 +327,16 @@ public class SequencerSpace : MonoBehaviour
     [ContextMenu("Stwórz kostki w rogach")]
     private void CreateCornerCubes()
     {
-        // Oblicz pozycje rogów
-        Vector3 topLeft = transform.position + new Vector3(-spaceWidth/2f, 0, 10f);
-        Vector3 topRight = transform.position + new Vector3(spaceWidth/2f, 0, 10f);
-        Vector3 bottomLeft = transform.position + new Vector3(-spaceWidth/2f, 0, -10f);
-        Vector3 bottomRight = transform.position + new Vector3(spaceWidth/2f, 0, -10f);
+        var boxCollider = GetComponent<BoxCollider>();
+        if (boxCollider == null) return;
+        Vector3 basePos = boxCollider.transform.TransformPoint(boxCollider.center);
+        float xHalf = boxCollider.size.x / 2f;
+        float zHalf = boxCollider.size.z / 2f;
+        Vector3 topLeft = basePos + new Vector3(-xHalf, 0, zHalf);
+        Vector3 topRight = basePos + new Vector3(xHalf, 0, zHalf);
+        Vector3 bottomLeft = basePos + new Vector3(-xHalf, 0, -zHalf);
+        Vector3 bottomRight = basePos + new Vector3(xHalf, 0, -zHalf);
 
-        // Stwórz kostki w rogach
         CreateCubeAtPosition(topLeft, "TopLeft");
         CreateCubeAtPosition(topRight, "TopRight");
         CreateCubeAtPosition(bottomLeft, "BottomLeft");

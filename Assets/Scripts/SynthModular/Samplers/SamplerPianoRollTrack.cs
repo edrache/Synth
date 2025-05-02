@@ -88,7 +88,6 @@ public class SamplerPianoRollTrack : TrackAsset, IPianoRollTrack
         }
 
         behaviour.sampler = sampler;
-        Debug.Log($"Sampler initialized for track: {name}, sample: {sampler.sample.name}");
         return mixer;
     }
 
@@ -109,7 +108,6 @@ public class SamplerPianoRollTrack : TrackAsset, IPianoRollTrack
         {
             if (sampler.GetType().Name == targetSamplerName)
             {
-                Debug.Log($"Found sampler of type {targetSamplerName} on GameObject {go.name}");
                 return sampler;
             }
         }

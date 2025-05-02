@@ -14,17 +14,12 @@ public class SamplerPianoRollBehaviour : PlayableBehaviour
     public override void OnPlayableCreate(Playable playable)
     {
         sampler = playable.GetGraph().GetResolver() as Sampler;
-        if (sampler != null)
-        {
-            Debug.Log($"SamplerPianoRollBehaviour created with velocity {velocity}");
-        }
     }
 
     public override void OnBehaviourPlay(Playable playable, FrameData info)
     {
         if (!hasTriggered && sampler != null)
         {
-            Debug.Log($"Playing note {midiNote} with velocity {velocity}");
             sampler.PlayNote(midiNote, velocity);
             hasTriggered = true;
         }
@@ -34,7 +29,6 @@ public class SamplerPianoRollBehaviour : PlayableBehaviour
     {
         if (hasTriggered && sampler != null)
         {
-            Debug.Log($"Stopping note {midiNote}");
             sampler.StopNote(midiNote);
             hasTriggered = false;
         }
