@@ -1,6 +1,8 @@
 using UnityEngine;
 using System.Collections.Generic;
 using System.Collections;
+using UnityEngine.Audio;
+using System;
 
 public enum DecayTimeUnit
 {
@@ -21,6 +23,8 @@ public class Sampler : MonoBehaviour, ISampler
     [Header("Playback Settings")]
     [Range(0f, 1f)] public float volume = 1f;
     [Range(0f, 1f)] public float pan = 0f;
+    [Tooltip("AudioMixer do którego będą dodawane głosy")]
+    public AudioMixerGroup outputMixerGroup;
 
     [Header("Envelope Settings")]
     [Tooltip("Krzywa zanikania dźwięku po puszczeniu nuty (tylko gdy OneShot = false). Oś X: czas [s], oś Y: głośność (1 = velocity nuty, 0 = cisza)")]
@@ -34,6 +38,8 @@ public class Sampler : MonoBehaviour, ISampler
     private float sampleRate;
     private float rootFrequency;
     private int rootMidiNote;
+
+    public static event Action<Sampler, int> OnAnyNotePlayed;
 
     public bool OneShot
     {
@@ -109,6 +115,7 @@ public class Sampler : MonoBehaviour, ISampler
         voice.panStereo = pan;
         voice.pitch = pitch;
         voice.loop = false;
+        voice.outputAudioMixerGroup = outputMixerGroup;
         voice.Play();
 
         activeVoices[midiNote] = voice;
@@ -117,6 +124,8 @@ public class Sampler : MonoBehaviour, ISampler
         {
             StartCoroutine(CleanupVoiceAfterPlayback(voice, midiNote));
         }
+
+        OnAnyNotePlayed?.Invoke(this, midiNote);
     }
 
     private System.Collections.IEnumerator CleanupVoiceAfterPlayback(AudioSource voice, int midiNote)

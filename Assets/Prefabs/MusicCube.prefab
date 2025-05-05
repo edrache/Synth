@@ -13,6 +13,8 @@ GameObject:
   - component: {fileID: 1504091545940872887}
   - component: {fileID: 7535829498638530490}
   - component: {fileID: 5345681995385556599}
+  - component: {fileID: 1033046385887643640}
+  - component: {fileID: 7452413152955729110}
   m_Layer: 3
   m_Name: MusicCube
   m_TagString: Untagged
@@ -136,3 +138,48 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &1033046385887643640
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6802726149630113716}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4d346c45279dc41a4ae4ebe0b8ade847, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  notesToListen: 1c0000001d0000001e0000001f00000020000000210000002200000018000000190000001a0000001b000000230000002400000025000000260000002700000028000000290000002a0000002b0000002c0000002d000000
+  onNotePlayed:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 7452413152955729110}
+        m_TargetAssemblyTypeName: RandomForceApplier, Assembly-CSharp
+        m_MethodName: ApplyRandomForce
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!114 &7452413152955729110
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6802726149630113716}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 27265c6587c5c4557a6517b25039e3b4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  minForce: 2
+  maxForce: 5
+  minAngle: 0
+  maxAngle: 360
+  forceMode: 1
