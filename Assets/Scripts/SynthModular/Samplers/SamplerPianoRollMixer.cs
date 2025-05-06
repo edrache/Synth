@@ -43,13 +43,16 @@ public class SamplerPianoRollMixer : PlayableBehaviour
     public override void OnPlayableDestroy(Playable playable)
     {
         // Clean up when the playable is destroyed
-        if (sampler != null)
+        if (sampler != null && currentlyPlayingNotes != null)
         {
             foreach (var note in currentlyPlayingNotes)
             {
-                sampler.StopNote(note);
+                if (sampler != null) // Double check in case sampler gets destroyed during iteration
+                {
+                    sampler.StopNote(note);
+                }
             }
         }
-        currentlyPlayingNotes.Clear();
+        currentlyPlayingNotes?.Clear();
     }
 } 

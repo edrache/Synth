@@ -140,6 +140,9 @@ public class Sampler : MonoBehaviour, ISampler
 
     public void StopNote(int midiNote)
     {
+        if (activeVoices == null)
+            return;
+
         if (!oneShot && activeVoices.TryGetValue(midiNote, out var voice))
         {
             if (voice == null)
@@ -163,10 +166,13 @@ public class Sampler : MonoBehaviour, ISampler
 
     private System.Collections.IEnumerator FadeOutAndStop(AudioSource voice, int midiNote)
     {
+        if (voice == null)
+            yield break;
+
         float startVolume = voice.volume;
         float elapsed = 0f;
         float decayDuration = GetDecayTimeSeconds();
-        while (elapsed < decayDuration)
+        while (elapsed < decayDuration && voice != null)
         {
             float t = decayDuration > 0f ? (elapsed / decayDuration) : 1f;
             float curveValue = decayCurve.Evaluate(t);
@@ -174,9 +180,12 @@ public class Sampler : MonoBehaviour, ISampler
             elapsed += Time.deltaTime;
             yield return null;
         }
-        voice.volume = 0f;
-        voice.Stop();
-        Destroy(voice);
+        if (voice != null)
+        {
+            voice.volume = 0f;
+            voice.Stop();
+            Destroy(voice);
+        }
     }
 
     public void SetOctave(int octave)
@@ -191,10 +200,16 @@ public class Sampler : MonoBehaviour, ISampler
 
     public void StopAllNotes()
     {
+        if (activeVoices == null)
+            return;
+
         foreach (var voice in activeVoices.Values)
         {
-            voice.Stop();
-            Destroy(voice);
+            if (voice != null)
+            {
+                voice.Stop();
+                Destroy(voice);
+            }
         }
         activeVoices.Clear();
     }
