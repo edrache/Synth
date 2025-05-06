@@ -15,8 +15,8 @@ GameObject:
   - component: {fileID: 5345681995385556599}
   - component: {fileID: 1033046385887643640}
   - component: {fileID: 7452413152955729110}
-  m_Layer: 3
-  m_Name: MusicCube
+  m_Layer: 6
+  m_Name: BassCube
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -68,7 +68,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: c2e40fa84d53ccd428f640eac126b1fb, type: 2}
+  - {fileID: 2100000, guid: cb50ff5470b574c459f7cfb6748069dd, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
