@@ -24,7 +24,6 @@ public class CityNoteContainer : MonoBehaviour
     private Dictionary<CityNote, float> lastDurations = new Dictionary<CityNote, float>();
     private bool forceUpdate = false;
     private int lastNoteCount = 0;
-    private CitySequencer sequencer;
 
     // Event that will be called when notes change
     public delegate void NotesChangedHandler();
@@ -43,18 +42,6 @@ public class CityNoteContainer : MonoBehaviour
             notes = new List<CityNote>();
         }
         
-        // Find sequencer reference
-        sequencer = FindObjectOfType<CitySequencer>();
-        if (sequencer != null)
-        {
-            Debug.Log($"[CityNoteContainer] Found sequencer: {sequencer.name}");
-            Debug.Log($"[CityNoteContainer] Sequencer timeline length: {sequencer.GetTimelineLength()}");
-        }
-        else
-        {
-            Debug.LogWarning("[CityNoteContainer] No sequencer found in scene!");
-        }
-        
         // Initialize dictionaries
         lastPositions = new Dictionary<CityNote, float>();
         lastRepeatCounts = new Dictionary<CityNote, int>();
@@ -70,11 +57,14 @@ public class CityNoteContainer : MonoBehaviour
         // Initialize all note properties
         foreach (var note in notes)
         {
-            lastPositions[note] = note.position;
-            lastRepeatCounts[note] = note.repeatCount;
-            lastPitches[note] = note.pitch;
-            lastVelocities[note] = note.velocity;
-            lastDurations[note] = note.duration;
+            if (note != null)
+            {
+                lastPositions[note] = note.position;
+                lastRepeatCounts[note] = note.repeatCount;
+                lastPitches[note] = note.pitch;
+                lastVelocities[note] = note.velocity;
+                lastDurations[note] = note.duration;
+            }
         }
 
         // Set initial indices
@@ -249,15 +239,6 @@ public class CityNoteContainer : MonoBehaviour
 
         notes.Add(note);
         UpdateNoteIndices();
-        
-        if (sequencer != null)
-        {
-            sequencer.HandleNotesChanged();
-        }
-        else
-        {
-            Debug.LogWarning("[CityNoteContainer] No sequencer reference set!");
-        }
     }
 
     public void RemoveNote(CityNote note)
@@ -276,20 +257,10 @@ public class CityNoteContainer : MonoBehaviour
 
         notes.Remove(note);
         UpdateNoteIndices();
-        
-        if (sequencer != null)
-        {
-            sequencer.HandleNotesChanged();
-        }
-        else
-        {
-            Debug.LogWarning("[CityNoteContainer] No sequencer reference set!");
-        }
     }
 
     public List<CityNote> GetAllNotes()
     {
-        Debug.Log($"[CityNoteContainer] Getting all notes, count: {notes.Count}");
         return new List<CityNote>(notes);
     }
 
@@ -305,39 +276,6 @@ public class CityNoteContainer : MonoBehaviour
         Debug.Log($"[CityNoteContainer] Cleared {count} notes");
         
         UpdateNoteIndices();
-    }
-
-    public void ForceUpdate()
-    {
-        if (notes == null)
-        {
-            Debug.LogError("[CityNoteContainer] Notes list is null!");
-            return;
-        }
-
-        bool hasChanges = false;
-        int previousCount = notes.Count;
-        
-        // Check for new notes
-        foreach (var note in notes)
-        {
-            if (note != null && !lastPositions.ContainsKey(note))
-            {
-                hasChanges = true;
-                break;
-            }
-        }
-        
-        // Check for removed notes
-        if (notes.Count != previousCount)
-        {
-            hasChanges = true;
-        }
-        
-        if (hasChanges)
-        {
-            UpdateNoteIndices();
-        }
     }
 
     public float GetNoteDistributionTime()
@@ -452,9 +390,36 @@ public class CityNoteContainer : MonoBehaviour
         }
     }
 
-    public void SetSequencer(CitySequencer newSequencer)
+    public void ForceUpdate()
     {
-        Debug.Log($"[CityNoteContainer] Setting sequencer reference to: {(newSequencer != null ? newSequencer.name : "null")}");
-        sequencer = newSequencer;
+        if (notes == null)
+        {
+            Debug.LogError("[CityNoteContainer] Notes list is null!");
+            return;
+        }
+
+        bool hasChanges = false;
+        int previousCount = notes.Count;
+        
+        // Check for new notes
+        foreach (var note in notes)
+        {
+            if (note != null && !lastPositions.ContainsKey(note))
+            {
+                hasChanges = true;
+                break;
+            }
+        }
+        
+        // Check for removed notes
+        if (notes.Count != previousCount)
+        {
+            hasChanges = true;
+        }
+        
+        if (hasChanges)
+        {
+            UpdateNoteIndices();
+        }
     }
 } 

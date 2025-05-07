@@ -16,17 +16,6 @@ public class CityNote : MonoBehaviour
     private void Start()
     {
         Debug.Log($"[CityNote] Starting initialization for note: pitch={_pitch}, position={_position}, duration={_duration}, velocity={_velocity}");
-        
-        container = FindObjectOfType<CityNoteContainer>();
-        if (container == null)
-        {
-            Debug.LogError("[CityNote] Could not find CityNoteContainer!");
-            return;
-        }
-        
-        Debug.Log($"[CityNote] Found container: {container.name}");
-        container.AddNote(this);
-        Debug.Log("[CityNote] Added to container successfully");
     }
 
     private void OnDestroy()
@@ -35,6 +24,20 @@ public class CityNote : MonoBehaviour
         {
             Debug.Log($"[CityNote] Removing note from container: pitch={_pitch}, position={_position}");
             container.RemoveNote(this);
+        }
+    }
+
+    public void SetContainer(CityNoteContainer newContainer)
+    {
+        if (container != null)
+        {
+            container.RemoveNote(this);
+        }
+        
+        container = newContainer;
+        if (container != null)
+        {
+            container.AddNote(this);
         }
     }
 

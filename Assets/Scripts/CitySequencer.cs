@@ -106,9 +106,6 @@ public class CitySequencer : MonoBehaviour
         timelineAsset.durationMode = TimelineAsset.DurationMode.FixedLength;
         timelineAsset.fixedDuration = timelineLength;
 
-        // Set sequencer reference in note container
-        noteContainer.SetSequencer(this);
-
         // Validate timeline length and loop time
         if (timelineLength <= 0)
         {
@@ -144,9 +141,6 @@ public class CitySequencer : MonoBehaviour
             return;
         }
 
-        // Subscribe to note container changes
-        noteContainer.OnNotesChanged += HandleNotesChanged;
-        
         UpdateSequence();
         
         if (timeline != null)
@@ -225,11 +219,11 @@ public class CitySequencer : MonoBehaviour
         if (nextFrameTime >= loopTime)
         {
             Debug.Log($"[CitySequencer] Timeline reached loop point, looping back to start. Current: {currentTime}, Next: {nextFrameTime}, Loop time: {loopTime}");
-            if (sequenceNeedsUpdate)
+            
+            // Check if we need to update the sequence
+            if (noteContainer != null)
             {
-                Debug.Log("[CitySequencer] Updating sequence before timeline loop...");
                 UpdateSequence();
-                sequenceNeedsUpdate = false;
             }
             
             // Loop back to start
@@ -316,7 +310,7 @@ public class CitySequencer : MonoBehaviour
             }
         }
 
-        // Add new clips from CityNotes
+        // Add new clips only from the assigned noteContainer
         var allNotes = noteContainer.GetAllNotes();
         
         int totalClipsCreated = 0;
