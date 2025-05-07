@@ -67,8 +67,22 @@ public class CityNoteContainer : MonoBehaviour
             }
         }
 
-        // Set initial indices
-        UpdateNoteIndices();
+        // Only update indices if auto-recalculate is enabled
+        if (autoRecalculatePositions)
+        {
+            UpdateNoteIndices();
+        }
+        else
+        {
+            // Just set indices without changing order
+            for (int i = 0; i < notes.Count; i++)
+            {
+                if (notes[i] != null)
+                {
+                    notes[i].SetIndex(i);
+                }
+            }
+        }
     }
 
     private void UpdateNoteIndices()
@@ -261,6 +275,7 @@ public class CityNoteContainer : MonoBehaviour
 
     public List<CityNote> GetAllNotes()
     {
+        // Return a new list with the same order as the original notes list
         return new List<CityNote>(notes);
     }
 
@@ -362,32 +377,6 @@ public class CityNoteContainer : MonoBehaviour
         Debug.Log("[CityNoteContainer] Recalculating note positions");
         UpdateNoteIndices();
         ForceUpdate();
-    }
-
-    [ContextMenu("Sort Notes By Position")]
-    public void SortNotesByPosition()
-    {
-        Debug.Log("[CityNoteContainer] Sorting notes by position");
-        notes.Sort((a, b) =>
-        {
-            // Najpierw porównaj Z (malejąco - najwyższe Z pierwsze)
-            int zComparison = b.transform.position.z.CompareTo(a.transform.position.z);
-            if (zComparison != 0)
-                return zComparison;
-            
-            // Jeśli Z jest takie samo, porównaj X (rosnąco - najniższe X pierwsze)
-            return a.transform.position.x.CompareTo(b.transform.position.x);
-        });
-
-        // Po posortowaniu zaktualizuj indeksy i pozycje
-        UpdateNoteIndices();
-        ForceUpdate();
-        
-        Debug.Log("[CityNoteContainer] Notes sorted. New order:");
-        for (int i = 0; i < notes.Count; i++)
-        {
-            Debug.Log($"[CityNoteContainer] Note {i}: Z={notes[i].transform.position.z}, X={notes[i].transform.position.x}");
-        }
     }
 
     public void ForceUpdate()

@@ -265,6 +265,18 @@ public class CitySequencer : MonoBehaviour
             return;
         }
 
+        // Update note positions based on their indices in the container
+        var containerNotes = noteContainer.GetAllNotes();
+        float spacing = timelineLength / Mathf.Max(1, containerNotes.Count);
+        
+        for (int i = 0; i < containerNotes.Count; i++)
+        {
+            if (containerNotes[i] != null && containerNotes[i].useAutoPosition)
+            {
+                containerNotes[i].position = i * spacing;
+            }
+        }
+
         var timelineAsset = timeline.playableAsset as TimelineAsset;
         if (timelineAsset == null)
         {

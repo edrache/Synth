@@ -1211,10 +1211,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   timeline: {fileID: 1660008982}
-  noteContainer: {fileID: 1926039934}
+  noteContainer: {fileID: 2117480665}
   trackIndex: 0
   timelineLength: 4
-  loopTime: 2
+  loopTime: 4
   beatFraction: 0.25
   updateImmediately: 1
   worldScale: 1
@@ -1564,7 +1564,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d41774550b4e9474dacdfa26d822c3ca, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _pitch: 34
+  _pitch: 30
   _velocity: 0.6
   _duration: 0.1
   _repeatCount: 3
@@ -1878,7 +1878,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d41774550b4e9474dacdfa26d822c3ca, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _pitch: 36
+  _pitch: 30
   _velocity: 0.6
   _duration: 0.1
   _repeatCount: 3
@@ -2143,7 +2143,7 @@ MonoBehaviour:
   _pitch: 34
   _velocity: 0.6
   _duration: 0.1
-  _repeatCount: 0
+  _repeatCount: 3
   _position: 0
   _useAutoPosition: 1
 --- !u!23 &990692599
@@ -2512,7 +2512,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d41774550b4e9474dacdfa26d822c3ca, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _pitch: 35
+  _pitch: 30
   _velocity: 0.6
   _duration: 0.1
   _repeatCount: 3
@@ -2943,11 +2943,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d41774550b4e9474dacdfa26d822c3ca, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _pitch: 37
+  _pitch: 40
   _velocity: 0.6
   _duration: 0.1
-  _repeatCount: 3
-  _position: 3
+  _repeatCount: 0
+  _position: 0
   _useAutoPosition: 1
 --- !u!114 &1265416070
 MonoBehaviour:
@@ -3935,7 +3935,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1926039932
 Transform:
   m_ObjectHideFlags: 0
@@ -3988,10 +3988,10 @@ MonoBehaviour:
   autoRecalculatePositions: 1
   noteDistributionTime: 4
   notes:
+  - {fileID: 63418495}
   - {fileID: 990692598}
   - {fileID: 992186047}
   - {fileID: 1399166855}
-  - {fileID: 63418495}
 --- !u!54 &1926039935
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -4500,7 +4500,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   updateImmediately: 0
-  autoRecalculatePositions: 1
+  autoRecalculatePositions: 0
   noteDistributionTime: 4
   notes:
   - {fileID: 569354106}
