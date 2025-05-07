@@ -11,9 +11,12 @@ public class CityNoteContainer : MonoBehaviour
     [Tooltip("If true, note positions will be automatically recalculated when their order changes.")]
     [SerializeField] private bool autoRecalculatePositions = true;
 
+    [Header("Note Distribution")]
+    [Tooltip("Time in seconds over which to distribute the notes.")]
+    [SerializeField] private float noteDistributionTime = 4f;
+
     [SerializeField]
     private List<CityNote> notes = new List<CityNote>();
-    private CitySequencer sequencer;
     private Dictionary<CityNote, float> lastPositions = new Dictionary<CityNote, float>();
     private Dictionary<CityNote, int> lastRepeatCounts = new Dictionary<CityNote, int>();
     private Dictionary<CityNote, int> lastPitches = new Dictionary<CityNote, int>();
@@ -21,10 +24,46 @@ public class CityNoteContainer : MonoBehaviour
     private Dictionary<CityNote, float> lastDurations = new Dictionary<CityNote, float>();
     private bool forceUpdate = false;
     private int lastNoteCount = 0;
+    private CitySequencer sequencer;
+
+    // Event that will be called when notes change
+    public delegate void NotesChangedHandler();
+    public event NotesChangedHandler OnNotesChanged;
 
     private void Start()
     {
-        ValidateSequencerConnection();
+        Debug.Log("[CityNoteContainer] Starting initialization...");
+        Debug.Log($"[CityNoteContainer] Note distribution time: {noteDistributionTime}");
+        Debug.Log($"[CityNoteContainer] Auto recalculate positions: {autoRecalculatePositions}");
+        Debug.Log($"[CityNoteContainer] Update immediately: {updateImmediately}");
+        
+        if (notes == null)
+        {
+            Debug.LogError("[CityNoteContainer] Notes list is null! Initializing empty list.");
+            notes = new List<CityNote>();
+        }
+        
+        // Find sequencer reference
+        sequencer = FindObjectOfType<CitySequencer>();
+        if (sequencer != null)
+        {
+            Debug.Log($"[CityNoteContainer] Found sequencer: {sequencer.name}");
+            Debug.Log($"[CityNoteContainer] Sequencer timeline length: {sequencer.GetTimelineLength()}");
+        }
+        else
+        {
+            Debug.LogWarning("[CityNoteContainer] No sequencer found in scene!");
+        }
+        
+        // Initialize dictionaries
+        lastPositions = new Dictionary<CityNote, float>();
+        lastRepeatCounts = new Dictionary<CityNote, int>();
+        lastPitches = new Dictionary<CityNote, int>();
+        lastVelocities = new Dictionary<CityNote, float>();
+        lastDurations = new Dictionary<CityNote, float>();
+        
+        Debug.Log("[CityNoteContainer] Initialization completed");
+        
         Debug.Log($"[CityNoteContainer] Initial note count: {notes.Count}");
         lastNoteCount = notes.Count;
         
@@ -42,64 +81,55 @@ public class CityNoteContainer : MonoBehaviour
         UpdateNoteIndices();
     }
 
-    private void ValidateSequencerConnection()
-    {
-        if (sequencer == null)
-        {
-            sequencer = FindObjectOfType<CitySequencer>();
-            if (sequencer == null)
-            {
-                Debug.LogError("[CityNoteContainer] Could not find CitySequencer in scene!");
-            }
-            else
-            {
-                Debug.Log("[CityNoteContainer] Successfully connected to CitySequencer");
-            }
-        }
-
-        if (sequencer != null)
-        {
-            Debug.Log($"[CityNoteContainer] Sequencer found: {sequencer.gameObject.name}");
-            Debug.Log($"[CityNoteContainer] Update immediately: {updateImmediately}");
-        }
-    }
-
     private void UpdateNoteIndices()
     {
-        Debug.Log($"[CityNoteContainer] Updating indices for {notes.Count} notes");
+        Debug.Log($"[CityNoteContainer] Updating note indices. Total notes: {notes.Count}, Distribution time: {noteDistributionTime}");
         
-        if (notes.Count == 0) return;
-
-        // Get timeline length from sequencer
-        float timelineLength = sequencer.GetTimelineLength();
-        float spacing = timelineLength / notes.Count;
-        
-        Debug.Log($"[CityNoteContainer] Timeline length: {timelineLength}, Spacing: {spacing}");
-
-        // Set first note to position 0
-        notes[0].position = 0;
-        notes[0].SetIndex(0);
-        Debug.Log($"[CityNoteContainer] Setting index 0 for note at position 0");
-
-        // Set positions for remaining notes
-        for (int i = 1; i < notes.Count; i++)
+        if (notes == null || notes.Count == 0)
         {
-            float newPosition = notes[i-1].position + spacing;
-            notes[i].position = newPosition;
-            notes[i].SetIndex(i);
-            Debug.Log($"[CityNoteContainer] Setting index {i} for note at position {newPosition}");
+            Debug.Log("[CityNoteContainer] No notes to update indices for");
+            return;
+        }
+
+        // Sort notes by their current positions
+        notes.Sort((a, b) => a.position.CompareTo(b.position));
+
+        // Update indices and positions
+        for (int i = 0; i < notes.Count; i++)
+        {
+            var note = notes[i];
+            if (note == null)
+            {
+                Debug.LogError($"[CityNoteContainer] Null note found at index {i}");
+                continue;
+            }
+
+            note.SetIndex(i);
+            
+            if (autoRecalculatePositions)
+            {
+                float spacing = noteDistributionTime / notes.Count;
+                float newPosition = i * spacing;
+                
+                Debug.Log($"[CityNoteContainer] Note {i}: Old position={note.position}, New position={newPosition}, Spacing={spacing}");
+                
+                if (note.position != newPosition)
+                {
+                    note.position = newPosition;
+                }
+            }
+        }
+
+        // Notify about changes
+        if (OnNotesChanged != null)
+        {
+            Debug.Log("[CityNoteContainer] Notifying about notes changed");
+            OnNotesChanged.Invoke();
         }
     }
 
     private void Update()
     {
-        // Validate connection every frame
-        if (sequencer == null)
-        {
-            ValidateSequencerConnection();
-            return;
-        }
-
         bool positionsChanged = false;
         bool notesChanged = false;
         bool repeatCountsChanged = false;
@@ -113,7 +143,7 @@ public class CityNoteContainer : MonoBehaviour
             Debug.Log($"[CityNoteContainer] Note count changed from {lastNoteCount} to {notes.Count}");
             notesChanged = true;
             lastNoteCount = notes.Count;
-            UpdateNoteIndices(); // Update indices when note count changes
+            UpdateNoteIndices();
         }
 
         // Check for all note property changes
@@ -205,103 +235,48 @@ public class CityNoteContainer : MonoBehaviour
             }
         }
 
-        // Update sequence if anything changed
-        if ((positionsChanged || notesChanged || repeatCountsChanged || pitchesChanged || 
-             velocitiesChanged || durationsChanged || forceUpdate) && sequencer != null)
+        // Notify listeners if anything changed
+        if (positionsChanged || notesChanged || repeatCountsChanged || pitchesChanged || 
+            velocitiesChanged || durationsChanged || forceUpdate)
         {
-            Debug.Log($"[CityNoteContainer] Updating sequence due to: positions={positionsChanged}, " +
+            Debug.Log($"[CityNoteContainer] Notes changed: positions={positionsChanged}, " +
                      $"notes={notesChanged}, repeats={repeatCountsChanged}, pitches={pitchesChanged}, " +
                      $"velocities={velocitiesChanged}, durations={durationsChanged}, force={forceUpdate}");
-            if (updateImmediately)
-            {
-                Debug.Log("[CityNoteContainer] Updating sequence immediately");
-                sequencer.UpdateSequence();
-            }
-            else
-            {
-                Debug.Log("[CityNoteContainer] Marking sequence for update at end of loop");
-                sequencer.MarkSequenceForUpdate();
-            }
+            OnNotesChanged?.Invoke();
             forceUpdate = false;
-        }
-
-        // Log current state every second
-        if (Time.frameCount % 60 == 0) // Assuming 60 FPS
-        {
-            Debug.Log($"[CityNoteContainer] Current note count: {notes.Count}");
-            foreach (var note in notes)
-            {
-                Vector3[] positions = note.GetRepeatPositions();
-                Debug.Log($"[CityNoteContainer] Note at position: {note.position}, pitch: {note.pitch}, " +
-                         $"repeat count: {note.repeatCount}, velocity: {note.velocity}, duration: {note.duration}, " +
-                         $"total positions: {positions.Length}");
-                foreach (var pos in positions)
-                {
-                    Debug.Log($"[CityNoteContainer] - Repeat position: {pos}");
-                }
-            }
         }
     }
 
     public void AddNote(CityNote note)
     {
+        Debug.Log($"[CityNoteContainer] Adding note: pitch={note.pitch}, position={note.position}, duration={note.duration}, velocity={note.velocity}");
+        
         if (note == null)
         {
-            Debug.LogError("[CityNoteContainer] Attempted to add null note!");
+            Debug.LogError("[CityNoteContainer] Cannot add null note!");
             return;
         }
 
-        // Upewnij się, że mamy sequencer przed dodaniem nuty
-        if (sequencer == null)
+        if (notes == null)
         {
-            ValidateSequencerConnection();
-            if (sequencer == null)
-            {
-                Debug.LogError("[CityNoteContainer] Cannot add note - sequencer is still null!");
-                return;
-            }
+            Debug.LogError("[CityNoteContainer] Notes list is null!");
+            return;
         }
 
-        // Calculate initial position based on current number of notes
-        float timelineLength = sequencer.GetTimelineLength();
-        float spacing = timelineLength / (notes.Count + 1);
-        float initialPosition = notes.Count * spacing;
-        note.position = initialPosition;
-
-        Debug.Log($"[CityNoteContainer] Adding note at calculated position {initialPosition}");
         notes.Add(note);
-        lastPositions[note] = note.position;
-        lastRepeatCounts[note] = note.repeatCount;
-        lastPitches[note] = note.pitch;
-        lastVelocities[note] = note.velocity;
-        lastDurations[note] = note.duration;
+        Debug.Log($"[CityNoteContainer] Note added. Total notes: {notes.Count}");
         
-        // Update indices after adding a note
         UpdateNoteIndices();
         
-        Debug.Log($"[CityNoteContainer] After adding note, positions are:");
-        for (int i = 0; i < notes.Count; i++)
-        {
-            Debug.Log($"[CityNoteContainer] Note {i}: position = {notes[i].position}");
-        }
-        
+        // Notify sequencer
         if (sequencer != null)
         {
-            Debug.Log("[CityNoteContainer] Calling sequence update");
-            if (updateImmediately)
-            {
-                Debug.Log("[CityNoteContainer] Updating sequence immediately");
-                sequencer.UpdateSequence();
-            }
-            else
-            {
-                Debug.Log("[CityNoteContainer] Marking sequence for update at end of loop");
-                sequencer.MarkSequenceForUpdate();
-            }
+            Debug.Log("[CityNoteContainer] Notifying sequencer about note addition");
+            sequencer.UpdateSequence();
         }
         else
         {
-            Debug.LogWarning("[CityNoteContainer] Cannot update sequence - sequencer is null!");
+            Debug.LogWarning("[CityNoteContainer] No sequencer connected to notify about note addition");
         }
     }
 
@@ -321,27 +296,7 @@ public class CityNoteContainer : MonoBehaviour
         lastDurations.Remove(note);
         Debug.Log($"[CityNoteContainer] Removed note {(removed ? "successfully" : "failed to remove")}, total notes: {notes.Count}");
         
-        // Update indices after removing a note
         UpdateNoteIndices();
-        
-        if (sequencer != null)
-        {
-            Debug.Log("[CityNoteContainer] Calling sequence update");
-            if (updateImmediately)
-            {
-                Debug.Log("[CityNoteContainer] Updating sequence immediately");
-                sequencer.UpdateSequence();
-            }
-            else
-            {
-                Debug.Log("[CityNoteContainer] Marking sequence for update at end of loop");
-                sequencer.MarkSequenceForUpdate();
-            }
-        }
-        else
-        {
-            Debug.LogWarning("[CityNoteContainer] Cannot update sequence - sequencer is null!");
-        }
     }
 
     public List<CityNote> GetAllNotes()
@@ -361,31 +316,126 @@ public class CityNoteContainer : MonoBehaviour
         lastDurations.Clear();
         Debug.Log($"[CityNoteContainer] Cleared {count} notes");
         
-        if (sequencer != null)
+        UpdateNoteIndices();
+    }
+
+    public void ForceUpdate()
+    {
+        Debug.Log("[CityNoteContainer] Force update called");
+        
+        if (notes == null)
         {
-            Debug.Log("[CityNoteContainer] Calling sequence update");
-            if (updateImmediately)
+            Debug.LogError("[CityNoteContainer] Notes list is null!");
+            return;
+        }
+
+        // Check for changes in note properties
+        bool hasChanges = false;
+        foreach (var note in notes)
+        {
+            if (note == null)
             {
-                Debug.Log("[CityNoteContainer] Updating sequence immediately");
-                sequencer.UpdateSequence();
+                Debug.LogError("[CityNoteContainer] Null note found in container!");
+                continue;
             }
-            else
+
+            if (!lastPositions.ContainsKey(note) || 
+                !lastRepeatCounts.ContainsKey(note) ||
+                !lastPitches.ContainsKey(note) ||
+                !lastVelocities.ContainsKey(note) ||
+                !lastDurations.ContainsKey(note))
             {
-                Debug.Log("[CityNoteContainer] Marking sequence for update at end of loop");
-                sequencer.MarkSequenceForUpdate();
+                Debug.Log($"[CityNoteContainer] New note detected: pitch={note.pitch}, position={note.position}");
+                hasChanges = true;
+                break;
+            }
+
+            if (lastPositions[note] != note.position ||
+                lastRepeatCounts[note] != note.repeatCount ||
+                lastPitches[note] != note.pitch ||
+                lastVelocities[note] != note.velocity ||
+                lastDurations[note] != note.duration)
+            {
+                Debug.Log($"[CityNoteContainer] Note changes detected:");
+                Debug.Log($"[CityNoteContainer] - Position: {lastPositions[note]} -> {note.position}");
+                Debug.Log($"[CityNoteContainer] - Repeat count: {lastRepeatCounts[note]} -> {note.repeatCount}");
+                Debug.Log($"[CityNoteContainer] - Pitch: {lastPitches[note]} -> {note.pitch}");
+                Debug.Log($"[CityNoteContainer] - Velocity: {lastVelocities[note]} -> {note.velocity}");
+                Debug.Log($"[CityNoteContainer] - Duration: {lastDurations[note]} -> {note.duration}");
+                hasChanges = true;
+                break;
+            }
+        }
+
+        // Check if number of notes changed
+        if (notes.Count != lastNoteCount)
+        {
+            Debug.Log($"[CityNoteContainer] Number of notes changed: {lastNoteCount} -> {notes.Count}");
+            hasChanges = true;
+        }
+
+        if (hasChanges || forceUpdate)
+        {
+            Debug.Log("[CityNoteContainer] Changes detected, updating note indices and notifying listeners");
+            
+            // Update note indices
+            UpdateNoteIndices();
+
+            // Update last known values
+            foreach (var note in notes)
+            {
+                if (note == null) continue;
+                
+                lastPositions[note] = note.position;
+                lastRepeatCounts[note] = note.repeatCount;
+                lastPitches[note] = note.pitch;
+                lastVelocities[note] = note.velocity;
+                lastDurations[note] = note.duration;
+            }
+            lastNoteCount = notes.Count;
+            forceUpdate = false;
+
+            // Notify listeners if immediate updates are enabled
+            if (updateImmediately && OnNotesChanged != null)
+            {
+                Debug.Log("[CityNoteContainer] Immediate update enabled, notifying listeners");
+                OnNotesChanged.Invoke();
             }
         }
         else
         {
-            Debug.LogWarning("[CityNoteContainer] Cannot update sequence - sequencer is null!");
+            Debug.Log("[CityNoteContainer] No changes detected");
         }
     }
 
-    // Call this method when you want to force an update of the sequence
-    public void ForceUpdate()
+    public float GetNoteDistributionTime()
     {
-        Debug.Log("[CityNoteContainer] Force update requested");
-        forceUpdate = true;
+        return noteDistributionTime;
+    }
+
+    public void SetNoteDistributionTime(float time)
+    {
+        Debug.Log($"[CityNoteContainer] Setting note distribution time to {time}");
+        
+        if (time <= 0)
+        {
+            Debug.LogError("[CityNoteContainer] Cannot set note distribution time to zero or negative value!");
+            return;
+        }
+        
+        noteDistributionTime = time;
+        Debug.Log($"[CityNoteContainer] Note distribution time updated to {noteDistributionTime}");
+        
+        // Update note positions if auto-recalculate is enabled
+        if (autoRecalculatePositions)
+        {
+            Debug.Log("[CityNoteContainer] Auto-recalculate enabled, updating note positions");
+            UpdateNoteIndices();
+        }
+        else
+        {
+            Debug.Log("[CityNoteContainer] Auto-recalculate disabled, skipping position update");
+        }
     }
 
     public void MoveNoteUp(CityNote note)
@@ -468,5 +518,11 @@ public class CityNoteContainer : MonoBehaviour
         {
             Debug.Log($"[CityNoteContainer] Note {i}: Z={notes[i].transform.position.z}, X={notes[i].transform.position.x}");
         }
+    }
+
+    public void SetSequencer(CitySequencer newSequencer)
+    {
+        Debug.Log($"[CityNoteContainer] Setting sequencer reference to: {(newSequencer != null ? newSequencer.name : "null")}");
+        sequencer = newSequencer;
     }
 } 

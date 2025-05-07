@@ -15,47 +15,66 @@ public class CityNote : MonoBehaviour
 
     private void Start()
     {
+        Debug.Log($"[CityNote] Starting initialization for note: pitch={_pitch}, position={_position}, duration={_duration}, velocity={_velocity}");
+        
         container = FindObjectOfType<CityNoteContainer>();
         if (container == null)
         {
             Debug.LogError("[CityNote] Could not find CityNoteContainer!");
+            return;
         }
-        else
-        {
-            container.AddNote(this);
-        }
+        
+        Debug.Log($"[CityNote] Found container: {container.name}");
+        container.AddNote(this);
+        Debug.Log("[CityNote] Added to container successfully");
     }
 
     private void OnDestroy()
     {
         if (container != null)
         {
+            Debug.Log($"[CityNote] Removing note from container: pitch={_pitch}, position={_position}");
             container.RemoveNote(this);
         }
     }
 
     public void SetIndex(int index)
     {
+        Debug.Log($"[CityNote] Setting index to {index} for note: pitch={_pitch}, position={_position}");
+        
         if (_index != index)
         {
             _index = index;
             if (_useAutoPosition)
             {
                 UpdateAutoPosition();
-                Debug.Log($"[CityNote] Index changed to {index}, updating position to {_position}");
             }
         }
     }
 
     private void UpdateAutoPosition()
     {
-        if (container == null || _index < 0) return;
+        Debug.Log($"[CityNote] Updating auto position for note: pitch={_pitch}, index={_index}");
+        
+        if (container == null || _index < 0)
+        {
+            Debug.LogWarning("[CityNote] Cannot update position: container is null or index is invalid");
+            return;
+        }
 
         var sequencer = FindObjectOfType<CitySequencer>();
-        if (sequencer == null) return;
+        if (sequencer == null)
+        {
+            Debug.LogWarning("[CityNote] Cannot update position: sequencer not found");
+            return;
+        }
 
         var allNotes = container.GetAllNotes();
-        if (allNotes.Count == 0) return;
+        if (allNotes.Count == 0)
+        {
+            Debug.LogWarning("[CityNote] Cannot update position: no notes in container");
+            return;
+        }
 
         // Get timeline length from sequencer
         float timelineLength = sequencer.GetTimelineLength();
@@ -66,7 +85,7 @@ public class CityNote : MonoBehaviour
         // Calculate position based on index
         float newPosition = _index * spacing;
 
-        Debug.Log($"[CityNote] Calculating position for note {_index}:");
+        Debug.Log($"[CityNote] Position calculation:");
         Debug.Log($"[CityNote] - Timeline length: {timelineLength}");
         Debug.Log($"[CityNote] - Total notes: {allNotes.Count}");
         Debug.Log($"[CityNote] - Spacing: {spacing}");
