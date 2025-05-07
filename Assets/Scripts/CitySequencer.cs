@@ -37,8 +37,6 @@ public class CitySequencer : MonoBehaviour
 
     private void Start()
     {
-        Debug.Log("[CitySequencer] Starting initialization...");
-        
         if (timeline == null)
         {
             Debug.LogError("[CitySequencer] Timeline reference is missing!");
@@ -57,12 +55,9 @@ public class CitySequencer : MonoBehaviour
         // Subscribe to note container changes
         noteContainer.OnNotesChanged += HandleNotesChanged;
         
-        Debug.Log("[CitySequencer] Initialization completed");
-        
         // Update sequence and store initial time
         UpdateSequence();
         lastTimelineTime = (float)timeline.time;
-        Debug.Log($"[CitySequencer] Initial timeline time: {lastTimelineTime}");
     }
 
     private void OnDestroy()
@@ -74,9 +69,8 @@ public class CitySequencer : MonoBehaviour
         }
     }
 
-    private void HandleNotesChanged()
+    public void HandleNotesChanged()
     {
-        Debug.Log("[CitySequencer] Notes changed in container, updating sequence...");
         if (updateImmediately)
         {
             UpdateSequence();
@@ -111,11 +105,9 @@ public class CitySequencer : MonoBehaviour
         // Set timeline duration to the full length for note placement
         timelineAsset.durationMode = TimelineAsset.DurationMode.FixedLength;
         timelineAsset.fixedDuration = timelineLength;
-        Debug.Log($"[CitySequencer] Set timeline duration to {timelineLength} for note placement");
 
         // Set sequencer reference in note container
         noteContainer.SetSequencer(this);
-        Debug.Log("[CitySequencer] Set sequencer reference in note container");
 
         // Validate timeline length and loop time
         if (timelineLength <= 0)
@@ -152,15 +144,6 @@ public class CitySequencer : MonoBehaviour
             return;
         }
 
-        Debug.Log("[CitySequencer] Configuration validated successfully");
-        Debug.Log($"[CitySequencer] Timeline: {timeline.gameObject.name}");
-        Debug.Log($"[CitySequencer] NoteContainer: {noteContainer.gameObject.name}");
-        Debug.Log($"[CitySequencer] Track index: {trackIndex}");
-        Debug.Log($"[CitySequencer] Timeline length: {timelineLength}");
-        Debug.Log($"[CitySequencer] Beat fraction: {beatFraction}");
-        Debug.Log($"[CitySequencer] World scale: {worldScale}");
-        Debug.Log($"[CitySequencer] Snap to grid: {snapToGrid}");
-
         // Subscribe to note container changes
         noteContainer.OnNotesChanged += HandleNotesChanged;
         
@@ -169,7 +152,6 @@ public class CitySequencer : MonoBehaviour
         if (timeline != null)
         {
             lastTimelineTime = (float)timeline.time;
-            Debug.Log($"[CitySequencer] Initial timeline time: {lastTimelineTime}");
         }
     }
 
@@ -277,8 +259,6 @@ public class CitySequencer : MonoBehaviour
 
     public void UpdateSequence()
     {
-        Debug.Log("[CitySequencer] UpdateSequence called");
-        
         if (timeline == null)
         {
             Debug.LogError("[CitySequencer] Cannot update sequence: timeline is null!");
@@ -300,7 +280,6 @@ public class CitySequencer : MonoBehaviour
 
         // Zapisz aktualny czas timeline
         double currentTime = timeline.time;
-        Debug.Log($"[CitySequencer] Current timeline time before update: {currentTime}");
 
         var pianoRollTracks = timelineAsset.GetOutputTracks()
             .Where(t => t is IPianoRollTrack)
@@ -329,7 +308,6 @@ public class CitySequencer : MonoBehaviour
 
         // Remove existing clips
         var existingClips = track.GetClips().ToList();
-        Debug.Log($"[CitySequencer] Removing {existingClips.Count} existing clips");
         foreach (var clip in existingClips)
         {
             if (clip != null)
@@ -340,7 +318,6 @@ public class CitySequencer : MonoBehaviour
 
         // Add new clips from CityNotes
         var allNotes = noteContainer.GetAllNotes();
-        Debug.Log($"[CitySequencer] Processing {allNotes.Count} notes");
         
         int totalClipsCreated = 0;
         foreach (var note in allNotes)
@@ -351,11 +328,8 @@ public class CitySequencer : MonoBehaviour
                 continue;
             }
 
-            Debug.Log($"[CitySequencer] Processing note: pitch={note.pitch}, position={note.position}, duration={note.duration}, velocity={note.velocity}");
-
             // Get all positions for repeated notes
             Vector3[] positions = note.GetRepeatPositions();
-            Debug.Log($"[CitySequencer] Processing note with {positions.Length} repeat positions");
             
             foreach (Vector3 pos in positions)
             {
@@ -374,7 +348,6 @@ public class CitySequencer : MonoBehaviour
                 }
 
                 float timePosition = WorldToTimelinePosition(pos);
-                Debug.Log($"[CitySequencer] Creating clip at time {timePosition} for note {note.pitch}");
                 
                 // Używamy pełnej długości timeline'a do rozmieszczania nut
                 clip.start = timePosition;
@@ -388,14 +361,10 @@ public class CitySequencer : MonoBehaviour
             }
         }
 
-        Debug.Log($"[CitySequencer] Created {totalClipsCreated} total clips");
         timeline.RebuildGraph();
         
         // Przywróć czas timeline
         timeline.time = currentTime;
-        Debug.Log($"[CitySequencer] Timeline time restored to: {currentTime}");
-        
-        Debug.Log($"[CitySequencer] Sequence updated successfully!");
     }
 
     // Call this method whenever you want to mark the sequence for update
@@ -427,7 +396,6 @@ public class CitySequencer : MonoBehaviour
 
     public void SetTimelineLength(float length)
     {
-        Debug.Log($"[CitySequencer] Setting timeline length to {length}");
         timelineLength = length;
         
         if (timeline == null)
@@ -445,7 +413,6 @@ public class CitySequencer : MonoBehaviour
         
         timelineAsset.durationMode = TimelineAsset.DurationMode.FixedLength;
         timelineAsset.fixedDuration = timelineLength;
-        Debug.Log($"[CitySequencer] Timeline duration updated to {timelineLength}");
         
         UpdateSequence();
     }

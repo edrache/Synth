@@ -83,49 +83,35 @@ public class CityNoteContainer : MonoBehaviour
 
     private void UpdateNoteIndices()
     {
-        Debug.Log($"[CityNoteContainer] Updating note indices. Total notes: {notes.Count}, Distribution time: {noteDistributionTime}");
-        
-        if (notes == null || notes.Count == 0)
+        if (notes == null)
         {
-            Debug.Log("[CityNoteContainer] No notes to update indices for");
+            Debug.LogError("[CityNoteContainer] Notes list is null!");
             return;
         }
 
         // Sort notes by their current positions
         notes.Sort((a, b) => a.position.CompareTo(b.position));
-
-        // Update indices and positions
+        
+        // Calculate spacing for auto-positioned notes
+        float spacing = noteDistributionTime / Mathf.Max(1, notes.Count);
+        
         for (int i = 0; i < notes.Count; i++)
         {
             var note = notes[i];
-            if (note == null)
+            if (note != null)
             {
-                Debug.LogError($"[CityNoteContainer] Null note found at index {i}");
-                continue;
-            }
-
-            note.SetIndex(i);
-            
-            if (autoRecalculatePositions)
-            {
-                float spacing = noteDistributionTime / notes.Count;
-                float newPosition = i * spacing;
+                note.SetIndex(i);
                 
-                Debug.Log($"[CityNoteContainer] Note {i}: Old position={note.position}, New position={newPosition}, Spacing={spacing}");
-                
-                if (note.position != newPosition)
+                // Update position only if auto-positioning is enabled
+                if (note.useAutoPosition)
                 {
+                    float newPosition = i * spacing;
                     note.position = newPosition;
                 }
             }
         }
-
-        // Notify about changes
-        if (OnNotesChanged != null)
-        {
-            Debug.Log("[CityNoteContainer] Notifying about notes changed");
-            OnNotesChanged.Invoke();
-        }
+        
+        OnNotesChanged?.Invoke();
     }
 
     private void Update()
@@ -249,8 +235,6 @@ public class CityNoteContainer : MonoBehaviour
 
     public void AddNote(CityNote note)
     {
-        Debug.Log($"[CityNoteContainer] Adding note: pitch={note.pitch}, position={note.position}, duration={note.duration}, velocity={note.velocity}");
-        
         if (note == null)
         {
             Debug.LogError("[CityNoteContainer] Cannot add null note!");
@@ -264,19 +248,15 @@ public class CityNoteContainer : MonoBehaviour
         }
 
         notes.Add(note);
-        Debug.Log($"[CityNoteContainer] Note added. Total notes: {notes.Count}");
-        
         UpdateNoteIndices();
         
-        // Notify sequencer
         if (sequencer != null)
         {
-            Debug.Log("[CityNoteContainer] Notifying sequencer about note addition");
-            sequencer.UpdateSequence();
+            sequencer.HandleNotesChanged();
         }
         else
         {
-            Debug.LogWarning("[CityNoteContainer] No sequencer connected to notify about note addition");
+            Debug.LogWarning("[CityNoteContainer] No sequencer reference set!");
         }
     }
 
@@ -284,19 +264,27 @@ public class CityNoteContainer : MonoBehaviour
     {
         if (note == null)
         {
-            Debug.LogError("[CityNoteContainer] Attempted to remove null note!");
+            Debug.LogError("[CityNoteContainer] Cannot remove null note!");
             return;
         }
 
-        bool removed = notes.Remove(note);
-        lastPositions.Remove(note);
-        lastRepeatCounts.Remove(note);
-        lastPitches.Remove(note);
-        lastVelocities.Remove(note);
-        lastDurations.Remove(note);
-        Debug.Log($"[CityNoteContainer] Removed note {(removed ? "successfully" : "failed to remove")}, total notes: {notes.Count}");
-        
+        if (notes == null)
+        {
+            Debug.LogError("[CityNoteContainer] Notes list is null!");
+            return;
+        }
+
+        notes.Remove(note);
         UpdateNoteIndices();
+        
+        if (sequencer != null)
+        {
+            sequencer.HandleNotesChanged();
+        }
+        else
+        {
+            Debug.LogWarning("[CityNoteContainer] No sequencer reference set!");
+        }
     }
 
     public List<CityNote> GetAllNotes()
@@ -321,90 +309,34 @@ public class CityNoteContainer : MonoBehaviour
 
     public void ForceUpdate()
     {
-        Debug.Log("[CityNoteContainer] Force update called");
-        
         if (notes == null)
         {
             Debug.LogError("[CityNoteContainer] Notes list is null!");
             return;
         }
 
-        // Check for changes in note properties
         bool hasChanges = false;
+        int previousCount = notes.Count;
+        
+        // Check for new notes
         foreach (var note in notes)
         {
-            if (note == null)
+            if (note != null && !lastPositions.ContainsKey(note))
             {
-                Debug.LogError("[CityNoteContainer] Null note found in container!");
-                continue;
-            }
-
-            if (!lastPositions.ContainsKey(note) || 
-                !lastRepeatCounts.ContainsKey(note) ||
-                !lastPitches.ContainsKey(note) ||
-                !lastVelocities.ContainsKey(note) ||
-                !lastDurations.ContainsKey(note))
-            {
-                Debug.Log($"[CityNoteContainer] New note detected: pitch={note.pitch}, position={note.position}");
-                hasChanges = true;
-                break;
-            }
-
-            if (lastPositions[note] != note.position ||
-                lastRepeatCounts[note] != note.repeatCount ||
-                lastPitches[note] != note.pitch ||
-                lastVelocities[note] != note.velocity ||
-                lastDurations[note] != note.duration)
-            {
-                Debug.Log($"[CityNoteContainer] Note changes detected:");
-                Debug.Log($"[CityNoteContainer] - Position: {lastPositions[note]} -> {note.position}");
-                Debug.Log($"[CityNoteContainer] - Repeat count: {lastRepeatCounts[note]} -> {note.repeatCount}");
-                Debug.Log($"[CityNoteContainer] - Pitch: {lastPitches[note]} -> {note.pitch}");
-                Debug.Log($"[CityNoteContainer] - Velocity: {lastVelocities[note]} -> {note.velocity}");
-                Debug.Log($"[CityNoteContainer] - Duration: {lastDurations[note]} -> {note.duration}");
                 hasChanges = true;
                 break;
             }
         }
-
-        // Check if number of notes changed
-        if (notes.Count != lastNoteCount)
+        
+        // Check for removed notes
+        if (notes.Count != previousCount)
         {
-            Debug.Log($"[CityNoteContainer] Number of notes changed: {lastNoteCount} -> {notes.Count}");
             hasChanges = true;
         }
-
-        if (hasChanges || forceUpdate)
+        
+        if (hasChanges)
         {
-            Debug.Log("[CityNoteContainer] Changes detected, updating note indices and notifying listeners");
-            
-            // Update note indices
             UpdateNoteIndices();
-
-            // Update last known values
-            foreach (var note in notes)
-            {
-                if (note == null) continue;
-                
-                lastPositions[note] = note.position;
-                lastRepeatCounts[note] = note.repeatCount;
-                lastPitches[note] = note.pitch;
-                lastVelocities[note] = note.velocity;
-                lastDurations[note] = note.duration;
-            }
-            lastNoteCount = notes.Count;
-            forceUpdate = false;
-
-            // Notify listeners if immediate updates are enabled
-            if (updateImmediately && OnNotesChanged != null)
-            {
-                Debug.Log("[CityNoteContainer] Immediate update enabled, notifying listeners");
-                OnNotesChanged.Invoke();
-            }
-        }
-        else
-        {
-            Debug.Log("[CityNoteContainer] No changes detected");
         }
     }
 
