@@ -1211,7 +1211,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   timeline: {fileID: 1660008982}
-  noteContainer: {fileID: 2117480665}
+  noteContainer: {fileID: 1926039934}
   trackIndex: 0
   timelineLength: 4
   loopTime: 2
@@ -1882,7 +1882,7 @@ MonoBehaviour:
   _velocity: 0.6
   _duration: 0.1
   _repeatCount: 3
-  _position: 0
+  _position: 2
   _useAutoPosition: 1
 --- !u!114 &651465650
 MonoBehaviour:
@@ -2516,7 +2516,7 @@ MonoBehaviour:
   _velocity: 0.6
   _duration: 0.1
   _repeatCount: 3
-  _position: 0
+  _position: 1
   _useAutoPosition: 1
 --- !u!114 &1121250152
 MonoBehaviour:
@@ -2947,7 +2947,7 @@ MonoBehaviour:
   _velocity: 0.6
   _duration: 0.1
   _repeatCount: 3
-  _position: 0
+  _position: 3
   _useAutoPosition: 1
 --- !u!114 &1265416070
 MonoBehaviour:
@@ -3935,7 +3935,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1926039932
 Transform:
   m_ObjectHideFlags: 0
@@ -3987,7 +3987,11 @@ MonoBehaviour:
   updateImmediately: 0
   autoRecalculatePositions: 1
   noteDistributionTime: 4
-  notes: []
+  notes:
+  - {fileID: 990692598}
+  - {fileID: 992186047}
+  - {fileID: 1399166855}
+  - {fileID: 63418495}
 --- !u!54 &1926039935
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -4498,7 +4502,11 @@ MonoBehaviour:
   updateImmediately: 0
   autoRecalculatePositions: 1
   noteDistributionTime: 4
-  notes: []
+  notes:
+  - {fileID: 569354106}
+  - {fileID: 1121250151}
+  - {fileID: 651465649}
+  - {fileID: 1265416069}
 --- !u!114 &2117480666
 MonoBehaviour:
   m_ObjectHideFlags: 0
