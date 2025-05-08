@@ -25,6 +25,23 @@ public class CityNoteContainer : MonoBehaviour
     private bool forceUpdate = false;
     private int lastNoteCount = 0;
 
+    // Property to handle notes list updates
+    private List<CityNote> Notes
+    {
+        get { return notes; }
+        set
+        {
+            if (notes != value)
+            {
+                notes = value;
+                OnNotesChanged?.Invoke();
+                #if UNITY_EDITOR
+                UnityEditor.EditorUtility.SetDirty(this);
+                #endif
+            }
+        }
+    }
+
     // Event that will be called when notes change
     public delegate void NotesChangedHandler();
     public event NotesChangedHandler OnNotesChanged;
@@ -85,7 +102,7 @@ public class CityNoteContainer : MonoBehaviour
         }
     }
 
-    private void UpdateNoteIndices()
+    private void UpdateNoteIndices(bool sortByPosition = true)
     {
         if (notes == null)
         {
@@ -93,8 +110,11 @@ public class CityNoteContainer : MonoBehaviour
             return;
         }
 
-        // Sort notes by their current positions
-        notes.Sort((a, b) => a.position.CompareTo(b.position));
+        if (sortByPosition)
+        {
+            // Sort notes by their current positions
+            notes.Sort((a, b) => a.position.CompareTo(b.position));
+        }
         
         // Calculate spacing for auto-positioned notes
         float spacing = noteDistributionTime / Mathf.Max(1, notes.Count);
@@ -410,5 +430,168 @@ public class CityNoteContainer : MonoBehaviour
         {
             UpdateNoteIndices();
         }
+    }
+
+    [ContextMenu("Sort Notes By Transform Position")]
+    public void SortNotesByTransformPosition()
+    {
+        if (notes == null || notes.Count == 0)
+        {
+            Debug.LogWarning("[CityNoteContainer] No notes to sort!");
+            return;
+        }
+
+        Debug.Log("[CityNoteContainer] Starting sort by transform position");
+        Debug.Log("[CityNoteContainer] Initial order:");
+        for (int i = 0; i < notes.Count; i++)
+        {
+            if (notes[i] != null)
+            {
+                Vector3 pos = notes[i].transform.position;
+                Debug.Log($"[CityNoteContainer] Note {i}: {notes[i].gameObject.name} - Z={Mathf.Round(pos.z * 1000f) / 1000f}, X={Mathf.Round(pos.x * 1000f) / 1000f}");
+            }
+        }
+        
+        // Sort notes by Z (descending) and then by X (ascending)
+        notes.Sort((a, b) =>
+        {
+            if (a == null || b == null) return 0;
+            
+            // Round Z values to handle floating point precision
+            float aZ = Mathf.Round(a.transform.position.z * 1000f) / 1000f;
+            float bZ = Mathf.Round(b.transform.position.z * 1000f) / 1000f;
+            
+            // First compare Z (descending - highest Z first)
+            int zComparison = bZ.CompareTo(aZ);
+            if (zComparison != 0)
+            {
+                Debug.Log($"[CityNoteContainer] Comparing Z: {a.gameObject.name}({aZ}) vs {b.gameObject.name}({bZ}) = {zComparison}");
+                return zComparison;
+            }
+            
+            // If Z is the same, compare X (ascending - lowest X first)
+            float aX = Mathf.Round(a.transform.position.x * 1000f) / 1000f;
+            float bX = Mathf.Round(b.transform.position.x * 1000f) / 1000f;
+            int xComparison = aX.CompareTo(bX);
+            Debug.Log($"[CityNoteContainer] Z equal, comparing X: {a.gameObject.name}({aX}) vs {b.gameObject.name}({bX}) = {xComparison}");
+            return xComparison;
+        });
+
+        // Update indices after sorting
+        UpdateNoteIndices();
+        
+        // Log the new order
+        Debug.Log("[CityNoteContainer] Final order after sorting:");
+        for (int i = 0; i < notes.Count; i++)
+        {
+            if (notes[i] != null)
+            {
+                Vector3 pos = notes[i].transform.position;
+                Debug.Log($"[CityNoteContainer] Note {i}: {notes[i].gameObject.name} - Z={Mathf.Round(pos.z * 1000f) / 1000f}, X={Mathf.Round(pos.x * 1000f) / 1000f}");
+            }
+        }
+
+        // Notify listeners about the change
+        OnNotesChanged?.Invoke();
+    }
+
+    [ContextMenu("Shift Notes Forward")]
+    public void ShiftNotesForward()
+    {
+        if (notes == null || notes.Count <= 1)
+        {
+            Debug.LogWarning("[CityNoteContainer] Not enough notes to shift!");
+            return;
+        }
+
+        Debug.Log("[CityNoteContainer] Starting shift forward");
+        Debug.Log("[CityNoteContainer] Initial order:");
+        for (int i = 0; i < notes.Count; i++)
+        {
+            if (notes[i] != null)
+            {
+                Debug.Log($"[CityNoteContainer] Note {i}: {notes[i].gameObject.name}");
+            }
+        }
+        
+        // Store the last note
+        var lastNote = notes[notes.Count - 1];
+        Debug.Log($"[CityNoteContainer] Stored last note: {lastNote.gameObject.name}");
+        
+        // Create a new list to store the shifted order
+        var newNotes = new List<CityNote>();
+        newNotes.Add(lastNote); // Add the last note first
+        
+        // Add all other notes
+        for (int i = 0; i < notes.Count - 1; i++)
+        {
+            newNotes.Add(notes[i]);
+        }
+        
+        // Update the notes list through the property
+        Notes = newNotes;
+        
+        Debug.Log("[CityNoteContainer] Final order after shift:");
+        for (int i = 0; i < notes.Count; i++)
+        {
+            if (notes[i] != null)
+            {
+                Debug.Log($"[CityNoteContainer] Note {i}: {notes[i].gameObject.name}");
+            }
+        }
+
+        // Update indices without sorting by position
+        UpdateNoteIndices(false);
+    }
+
+    [ContextMenu("Shift First Note Forward By 2")]
+    public void ShiftFirstNoteForwardBy2()
+    {
+        if (notes == null || notes.Count <= 2)
+        {
+            Debug.LogWarning("[CityNoteContainer] Not enough notes to shift first note by 2 positions!");
+            return;
+        }
+
+        Debug.Log("[CityNoteContainer] Starting shift first note forward by 2");
+        Debug.Log("[CityNoteContainer] Initial order:");
+        for (int i = 0; i < notes.Count; i++)
+        {
+            if (notes[i] != null)
+            {
+                Debug.Log($"[CityNoteContainer] Note {i}: {notes[i].gameObject.name}");
+            }
+        }
+        
+        // Store the first note
+        var firstNote = notes[0];
+        Debug.Log($"[CityNoteContainer] Stored first note: {firstNote.gameObject.name}");
+        
+        // Create a new list to store the shifted order
+        var newNotes = new List<CityNote>();
+        
+        // Add all notes except the first one
+        for (int i = 1; i < notes.Count; i++)
+        {
+            newNotes.Add(notes[i]);
+        }
+        
+        // Insert the first note at position 2
+        newNotes.Insert(2, firstNote);
+        
+        // Update the notes list through the property
+        Notes = newNotes;
+        
+        Debug.Log("[CityNoteContainer] Final order after shift:");
+        for (int i = 0; i < notes.Count; i++)
+        {
+            if (notes[i] != null)
+            {
+                Debug.Log($"[CityNoteContainer] Note {i}: {notes[i].gameObject.name}");
+            }
+        }
+
+        // Update indices without sorting by position
+        UpdateNoteIndices(false);
     }
 } 

@@ -17,6 +17,8 @@ public class CitySequencer : MonoBehaviour
     [SerializeField] private float beatFraction = 0.25f;
     [Tooltip("If true, sequence updates immediately when notes change. If false, updates at the end of timeline loop.")]
     [SerializeField] private bool updateImmediately = true;
+    [SerializeField] private bool shouldShiftNotes = false; // Flaga kontrolująca przesunięcie nut
+    private bool wasShiftRequested = false; // Flaga oznaczająca, że przesunięcie zostało zażądane
 
     [Header("Position Mapping")]
     [SerializeField] private float worldScale = 1f; // How many world units per beat
@@ -220,6 +222,14 @@ public class CitySequencer : MonoBehaviour
         {
             Debug.Log($"[CitySequencer] Timeline reached loop point, looping back to start. Current: {currentTime}, Next: {nextFrameTime}, Loop time: {loopTime}");
             
+            // Shift notes forward one frame before the loop ends only if shouldShiftNotes is true and wasShiftRequested
+            if (noteContainer != null && shouldShiftNotes && wasShiftRequested)
+            {
+                noteContainer.ShiftNotesForward();
+                shouldShiftNotes = false; // Reset the flag after shifting
+                wasShiftRequested = false; // Reset the request flag
+            }
+            
             // Check if we need to update the sequence
             if (noteContainer != null)
             {
@@ -421,5 +431,11 @@ public class CitySequencer : MonoBehaviour
         timelineAsset.fixedDuration = timelineLength;
         
         UpdateSequence();
+    }
+
+    public void SetShouldShiftNotes(bool value)
+    {
+        shouldShiftNotes = value;
+        wasShiftRequested = true; // Oznacz, że przesunięcie zostało zażądane
     }
 } 
