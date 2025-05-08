@@ -438,4 +438,79 @@ public class CitySequencer : MonoBehaviour
         shouldShiftNotes = value;
         wasShiftRequested = true;
     }
+
+    public List<CityNoteContainer> GetNoteContainers()
+    {
+        return noteContainers;
+    }
+
+    public void SetNoteContainers(List<CityNoteContainer> newContainers)
+    {
+        if (newContainers == null)
+        {
+            Debug.LogError("[CitySequencer] Cannot set null containers list!");
+            return;
+        }
+
+        // Unsubscribe from old containers
+        foreach (var container in noteContainers)
+        {
+            if (container != null)
+            {
+                container.OnNotesChanged -= HandleNotesChanged;
+            }
+        }
+
+        // Set new containers
+        noteContainers = newContainers;
+
+        // Subscribe to new containers
+        foreach (var container in noteContainers)
+        {
+            if (container != null)
+            {
+                container.OnNotesChanged += HandleNotesChanged;
+            }
+        }
+
+        // Update sequence with new containers
+        UpdateSequence();
+    }
+
+    public void SetNoteContainersWithoutUpdate(List<CityNoteContainer> newContainers)
+    {
+        if (newContainers == null)
+        {
+            Debug.LogError("[CitySequencer] Cannot set null containers list!");
+            return;
+        }
+
+        // Unsubscribe from old containers
+        foreach (var container in noteContainers)
+        {
+            if (container != null)
+            {
+                container.OnNotesChanged -= HandleNotesChanged;
+            }
+        }
+
+        // Set new containers
+        noteContainers = newContainers;
+
+        // Subscribe to new containers
+        foreach (var container in noteContainers)
+        {
+            if (container != null)
+            {
+                container.OnNotesChanged += HandleNotesChanged;
+            }
+        }
+
+        // Notify listeners about the update
+        OnSequenceUpdated?.Invoke();
+    }
+
+    // Event that will be called when sequence is updated
+    public delegate void SequenceUpdatedHandler();
+    public event SequenceUpdatedHandler OnSequenceUpdated;
 } 

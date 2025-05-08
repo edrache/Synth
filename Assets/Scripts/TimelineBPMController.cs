@@ -21,6 +21,8 @@ public class TimelineBPMController : MonoBehaviour
     private int currentRootNote = 60;
 
     private const float SECONDS_PER_MINUTE = 60f;
+    private float lastUpdateTime = 0f;
+    private float secondsPerBeat;
 
     #region Public Properties
     public float BPM
@@ -78,9 +80,33 @@ public class TimelineBPMController : MonoBehaviour
         [InspectorName("Ab Minor")] AFlatMinor
     }
 
+    private void Start()
+    {
+        UpdateAllTimelines();
+    }
+
+    private void Update()
+    {
+        // Check if any timeline has looped
+        var directors = FindObjectsOfType<PlayableDirector>();
+        foreach (var director in directors)
+        {
+            if (director.playableGraph.IsValid())
+            {
+                float currentTime = (float)director.time;
+                if (currentTime < lastUpdateTime)
+                {
+                    // Timeline has looped, update speed
+                    UpdateAllTimelines();
+                }
+                lastUpdateTime = currentTime;
+            }
+        }
+    }
+
     private void UpdateAllTimelines()
     {
-        float secondsPerBeat = SECONDS_PER_MINUTE / currentBPM;
+        secondsPerBeat = SECONDS_PER_MINUTE / currentBPM;
         float speedMultiplier = 1f / secondsPerBeat;
 
         var directors = FindObjectsOfType<PlayableDirector>();
