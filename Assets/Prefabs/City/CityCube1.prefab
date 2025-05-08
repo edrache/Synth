@@ -98,6 +98,7 @@ GameObject:
   - component: {fileID: 3313345475497492470}
   - component: {fileID: 5449411051700001192}
   - component: {fileID: 4960683774109444031}
+  - component: {fileID: -9048437324467321067}
   - component: {fileID: 6678755774273880345}
   m_Layer: 0
   m_Name: CityCube1
@@ -193,6 +194,26 @@ MonoBehaviour:
   _repeatCount: 1
   _position: 0
   _useAutoPosition: 1
+--- !u!114 &-9048437324467321067
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4843401976443556629}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1c864bbb5e9b24aca8a62dbe42012205, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  minPitch: 26
+  maxPitch: 36
+  minVelocity: 0.3
+  maxVelocity: 1
+  minDuration: 0.1
+  maxDuration: 0.2
+  minRepeatCount: 0
+  maxRepeatCount: 3
 --- !u!114 &6678755774273880345
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -207,8 +228,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   minScale: {x: 0.2, y: 0.8, z: 0.2}
   maxScale: {x: 0.4, y: 10, z: 0.4}
-  minPitch: 35
-  maxPitch: 40
+  minPitch: 26
+  maxPitch: 36
   useUniformScale: 0
   scaleChangeSpeed: 1
   smoothScaleChange: 1
