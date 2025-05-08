@@ -18,12 +18,22 @@ public class CitySequencer : MonoBehaviour
     [SerializeField] private bool updateImmediately = true;
     [SerializeField] private bool shouldShiftNotes = false;
     [SerializeField] private bool enableOctaveTransposition = true;
+    [SerializeField] private bool enableVelocityControl = true;
+    [Tooltip("Duration of the velocity curve loop. Set to 0 to use full timeline length.")]
+    [SerializeField] private float velocityCurveLoopDuration = 0f;
     [Tooltip("Curve controlling octave transposition. X axis is timeline time, Y axis is octave change (0 = no change, 1 = +1 octave, -1 = -1 octave)")]
     [SerializeField] private AnimationCurve octaveTranspositionCurve = new AnimationCurve(
         new Keyframe(0f, 0f, 0f, 0f), // Start at 0 octaves
         new Keyframe(4f, 1f, 0f, 0f), // At 4 seconds, +1 octave
         new Keyframe(8f, -1f, 0f, 0f), // At 8 seconds, -1 octave
         new Keyframe(12f, 0f, 0f, 0f)  // At 12 seconds, back to 0
+    );
+    [Tooltip("Curve controlling note velocity. X axis is timeline time, Y axis is velocity (0-1)")]
+    [SerializeField] private AnimationCurve velocityCurve = new AnimationCurve(
+        new Keyframe(0f, 0.5f, 0f, 0f),  // Start at 0.5 velocity
+        new Keyframe(4f, 1f, 0f, 0f),    // At 4 seconds, full velocity
+        new Keyframe(8f, 0.2f, 0f, 0f),  // At 8 seconds, low velocity
+        new Keyframe(12f, 0.5f, 0f, 0f)  // At 12 seconds, back to 0.5
     );
     private bool wasShiftRequested = false;
 
@@ -49,6 +59,30 @@ public class CitySequencer : MonoBehaviour
         
         Debug.Log($"[CitySequencer] Time {time:F2}s: octave change = {octaveChange:F2}, semitones = {semitones}");
         return semitones;
+    }
+
+    // Calculate velocity based on the curve at a specific time
+    private float GetVelocityAtTime(float time)
+    {
+        if (!enableVelocityControl) return 1f;
+        
+        float curveTime = time;
+        
+        // If loop duration is set, use modulo to loop the time
+        if (velocityCurveLoopDuration > 0)
+        {
+            curveTime = time % velocityCurveLoopDuration;
+            Debug.Log($"[CitySequencer] Time {time:F2}s: using looped time {curveTime:F2}s (loop duration: {velocityCurveLoopDuration:F2}s)");
+        }
+        
+        // Evaluate the curve at the given time
+        float velocity = velocityCurve.Evaluate(curveTime);
+        
+        // Clamp velocity between 0 and 1
+        velocity = Mathf.Clamp01(velocity);
+        
+        Debug.Log($"[CitySequencer] Time {time:F2}s: velocity = {velocity:F2}");
+        return velocity;
     }
 
     public float GetTimelineLength()
@@ -368,6 +402,9 @@ public class CitySequencer : MonoBehaviour
                     // Get transposition from the curve at this time position
                     int transposition = GetTranspositionAtTime(timePosition);
                     
+                    // Get velocity from the curve at this time position
+                    float velocity = GetVelocityAtTime(timePosition);
+                    
                     // Apply transposition to the note pitch
                     int transposedPitch = note.pitch + transposition;
                     
@@ -376,8 +413,8 @@ public class CitySequencer : MonoBehaviour
                     samplerClip.midiNote = transposedPitch;
                     samplerClip.duration = note.duration;
                     samplerClip.startTime = timePosition;
-                    samplerClip.velocity = note.velocity;
-                    clip.displayName = $"Note {transposedPitch} (original: {note.pitch}, transposition: {transposition}) at {timePosition:F2}s";
+                    samplerClip.velocity = velocity;
+                    clip.displayName = $"Note {transposedPitch} (original: {note.pitch}, transposition: {transposition}, velocity: {velocity:F2}) at {timePosition:F2}s";
                     totalClipsCreated++;
                 }
             }

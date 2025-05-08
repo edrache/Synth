@@ -210,9 +210,9 @@ MonoBehaviour:
   maxPitch: 36
   minVelocity: 0.3
   maxVelocity: 1
-  minDuration: 0.1
+  minDuration: 0.2
   maxDuration: 0.2
-  minRepeatCount: 0
+  minRepeatCount: 3
   maxRepeatCount: 3
 --- !u!114 &6678755774273880345
 MonoBehaviour:
