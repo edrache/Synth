@@ -8,28 +8,29 @@ public class CitySequencer : MonoBehaviour
 {
     [Header("References")]
     [SerializeField] private PlayableDirector timeline;
-    [SerializeField] private CityNoteContainer noteContainer;
+    [SerializeField] private List<CityNoteContainer> noteContainers = new List<CityNoteContainer>();
     [SerializeField] private int trackIndex = 0;
 
     [Header("Sequencer Settings")]
-    [SerializeField] private float timelineLength = 4f;
-    [SerializeField] private float loopTime = 2f; // Nowy parametr określający kiedy timeline ma się zapętlić
+    [SerializeField] private float containerDuration = 4f; // Duration for each container
     [SerializeField] private float beatFraction = 0.25f;
     [Tooltip("If true, sequence updates immediately when notes change. If false, updates at the end of timeline loop.")]
     [SerializeField] private bool updateImmediately = true;
-    [SerializeField] private bool shouldShiftNotes = false; // Flaga kontrolująca przesunięcie nut
-    private bool wasShiftRequested = false; // Flaga oznaczająca, że przesunięcie zostało zażądane
+    [SerializeField] private bool shouldShiftNotes = false;
+    private bool wasShiftRequested = false;
 
     [Header("Position Mapping")]
-    [SerializeField] private float worldScale = 1f; // How many world units per beat
-    [SerializeField] private bool snapToGrid = false; // Wyłączone domyślnie
+    [SerializeField] private float worldScale = 1f;
+    [SerializeField] private bool snapToGrid = false;
 
     private float lastTimelineTime = 0f;
     private bool sequenceNeedsUpdate = false;
+    private float totalTimelineLength => containerDuration * noteContainers.Count;
+    private float loopTime => totalTimelineLength; // Loop time is now equal to total timeline length
 
     public float GetTimelineLength()
     {
-        return timelineLength;
+        return totalTimelineLength;
     }
 
     public float GetLoopTime()
@@ -45,17 +46,23 @@ public class CitySequencer : MonoBehaviour
             return;
         }
         
-        if (noteContainer == null)
+        if (noteContainers.Count == 0)
         {
-            Debug.LogError("[CitySequencer] NoteContainer reference is missing! Please assign a CityNoteContainer in the inspector.");
+            Debug.LogError("[CitySequencer] No note containers assigned! Please assign at least one CityNoteContainer in the inspector.");
             return;
         }
 
+        // Subscribe to all note container changes
+        foreach (var container in noteContainers)
+        {
+            if (container != null)
+            {
+                container.OnNotesChanged += HandleNotesChanged;
+            }
+        }
+
         // Set initial timeline length
-        SetTimelineLength(timelineLength);
-        
-        // Subscribe to note container changes
-        noteContainer.OnNotesChanged += HandleNotesChanged;
+        SetTimelineLength(totalTimelineLength);
         
         // Update sequence and store initial time
         UpdateSequence();
@@ -64,10 +71,13 @@ public class CitySequencer : MonoBehaviour
 
     private void OnDestroy()
     {
-        // Unsubscribe from note container changes
-        if (noteContainer != null)
+        // Unsubscribe from all note container changes
+        foreach (var container in noteContainers)
         {
-            noteContainer.OnNotesChanged -= HandleNotesChanged;
+            if (container != null)
+            {
+                container.OnNotesChanged -= HandleNotesChanged;
+            }
         }
     }
 
@@ -91,9 +101,9 @@ public class CitySequencer : MonoBehaviour
             return;
         }
         
-        if (noteContainer == null)
+        if (noteContainers.Count == 0)
         {
-            Debug.LogError("[CitySequencer] NoteContainer reference is missing! Please assign a CityNoteContainer in the inspector.");
+            Debug.LogError("[CitySequencer] No note containers assigned!");
             return;
         }
 
@@ -104,27 +114,15 @@ public class CitySequencer : MonoBehaviour
             return;
         }
 
-        // Set timeline duration to the full length for note placement
+        // Set timeline duration to the total length for all containers
         timelineAsset.durationMode = TimelineAsset.DurationMode.FixedLength;
-        timelineAsset.fixedDuration = timelineLength;
+        timelineAsset.fixedDuration = totalTimelineLength;
 
-        // Validate timeline length and loop time
-        if (timelineLength <= 0)
+        // Validate timeline length
+        if (totalTimelineLength <= 0)
         {
-            Debug.LogWarning("[CitySequencer] Timeline length must be greater than 0. Setting to default value of 8.");
-            timelineLength = 8f;
-        }
-
-        if (loopTime <= 0)
-        {
-            Debug.LogWarning("[CitySequencer] Loop time must be greater than 0. Setting to default value of 2.");
-            loopTime = 2f;
-        }
-
-        if (loopTime > timelineLength)
-        {
-            Debug.LogWarning("[CitySequencer] Loop time cannot be greater than timeline length. Setting loop time to timeline length.");
-            loopTime = timelineLength;
+            Debug.LogWarning("[CitySequencer] Total timeline length must be greater than 0.");
+            return;
         }
 
         var pianoRollTracks = timelineAsset.GetOutputTracks()
@@ -154,7 +152,9 @@ public class CitySequencer : MonoBehaviour
     private void LogState()
     {
         Debug.Log("[CitySequencer] Current state:");
-        Debug.Log($"[CitySequencer] - Timeline length: {timelineLength}");
+        Debug.Log($"[CitySequencer] - Total timeline length: {totalTimelineLength}");
+        Debug.Log($"[CitySequencer] - Container duration: {containerDuration}");
+        Debug.Log($"[CitySequencer] - Number of containers: {noteContainers.Count}");
         Debug.Log($"[CitySequencer] - Last timeline time: {lastTimelineTime}");
         Debug.Log($"[CitySequencer] - Beat fraction: {beatFraction}");
         Debug.Log($"[CitySequencer] - World scale: {worldScale}");
@@ -164,40 +164,24 @@ public class CitySequencer : MonoBehaviour
         {
             Debug.Log($"[CitySequencer] - Timeline object: {timeline.gameObject.name}");
             Debug.Log($"[CitySequencer] - Current time: {timeline.time}");
-            
-            var timelineAsset = timeline.playableAsset as TimelineAsset;
-            if (timelineAsset != null)
-            {
-                Debug.Log($"[CitySequencer] - Timeline asset duration mode: {timelineAsset.durationMode}");
-                Debug.Log($"[CitySequencer] - Timeline asset fixed duration: {timelineAsset.fixedDuration}");
-            }
-            else
-            {
-                Debug.Log("[CitySequencer] - Timeline asset is null!");
-            }
-        }
-        else
-        {
-            Debug.Log("[CitySequencer] - Timeline is null!");
         }
         
-        if (noteContainer != null)
+        foreach (var container in noteContainers)
         {
-            var notes = noteContainer.GetAllNotes();
-            Debug.Log($"[CitySequencer] - Note container: {noteContainer.gameObject.name}");
-            Debug.Log($"[CitySequencer] - Total notes: {notes.Count}");
-            
-            foreach (var note in notes)
+            if (container != null)
             {
-                if (note != null)
+                var notes = container.GetAllNotes();
+                Debug.Log($"[CitySequencer] - Container: {container.gameObject.name}");
+                Debug.Log($"[CitySequencer] - Total notes: {notes.Count}");
+                
+                foreach (var note in notes)
                 {
-                    Debug.Log($"[CitySequencer] - Note: pitch={note.pitch}, position={note.position}, duration={note.duration}, velocity={note.velocity}");
+                    if (note != null)
+                    {
+                        Debug.Log($"[CitySequencer] - Note: pitch={note.pitch}, position={note.position}, duration={note.duration}, velocity={note.velocity}");
+                    }
                 }
             }
-        }
-        else
-        {
-            Debug.Log("[CitySequencer] - Note container is null!");
         }
     }
 
@@ -222,19 +206,22 @@ public class CitySequencer : MonoBehaviour
         {
             Debug.Log($"[CitySequencer] Timeline reached loop point, looping back to start. Current: {currentTime}, Next: {nextFrameTime}, Loop time: {loopTime}");
             
-            // Shift notes forward one frame before the loop ends only if shouldShiftNotes is true and wasShiftRequested
-            if (noteContainer != null && shouldShiftNotes && wasShiftRequested)
+            // Shift notes forward one frame before the loop ends
+            if (shouldShiftNotes && wasShiftRequested)
             {
-                noteContainer.ShiftNotesForward();
-                shouldShiftNotes = false; // Reset the flag after shifting
-                wasShiftRequested = false; // Reset the request flag
+                foreach (var container in noteContainers)
+                {
+                    if (container != null)
+                    {
+                        container.ShiftNotesForward();
+                    }
+                }
+                shouldShiftNotes = false;
+                wasShiftRequested = false;
             }
             
             // Check if we need to update the sequence
-            if (noteContainer != null)
-            {
-                UpdateSequence();
-            }
+            UpdateSequence();
             
             // Loop back to start
             timeline.time = 0;
@@ -244,21 +231,21 @@ public class CitySequencer : MonoBehaviour
         lastTimelineTime = currentTime;
     }
 
-    private float WorldToTimelinePosition(Vector3 worldPosition)
+    private float WorldToTimelinePosition(Vector3 worldPosition, int containerIndex)
     {
-        // Map world X position directly to timeline position
-        // Each world unit represents one beat
-        float timePosition = worldPosition.x * worldScale;
+        // Calculate base position for this container
+        float containerBaseTime = containerIndex * containerDuration;
+        
+        // Map world X position to timeline position within container's time slot
+        float timePosition = containerBaseTime + (worldPosition.x * worldScale);
 
         if (snapToGrid)
         {
-            // Snap to grid (beats)
-            float beatSize = timelineLength * beatFraction;
+            float beatSize = containerDuration * beatFraction;
             timePosition = Mathf.Round(timePosition / beatSize) * beatSize;
         }
 
-        // Wrap the position around the timeline length
-        return timePosition % timelineLength;
+        return timePosition;
     }
 
     public void UpdateSequence()
@@ -269,22 +256,10 @@ public class CitySequencer : MonoBehaviour
             return;
         }
         
-        if (noteContainer == null)
+        if (noteContainers.Count == 0)
         {
-            Debug.LogError("[CitySequencer] Cannot update sequence: noteContainer is null!");
+            Debug.LogError("[CitySequencer] No note containers assigned!");
             return;
-        }
-
-        // Update note positions based on their indices in the container
-        var containerNotes = noteContainer.GetAllNotes();
-        float spacing = timelineLength / Mathf.Max(1, containerNotes.Count);
-        
-        for (int i = 0; i < containerNotes.Count; i++)
-        {
-            if (containerNotes[i] != null && containerNotes[i].useAutoPosition)
-            {
-                containerNotes[i].position = i * spacing;
-            }
         }
 
         var timelineAsset = timeline.playableAsset as TimelineAsset;
@@ -294,7 +269,7 @@ public class CitySequencer : MonoBehaviour
             return;
         }
 
-        // Zapisz aktualny czas timeline
+        // Save current timeline time
         double currentTime = timeline.time;
 
         var pianoRollTracks = timelineAsset.GetOutputTracks()
@@ -332,58 +307,57 @@ public class CitySequencer : MonoBehaviour
             }
         }
 
-        // Add new clips only from the assigned noteContainer
-        var allNotes = noteContainer.GetAllNotes();
-        
+        // Add clips from all containers
         int totalClipsCreated = 0;
-        foreach (var note in allNotes)
+        for (int containerIndex = 0; containerIndex < noteContainers.Count; containerIndex++)
         {
-            if (note == null)
-            {
-                Debug.LogError("[CitySequencer] Found null note in container!");
-                continue;
-            }
+            var container = noteContainers[containerIndex];
+            if (container == null) continue;
 
-            // Get all positions for repeated notes
-            Vector3[] positions = note.GetRepeatPositions();
+            var allNotes = container.GetAllNotes();
+            float spacing = containerDuration / Mathf.Max(1, allNotes.Count);
             
-            foreach (Vector3 pos in positions)
+            // Update note positions based on their indices
+            for (int i = 0; i < allNotes.Count; i++)
             {
-                var clip = pianoRollTrack.CreateClip();
-                if (clip == null || clip.asset == null)
+                if (allNotes[i] != null && allNotes[i].useAutoPosition)
                 {
-                    Debug.LogError("[CitySequencer] Failed to create clip or clip asset is null");
-                    continue;
+                    allNotes[i].position = i * spacing;
                 }
-                
-                var samplerClip = clip.asset as SamplerPianoRollClip;
-                if (samplerClip == null)
-                {
-                    Debug.LogError("[CitySequencer] Failed to cast clip asset to SamplerPianoRollClip");
-                    continue;
-                }
+            }
+            
+            foreach (var note in allNotes)
+            {
+                if (note == null) continue;
 
-                float timePosition = WorldToTimelinePosition(pos);
+                Vector3[] positions = note.GetRepeatPositions();
                 
-                // Używamy pełnej długości timeline'a do rozmieszczania nut
-                clip.start = timePosition;
-                clip.duration = note.duration;
-                samplerClip.midiNote = note.pitch;
-                samplerClip.duration = note.duration;
-                samplerClip.startTime = timePosition;
-                samplerClip.velocity = note.velocity;
-                clip.displayName = $"Note {note.pitch} at {timePosition:F2}s";
-                totalClipsCreated++;
+                foreach (Vector3 pos in positions)
+                {
+                    var clip = pianoRollTrack.CreateClip();
+                    if (clip == null || clip.asset == null) continue;
+                    
+                    var samplerClip = clip.asset as SamplerPianoRollClip;
+                    if (samplerClip == null) continue;
+
+                    float timePosition = WorldToTimelinePosition(pos, containerIndex);
+                    
+                    clip.start = timePosition;
+                    clip.duration = note.duration;
+                    samplerClip.midiNote = note.pitch;
+                    samplerClip.duration = note.duration;
+                    samplerClip.startTime = timePosition;
+                    samplerClip.velocity = note.velocity;
+                    clip.displayName = $"Note {note.pitch} at {timePosition:F2}s";
+                    totalClipsCreated++;
+                }
             }
         }
 
         timeline.RebuildGraph();
-        
-        // Przywróć czas timeline
         timeline.time = currentTime;
     }
 
-    // Call this method whenever you want to mark the sequence for update
     public void MarkSequenceForUpdate()
     {
         Debug.Log("[CitySequencer] Sequence marked for update!");
@@ -392,12 +366,11 @@ public class CitySequencer : MonoBehaviour
 
     private void OnDrawGizmos()
     {
-        // Draw grid if snapping is enabled
         if (snapToGrid)
         {
             Gizmos.color = new Color(1f, 1f, 1f, 0.2f);
-            float beatSize = timelineLength * beatFraction;
-            int gridCount = Mathf.CeilToInt(timelineLength / beatSize);
+            float beatSize = containerDuration * beatFraction;
+            int gridCount = Mathf.CeilToInt(totalTimelineLength / beatSize);
             
             for (int i = 0; i <= gridCount; i++)
             {
@@ -412,8 +385,6 @@ public class CitySequencer : MonoBehaviour
 
     public void SetTimelineLength(float length)
     {
-        timelineLength = length;
-        
         if (timeline == null)
         {
             Debug.LogError("[CitySequencer] Cannot set timeline length: timeline is null!");
@@ -428,7 +399,7 @@ public class CitySequencer : MonoBehaviour
         }
         
         timelineAsset.durationMode = TimelineAsset.DurationMode.FixedLength;
-        timelineAsset.fixedDuration = timelineLength;
+        timelineAsset.fixedDuration = length;
         
         UpdateSequence();
     }
@@ -436,6 +407,6 @@ public class CitySequencer : MonoBehaviour
     public void SetShouldShiftNotes(bool value)
     {
         shouldShiftNotes = value;
-        wasShiftRequested = true; // Oznacz, że przesunięcie zostało zażądane
+        wasShiftRequested = true;
     }
 } 
