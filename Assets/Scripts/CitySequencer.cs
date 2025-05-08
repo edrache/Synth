@@ -17,6 +17,14 @@ public class CitySequencer : MonoBehaviour
     [Tooltip("If true, sequence updates immediately when notes change. If false, updates at the end of timeline loop.")]
     [SerializeField] private bool updateImmediately = true;
     [SerializeField] private bool shouldShiftNotes = false;
+    [SerializeField] private bool enableOctaveTransposition = true;
+    [Tooltip("Curve controlling octave transposition. X axis is timeline time, Y axis is octave change (0 = no change, 1 = +1 octave, -1 = -1 octave)")]
+    [SerializeField] private AnimationCurve octaveTranspositionCurve = new AnimationCurve(
+        new Keyframe(0f, 0f, 0f, 0f), // Start at 0 octaves
+        new Keyframe(4f, 1f, 0f, 0f), // At 4 seconds, +1 octave
+        new Keyframe(8f, -1f, 0f, 0f), // At 8 seconds, -1 octave
+        new Keyframe(12f, 0f, 0f, 0f)  // At 12 seconds, back to 0
+    );
     private bool wasShiftRequested = false;
 
     [Header("Position Mapping")]
@@ -26,7 +34,22 @@ public class CitySequencer : MonoBehaviour
     private float lastTimelineTime = 0f;
     private bool sequenceNeedsUpdate = false;
     private float totalTimelineLength => containerDuration * noteContainers.Count;
-    private float loopTime => totalTimelineLength; // Loop time is now equal to total timeline length
+    private float loopTime => totalTimelineLength;
+
+    // Calculate transposition based on the curve at a specific time
+    private int GetTranspositionAtTime(float time)
+    {
+        if (!enableOctaveTransposition) return 0;
+        
+        // Evaluate the curve at the given time
+        float octaveChange = octaveTranspositionCurve.Evaluate(time);
+        
+        // Convert octave change to semitones (1 octave = 12 semitones)
+        int semitones = Mathf.RoundToInt(octaveChange * 12);
+        
+        Debug.Log($"[CitySequencer] Time {time:F2}s: octave change = {octaveChange:F2}, semitones = {semitones}");
+        return semitones;
+    }
 
     public float GetTimelineLength()
     {
@@ -342,13 +365,19 @@ public class CitySequencer : MonoBehaviour
 
                     float timePosition = WorldToTimelinePosition(pos, containerIndex);
                     
+                    // Get transposition from the curve at this time position
+                    int transposition = GetTranspositionAtTime(timePosition);
+                    
+                    // Apply transposition to the note pitch
+                    int transposedPitch = note.pitch + transposition;
+                    
                     clip.start = timePosition;
                     clip.duration = note.duration;
-                    samplerClip.midiNote = note.pitch;
+                    samplerClip.midiNote = transposedPitch;
                     samplerClip.duration = note.duration;
                     samplerClip.startTime = timePosition;
                     samplerClip.velocity = note.velocity;
-                    clip.displayName = $"Note {note.pitch} at {timePosition:F2}s";
+                    clip.displayName = $"Note {transposedPitch} (original: {note.pitch}, transposition: {transposition}) at {timePosition:F2}s";
                     totalClipsCreated++;
                 }
             }

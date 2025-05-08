@@ -760,11 +760,47 @@ MonoBehaviour:
   noteContainers:
   - {fileID: 2117480665}
   - {fileID: 2117480665}
+  - {fileID: 2117480665}
+  - {fileID: 2117480665}
   trackIndex: 0
   containerDuration: 4
   beatFraction: 0.25
   updateImmediately: 0
   shouldShiftNotes: 0
+  enableOctaveTransposition: 1
+  octaveTranspositionCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: Infinity
+      outSlope: Infinity
+      tangentMode: 103
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 8
+      value: 1
+      inSlope: Infinity
+      outSlope: Infinity
+      tangentMode: 103
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0
+    - serializedVersion: 3
+      time: 12
+      value: 2
+      inSlope: Infinity
+      outSlope: Infinity
+      tangentMode: 103
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
   worldScale: 1
   snapToGrid: 0
 --- !u!1 &487311585
@@ -3731,9 +3767,9 @@ SceneRoots:
   - {fileID: 1897839890}
   - {fileID: 612406863}
   - {fileID: 324614958}
-  - {fileID: 1660008986}
   - {fileID: 863211051}
   - {fileID: 1431333913}
   - {fileID: 1561926757}
   - {fileID: 819157208}
+  - {fileID: 1660008986}
   - {fileID: 388899461}
