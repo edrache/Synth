@@ -594,4 +594,66 @@ public class CityNoteContainer : MonoBehaviour
         // Update indices without sorting by position
         UpdateNoteIndices(false);
     }
+
+    [ContextMenu("Sort Notes By 3D Position")]
+    public void SortNotesBy3DPosition()
+    {
+        if (notes == null || notes.Count == 0)
+        {
+            Debug.LogWarning("[CityNoteContainer] No notes to sort!");
+            return;
+        }
+
+        Debug.Log("[CityNoteContainer] Starting sort by 3D position");
+        Debug.Log("[CityNoteContainer] Initial order:");
+        for (int i = 0; i < notes.Count; i++)
+        {
+            if (notes[i] != null)
+            {
+                Vector3 pos = notes[i].transform.position;
+                Debug.Log($"[CityNoteContainer] Note {i}: {notes[i].gameObject.name} - Z={Mathf.Round(pos.z * 1000f) / 1000f}, X={Mathf.Round(pos.x * 1000f) / 1000f}");
+            }
+        }
+
+        // Sort notes by Z (descending) and then by X (ascending)
+        notes.Sort((a, b) =>
+        {
+            if (a == null || b == null) return 0;
+            
+            // Round Z values to handle floating point precision
+            float aZ = Mathf.Round(a.transform.position.z * 1000f) / 1000f;
+            float bZ = Mathf.Round(b.transform.position.z * 1000f) / 1000f;
+            
+            // First compare Z (descending - highest Z first)
+            int zComparison = bZ.CompareTo(aZ);
+            if (zComparison != 0)
+            {
+                Debug.Log($"[CityNoteContainer] Comparing Z: {a.gameObject.name}({aZ}) vs {b.gameObject.name}({bZ}) = {zComparison}");
+                return zComparison;
+            }
+            
+            // If Z is the same, compare X (ascending - lowest X first)
+            float aX = Mathf.Round(a.transform.position.x * 1000f) / 1000f;
+            float bX = Mathf.Round(b.transform.position.x * 1000f) / 1000f;
+            int xComparison = aX.CompareTo(bX);
+            Debug.Log($"[CityNoteContainer] Z equal, comparing X: {a.gameObject.name}({aX}) vs {b.gameObject.name}({bX}) = {xComparison}");
+            return xComparison;
+        });
+
+        // Update the notes list through the property
+        Notes = new List<CityNote>(notes);
+        
+        Debug.Log("[CityNoteContainer] Final order after sorting:");
+        for (int i = 0; i < notes.Count; i++)
+        {
+            if (notes[i] != null)
+            {
+                Vector3 pos = notes[i].transform.position;
+                Debug.Log($"[CityNoteContainer] Note {i}: {notes[i].gameObject.name} - Z={Mathf.Round(pos.z * 1000f) / 1000f}, X={Mathf.Round(pos.x * 1000f) / 1000f}");
+            }
+        }
+
+        // Update indices without sorting by position
+        UpdateNoteIndices(false);
+    }
 } 
