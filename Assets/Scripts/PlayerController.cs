@@ -1,7 +1,7 @@
 using UnityEngine;
 using Rewired;
 
-// This script moves the player using Rigidbody and Rewired input.
+// This script moves the player using Rigidbody and Rewired input, including jumping.
 [RequireComponent(typeof(Rigidbody))]
 public class PlayerController : MonoBehaviour
 {
@@ -10,7 +10,14 @@ public class PlayerController : MonoBehaviour
     private Player player; // The Rewired Player
 
     public float moveSpeed = 5f;
+    public float jumpForce = 7f;
     private Rigidbody rb;
+
+    // Ground check variables
+    public Transform groundCheck;
+    public float groundCheckRadius = 0.2f;
+    public LayerMask groundLayer;
+    private bool isGrounded;
 
     private void Awake()
     {
@@ -30,5 +37,17 @@ public class PlayerController : MonoBehaviour
 
         // Move the player using Rigidbody
         rb.MovePosition(rb.position + movement * moveSpeed * Time.fixedDeltaTime);
+
+        // Ground check
+        isGrounded = Physics.CheckSphere(groundCheck.position, groundCheckRadius, groundLayer);
+    }
+
+    private void Update()
+    {
+        // Handle jump input in Update for better responsiveness
+        if (player.GetButtonDown("Jump") && isGrounded)
+        {
+            rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
+        }
     }
 } 
