@@ -101,7 +101,7 @@ GameObject:
   - component: {fileID: -9048437324467321067}
   - component: {fileID: 6678755774273880345}
   m_Layer: 0
-  m_Name: CityCube1
+  m_Name: CityCube1_random
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
