@@ -19,6 +19,8 @@ public class Sampler : MonoBehaviour, ISampler
     public Note rootNote = Note.C;
     [Range(-2, 2)] public int octaveOffset = 0;
     public bool oneShot = false;
+    [Tooltip("If true, notes will be automatically adjusted to fit the current musical scale")]
+    public bool useScaleAdjustment = false;
 
     [Header("Playback Settings")]
     [Range(0f, 1f)] public float volume = 1f;
@@ -104,6 +106,40 @@ public class Sampler : MonoBehaviour, ISampler
         {
             Debug.LogError("AudioSource not initialized!");
             return;
+        }
+
+        // If scale adjustment is enabled, modify the note to fit the current scale
+        if (useScaleAdjustment)
+        {
+            var bpmController = FindObjectOfType<TimelineBPMController>();
+            if (bpmController != null)
+            {
+                int[] scaleNotes = bpmController.GetScaleNotes();
+                if (scaleNotes != null && scaleNotes.Length > 0)
+                {
+                    // Get the octave and note number (0-11) of the current note
+                    int currentOctave = midiNote / 12;
+                    int currentNoteInOctave = midiNote % 12;
+                    
+                    // Find the closest note in the scale within the same octave
+                    int closestNoteInOctave = scaleNotes[0] % 12;
+                    int minDistance = Mathf.Abs(currentNoteInOctave - closestNoteInOctave);
+                    
+                    foreach (int scaleNote in scaleNotes)
+                    {
+                        int noteInOctave = scaleNote % 12;
+                        int distance = Mathf.Abs(currentNoteInOctave - noteInOctave);
+                        if (distance < minDistance)
+                        {
+                            minDistance = distance;
+                            closestNoteInOctave = noteInOctave;
+                        }
+                    }
+                    
+                    // Combine the original octave with the closest note in scale
+                    midiNote = (currentOctave * 12) + closestNoteInOctave;
+                }
+            }
         }
 
         float targetFreq = MidiToFreq(midiNote);

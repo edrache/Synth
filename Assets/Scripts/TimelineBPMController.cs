@@ -15,7 +15,7 @@ public class TimelineBPMController : MonoBehaviour
     [SerializeField]
     private MusicalScale currentScale = MusicalScale.CMajor;
     
-    [Tooltip("MIDI note number for the root note (60 = Middle C)")]
+    [Tooltip("MIDI note number for the root note (automatically set based on scale)")]
     [Range(24, 96)]
     [SerializeField]
     private int currentRootNote = 60;
@@ -38,13 +38,25 @@ public class TimelineBPMController : MonoBehaviour
     public MusicalScale Scale
     {
         get => currentScale;
-        set => currentScale = value;
+        set
+        {
+            currentScale = value;
+            UpdateRootNoteFromScale();
+        }
     }
 
     public int RootNote
     {
         get => currentRootNote;
-        set => currentRootNote = value;
+        set
+        {
+            #if UNITY_EDITOR
+            if (!Application.isPlaying)
+            {
+                currentRootNote = value;
+            }
+            #endif
+        }
     }
     #endregion
 
@@ -80,8 +92,41 @@ public class TimelineBPMController : MonoBehaviour
         [InspectorName("Ab Minor")] AFlatMinor
     }
 
+    private void UpdateRootNoteFromScale()
+    {
+        // Extract the root note from the scale name
+        string scaleName = currentScale.ToString();
+        string rootNoteName = scaleName.Substring(0, scaleName.Length - 5); // Remove "Major" or "Minor"
+        
+        // Convert note name to MIDI number
+        int midiNote = rootNoteName switch
+        {
+            "C" => 60,
+            "G" => 67,
+            "D" => 62,
+            "A" => 69,
+            "E" => 64,
+            "B" => 71,
+            "FSharp" => 66,
+            "F" => 65,
+            "BFlat" => 70,
+            "EFlat" => 63,
+            "AFlat" => 68,
+            "DFlat" => 61,
+            "GFlat" => 66,
+            "CSharp" => 61,
+            "GSharp" => 68,
+            "DSharp" => 63,
+            "ASharp" => 70,
+            _ => 60 // Default to C
+        };
+        
+        currentRootNote = midiNote;
+    }
+
     private void Start()
     {
+        UpdateRootNoteFromScale();
         UpdateAllTimelines();
     }
 
@@ -124,6 +169,7 @@ public class TimelineBPMController : MonoBehaviour
     {
         if (Application.isPlaying)
         {
+            UpdateRootNoteFromScale();
             UpdateAllTimelines();
         }
     }

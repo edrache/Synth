@@ -23,14 +23,14 @@ public class ChromaticAberrationController : MonoBehaviour
     {
         if (postProcessVolume == null)
         {
-            Debug.LogError("[ChromaticAberrationController] Post Process Volume reference is missing!");
+            //Debug.LogError("[ChromaticAberrationController] Post Process Volume reference is missing!");
             return;
         }
 
         // Get the Chromatic Aberration effect
         if (!postProcessVolume.profile.TryGet(out chromaticAberration))
         {
-            Debug.LogError("[ChromaticAberrationController] Chromatic Aberration effect not found in Post Process Volume!");
+            //Debug.LogError("[ChromaticAberrationController] Chromatic Aberration effect not found in Post Process Volume!");
             return;
         }
 
@@ -71,7 +71,7 @@ public class ChromaticAberrationController : MonoBehaviour
                 fadeStartTime = Time.time;
                 currentIntensity = maxIntensity;
                 chromaticAberration.intensity.value = maxIntensity;
-                Debug.Log($"[ChromaticAberrationController] Clip detected, starting fade from {maxIntensity}");
+                //Debug.Log($"[ChromaticAberrationController] Clip detected, starting fade from {maxIntensity}");
             }
         }
         else if (isFading)
@@ -85,7 +85,7 @@ public class ChromaticAberrationController : MonoBehaviour
                 isFading = false;
                 currentIntensity = 0f;
                 chromaticAberration.intensity.value = 0f;
-                Debug.Log("[ChromaticAberrationController] Fade complete");
+                //Debug.Log("[ChromaticAberrationController] Fade complete");
             }
             else
             {

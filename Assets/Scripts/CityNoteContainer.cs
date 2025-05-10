@@ -48,14 +48,14 @@ public class CityNoteContainer : MonoBehaviour
 
     private void Start()
     {
-        Debug.Log("[CityNoteContainer] Starting initialization...");
-        Debug.Log($"[CityNoteContainer] Note distribution time: {noteDistributionTime}");
-        Debug.Log($"[CityNoteContainer] Auto recalculate positions: {autoRecalculatePositions}");
-        Debug.Log($"[CityNoteContainer] Update immediately: {updateImmediately}");
+        //Debug.Log("[CityNoteContainer] Starting initialization...");
+        //Debug.Log($"[CityNoteContainer] Note distribution time: {noteDistributionTime}");
+        //Debug.Log($"[CityNoteContainer] Auto recalculate positions: {autoRecalculatePositions}");
+        //Debug.Log($"[CityNoteContainer] Update immediately: {updateImmediately}");
         
         if (notes == null)
         {
-            Debug.LogError("[CityNoteContainer] Notes list is null! Initializing empty list.");
+            //Debug.LogError("[CityNoteContainer] Notes list is null! Initializing empty list.");
             notes = new List<CityNote>();
         }
         
@@ -66,9 +66,9 @@ public class CityNoteContainer : MonoBehaviour
         lastVelocities = new Dictionary<CityNote, float>();
         lastDurations = new Dictionary<CityNote, float>();
         
-        Debug.Log("[CityNoteContainer] Initialization completed");
+        //Debug.Log("[CityNoteContainer] Initialization completed");
         
-        Debug.Log($"[CityNoteContainer] Initial note count: {notes.Count}");
+        //Debug.Log($"[CityNoteContainer] Initial note count: {notes.Count}");
         lastNoteCount = notes.Count;
         
         // Initialize all note properties
@@ -106,7 +106,7 @@ public class CityNoteContainer : MonoBehaviour
     {
         if (notes == null)
         {
-            Debug.LogError("[CityNoteContainer] Notes list is null!");
+            //Debug.LogError("[CityNoteContainer] Notes list is null!");
             return;
         }
 
@@ -150,7 +150,7 @@ public class CityNoteContainer : MonoBehaviour
         // Check if note count changed
         if (notes.Count != lastNoteCount)
         {
-            Debug.Log($"[CityNoteContainer] Note count changed from {lastNoteCount} to {notes.Count}");
+            //Debug.Log($"[CityNoteContainer] Note count changed from {lastNoteCount} to {notes.Count}");
             notesChanged = true;
             lastNoteCount = notes.Count;
             UpdateNoteIndices();
@@ -164,14 +164,14 @@ public class CityNoteContainer : MonoBehaviour
             {
                 if (lastPos != note.position)
                 {
-                    Debug.Log($"[CityNoteContainer] Note position changed from {lastPos} to {note.position}");
+                    //Debug.Log($"[CityNoteContainer] Note position changed from {lastPos} to {note.position}");
                     positionsChanged = true;
                     lastPositions[note] = note.position;
                 }
             }
             else
             {
-                Debug.Log($"[CityNoteContainer] New note position tracked: {note.position}");
+                //Debug.Log($"[CityNoteContainer] New note position tracked: {note.position}");
                 lastPositions[note] = note.position;
                 positionsChanged = true;
             }
@@ -181,14 +181,14 @@ public class CityNoteContainer : MonoBehaviour
             {
                 if (lastRepeatCount != note.repeatCount)
                 {
-                    Debug.Log($"[CityNoteContainer] Note repeat count changed from {lastRepeatCount} to {note.repeatCount}");
+                    //Debug.Log($"[CityNoteContainer] Note repeat count changed from {lastRepeatCount} to {note.repeatCount}");
                     repeatCountsChanged = true;
                     lastRepeatCounts[note] = note.repeatCount;
                 }
             }
             else
             {
-                Debug.Log($"[CityNoteContainer] New note repeat count tracked: {note.repeatCount}");
+                //Debug.Log($"[CityNoteContainer] New note repeat count tracked: {note.repeatCount}");
                 lastRepeatCounts[note] = note.repeatCount;
                 repeatCountsChanged = true;
             }
@@ -198,14 +198,14 @@ public class CityNoteContainer : MonoBehaviour
             {
                 if (lastPitch != note.pitch)
                 {
-                    Debug.Log($"[CityNoteContainer] Note pitch changed from {lastPitch} to {note.pitch}");
+                    //Debug.Log($"[CityNoteContainer] Note pitch changed from {lastPitch} to {note.pitch}");
                     pitchesChanged = true;
                     lastPitches[note] = note.pitch;
                 }
             }
             else
             {
-                Debug.Log($"[CityNoteContainer] New note pitch tracked: {note.pitch}");
+                //Debug.Log($"[CityNoteContainer] New note pitch tracked: {note.pitch}");
                 lastPitches[note] = note.pitch;
                 pitchesChanged = true;
             }
@@ -215,14 +215,14 @@ public class CityNoteContainer : MonoBehaviour
             {
                 if (lastVelocity != note.velocity)
                 {
-                    Debug.Log($"[CityNoteContainer] Note velocity changed from {lastVelocity} to {note.velocity}");
+                    //Debug.Log($"[CityNoteContainer] Note velocity changed from {lastVelocity} to {note.velocity}");
                     velocitiesChanged = true;
                     lastVelocities[note] = note.velocity;
                 }
             }
             else
             {
-                Debug.Log($"[CityNoteContainer] New note velocity tracked: {note.velocity}");
+                //Debug.Log($"[CityNoteContainer] New note velocity tracked: {note.velocity}");
                 lastVelocities[note] = note.velocity;
                 velocitiesChanged = true;
             }
@@ -232,14 +232,14 @@ public class CityNoteContainer : MonoBehaviour
             {
                 if (lastDuration != note.duration)
                 {
-                    Debug.Log($"[CityNoteContainer] Note duration changed from {lastDuration} to {note.duration}");
+                    //Debug.Log($"[CityNoteContainer] Note duration changed from {lastDuration} to {note.duration}");
                     durationsChanged = true;
                     lastDurations[note] = note.duration;
                 }
             }
             else
             {
-                Debug.Log($"[CityNoteContainer] New note duration tracked: {note.duration}");
+                //Debug.Log($"[CityNoteContainer] New note duration tracked: {note.duration}");
                 lastDurations[note] = note.duration;
                 durationsChanged = true;
             }
@@ -249,9 +249,9 @@ public class CityNoteContainer : MonoBehaviour
         if (positionsChanged || notesChanged || repeatCountsChanged || pitchesChanged || 
             velocitiesChanged || durationsChanged || forceUpdate)
         {
-            Debug.Log($"[CityNoteContainer] Notes changed: positions={positionsChanged}, " +
-                     $"notes={notesChanged}, repeats={repeatCountsChanged}, pitches={pitchesChanged}, " +
-                     $"velocities={velocitiesChanged}, durations={durationsChanged}, force={forceUpdate}");
+            //Debug.Log($"[CityNoteContainer] Notes changed: positions={positionsChanged}, " +
+            //         $"notes={notesChanged}, repeats={repeatCountsChanged}, pitches={pitchesChanged}, " +
+            //         $"velocities={velocitiesChanged}, durations={durationsChanged}, force={forceUpdate}");
             OnNotesChanged?.Invoke();
             forceUpdate = false;
         }
@@ -261,13 +261,13 @@ public class CityNoteContainer : MonoBehaviour
     {
         if (note == null)
         {
-            Debug.LogError("[CityNoteContainer] Cannot add null note!");
+            //Debug.LogError("[CityNoteContainer] Cannot add null note!");
             return;
         }
 
         if (notes == null)
         {
-            Debug.LogError("[CityNoteContainer] Notes list is null!");
+            //Debug.LogError("[CityNoteContainer] Notes list is null!");
             return;
         }
 
@@ -279,13 +279,13 @@ public class CityNoteContainer : MonoBehaviour
     {
         if (note == null)
         {
-            Debug.LogError("[CityNoteContainer] Cannot remove null note!");
+            //Debug.LogError("[CityNoteContainer] Cannot remove null note!");
             return;
         }
 
         if (notes == null)
         {
-            Debug.LogError("[CityNoteContainer] Notes list is null!");
+            //Debug.LogError("[CityNoteContainer] Notes list is null!");
             return;
         }
 
@@ -308,7 +308,7 @@ public class CityNoteContainer : MonoBehaviour
         lastPitches.Clear();
         lastVelocities.Clear();
         lastDurations.Clear();
-        Debug.Log($"[CityNoteContainer] Cleared {count} notes");
+        //Debug.Log($"[CityNoteContainer] Cleared {count} notes");
         
         UpdateNoteIndices();
     }
@@ -320,26 +320,26 @@ public class CityNoteContainer : MonoBehaviour
 
     public void SetNoteDistributionTime(float time)
     {
-        Debug.Log($"[CityNoteContainer] Setting note distribution time to {time}");
+        //Debug.Log($"[CityNoteContainer] Setting note distribution time to {time}");
         
         if (time <= 0)
         {
-            Debug.LogError("[CityNoteContainer] Cannot set note distribution time to zero or negative value!");
+            //Debug.LogError("[CityNoteContainer] Cannot set note distribution time to zero or negative value!");
             return;
         }
         
         noteDistributionTime = time;
-        Debug.Log($"[CityNoteContainer] Note distribution time updated to {noteDistributionTime}");
+        //Debug.Log($"[CityNoteContainer] Note distribution time updated to {noteDistributionTime}");
         
         // Update note positions if auto-recalculate is enabled
         if (autoRecalculatePositions)
         {
-            Debug.Log("[CityNoteContainer] Auto-recalculate enabled, updating note positions");
+            //Debug.Log("[CityNoteContainer] Auto-recalculate enabled, updating note positions");
             UpdateNoteIndices();
         }
         else
         {
-            Debug.Log("[CityNoteContainer] Auto-recalculate disabled, skipping position update");
+            //Debug.Log("[CityNoteContainer] Auto-recalculate disabled, skipping position update");
         }
     }
 
@@ -355,7 +355,7 @@ public class CityNoteContainer : MonoBehaviour
             {
                 ForceUpdate();
             }
-            Debug.Log($"[CityNoteContainer] Moved note up from index {index} to {index - 1}");
+            //Debug.Log($"[CityNoteContainer] Moved note up from index {index} to {index - 1}");
         }
     }
 
@@ -371,7 +371,7 @@ public class CityNoteContainer : MonoBehaviour
             {
                 ForceUpdate();
             }
-            Debug.Log($"[CityNoteContainer] Moved note down from index {index} to {index + 1}");
+            //Debug.Log($"[CityNoteContainer] Moved note down from index {index} to {index + 1}");
         }
     }
 
@@ -437,18 +437,18 @@ public class CityNoteContainer : MonoBehaviour
     {
         if (notes == null || notes.Count == 0)
         {
-            Debug.LogWarning("[CityNoteContainer] No notes to sort!");
+            //Debug.LogWarning("[CityNoteContainer] No notes to sort!");
             return;
         }
 
-        Debug.Log("[CityNoteContainer] Starting sort by transform position");
-        Debug.Log("[CityNoteContainer] Initial order:");
+        //Debug.Log("[CityNoteContainer] Starting sort by transform position");
+        //Debug.Log("[CityNoteContainer] Initial order:");
         for (int i = 0; i < notes.Count; i++)
         {
             if (notes[i] != null)
             {
                 Vector3 pos = notes[i].transform.position;
-                Debug.Log($"[CityNoteContainer] Note {i}: {notes[i].gameObject.name} - Z={Mathf.Round(pos.z * 1000f) / 1000f}, X={Mathf.Round(pos.x * 1000f) / 1000f}");
+                //Debug.Log($"[CityNoteContainer] Note {i}: {notes[i].gameObject.name} - Z={Mathf.Round(pos.z * 1000f) / 1000f}, X={Mathf.Round(pos.x * 1000f) / 1000f}");
             }
         }
         
@@ -465,7 +465,7 @@ public class CityNoteContainer : MonoBehaviour
             int zComparison = bZ.CompareTo(aZ);
             if (zComparison != 0)
             {
-                Debug.Log($"[CityNoteContainer] Comparing Z: {a.gameObject.name}({aZ}) vs {b.gameObject.name}({bZ}) = {zComparison}");
+                //Debug.Log($"[CityNoteContainer] Comparing Z: {a.gameObject.name}({aZ}) vs {b.gameObject.name}({bZ}) = {zComparison}");
                 return zComparison;
             }
             
@@ -473,7 +473,7 @@ public class CityNoteContainer : MonoBehaviour
             float aX = Mathf.Round(a.transform.position.x * 1000f) / 1000f;
             float bX = Mathf.Round(b.transform.position.x * 1000f) / 1000f;
             int xComparison = aX.CompareTo(bX);
-            Debug.Log($"[CityNoteContainer] Z equal, comparing X: {a.gameObject.name}({aX}) vs {b.gameObject.name}({bX}) = {xComparison}");
+            //Debug.Log($"[CityNoteContainer] Z equal, comparing X: {a.gameObject.name}({aX}) vs {b.gameObject.name}({bX}) = {xComparison}");
             return xComparison;
         });
 
@@ -481,13 +481,13 @@ public class CityNoteContainer : MonoBehaviour
         UpdateNoteIndices();
         
         // Log the new order
-        Debug.Log("[CityNoteContainer] Final order after sorting:");
+        //Debug.Log("[CityNoteContainer] Final order after sorting:");
         for (int i = 0; i < notes.Count; i++)
         {
             if (notes[i] != null)
             {
                 Vector3 pos = notes[i].transform.position;
-                Debug.Log($"[CityNoteContainer] Note {i}: {notes[i].gameObject.name} - Z={Mathf.Round(pos.z * 1000f) / 1000f}, X={Mathf.Round(pos.x * 1000f) / 1000f}");
+                //Debug.Log($"[CityNoteContainer] Note {i}: {notes[i].gameObject.name} - Z={Mathf.Round(pos.z * 1000f) / 1000f}, X={Mathf.Round(pos.x * 1000f) / 1000f}");
             }
         }
 
@@ -500,23 +500,23 @@ public class CityNoteContainer : MonoBehaviour
     {
         if (notes == null || notes.Count <= 1)
         {
-            Debug.LogWarning("[CityNoteContainer] Not enough notes to shift!");
+            //Debug.LogWarning("[CityNoteContainer] Not enough notes to shift!");
             return;
         }
 
-        Debug.Log("[CityNoteContainer] Starting shift forward");
-        Debug.Log("[CityNoteContainer] Initial order:");
+        //Debug.Log("[CityNoteContainer] Starting shift forward");
+        //Debug.Log("[CityNoteContainer] Initial order:");
         for (int i = 0; i < notes.Count; i++)
         {
             if (notes[i] != null)
             {
-                Debug.Log($"[CityNoteContainer] Note {i}: {notes[i].gameObject.name}");
+                //Debug.Log($"[CityNoteContainer] Note {i}: {notes[i].gameObject.name}");
             }
         }
         
         // Store the last note
         var lastNote = notes[notes.Count - 1];
-        Debug.Log($"[CityNoteContainer] Stored last note: {lastNote.gameObject.name}");
+        //Debug.Log($"[CityNoteContainer] Stored last note: {lastNote.gameObject.name}");
         
         // Create a new list to store the shifted order
         var newNotes = new List<CityNote>();
@@ -531,12 +531,12 @@ public class CityNoteContainer : MonoBehaviour
         // Update the notes list through the property
         Notes = newNotes;
         
-        Debug.Log("[CityNoteContainer] Final order after shift:");
+        //Debug.Log("[CityNoteContainer] Final order after shift:");
         for (int i = 0; i < notes.Count; i++)
         {
             if (notes[i] != null)
             {
-                Debug.Log($"[CityNoteContainer] Note {i}: {notes[i].gameObject.name}");
+                //Debug.Log($"[CityNoteContainer] Note {i}: {notes[i].gameObject.name}");
             }
         }
 
@@ -549,23 +549,23 @@ public class CityNoteContainer : MonoBehaviour
     {
         if (notes == null || notes.Count <= 2)
         {
-            Debug.LogWarning("[CityNoteContainer] Not enough notes to shift first note by 2 positions!");
+            //Debug.LogWarning("[CityNoteContainer] Not enough notes to shift first note by 2 positions!");
             return;
         }
 
-        Debug.Log("[CityNoteContainer] Starting shift first note forward by 2");
-        Debug.Log("[CityNoteContainer] Initial order:");
+        //Debug.Log("[CityNoteContainer] Starting shift first note forward by 2");
+        //Debug.Log("[CityNoteContainer] Initial order:");
         for (int i = 0; i < notes.Count; i++)
         {
             if (notes[i] != null)
             {
-                Debug.Log($"[CityNoteContainer] Note {i}: {notes[i].gameObject.name}");
+                //Debug.Log($"[CityNoteContainer] Note {i}: {notes[i].gameObject.name}");
             }
         }
         
         // Store the first note
         var firstNote = notes[0];
-        Debug.Log($"[CityNoteContainer] Stored first note: {firstNote.gameObject.name}");
+        //Debug.Log($"[CityNoteContainer] Stored first note: {firstNote.gameObject.name}");
         
         // Create a new list to store the shifted order
         var newNotes = new List<CityNote>();
@@ -582,12 +582,12 @@ public class CityNoteContainer : MonoBehaviour
         // Update the notes list through the property
         Notes = newNotes;
         
-        Debug.Log("[CityNoteContainer] Final order after shift:");
+        //Debug.Log("[CityNoteContainer] Final order after shift:");
         for (int i = 0; i < notes.Count; i++)
         {
             if (notes[i] != null)
             {
-                Debug.Log($"[CityNoteContainer] Note {i}: {notes[i].gameObject.name}");
+                //Debug.Log($"[CityNoteContainer] Note {i}: {notes[i].gameObject.name}");
             }
         }
 
@@ -600,18 +600,18 @@ public class CityNoteContainer : MonoBehaviour
     {
         if (notes == null || notes.Count == 0)
         {
-            Debug.LogWarning("[CityNoteContainer] No notes to sort!");
+            //Debug.LogWarning("[CityNoteContainer] No notes to sort!");
             return;
         }
 
-        Debug.Log("[CityNoteContainer] Starting sort by 3D position");
-        Debug.Log("[CityNoteContainer] Initial order:");
+        //Debug.Log("[CityNoteContainer] Starting sort by 3D position");
+        //Debug.Log("[CityNoteContainer] Initial order:");
         for (int i = 0; i < notes.Count; i++)
         {
             if (notes[i] != null)
             {
                 Vector3 pos = notes[i].transform.position;
-                Debug.Log($"[CityNoteContainer] Note {i}: {notes[i].gameObject.name} - Z={Mathf.Round(pos.z * 1000f) / 1000f}, X={Mathf.Round(pos.x * 1000f) / 1000f}");
+                //Debug.Log($"[CityNoteContainer] Note {i}: {notes[i].gameObject.name} - Z={Mathf.Round(pos.z * 1000f) / 1000f}, X={Mathf.Round(pos.x * 1000f) / 1000f}");
             }
         }
 
@@ -628,7 +628,7 @@ public class CityNoteContainer : MonoBehaviour
             int zComparison = bZ.CompareTo(aZ);
             if (zComparison != 0)
             {
-                Debug.Log($"[CityNoteContainer] Comparing Z: {a.gameObject.name}({aZ}) vs {b.gameObject.name}({bZ}) = {zComparison}");
+                //Debug.Log($"[CityNoteContainer] Comparing Z: {a.gameObject.name}({aZ}) vs {b.gameObject.name}({bZ}) = {zComparison}");
                 return zComparison;
             }
             
@@ -636,20 +636,20 @@ public class CityNoteContainer : MonoBehaviour
             float aX = Mathf.Round(a.transform.position.x * 1000f) / 1000f;
             float bX = Mathf.Round(b.transform.position.x * 1000f) / 1000f;
             int xComparison = aX.CompareTo(bX);
-            Debug.Log($"[CityNoteContainer] Z equal, comparing X: {a.gameObject.name}({aX}) vs {b.gameObject.name}({bX}) = {xComparison}");
+            //Debug.Log($"[CityNoteContainer] Z equal, comparing X: {a.gameObject.name}({aX}) vs {b.gameObject.name}({bX}) = {xComparison}");
             return xComparison;
         });
 
         // Update the notes list through the property
         Notes = new List<CityNote>(notes);
         
-        Debug.Log("[CityNoteContainer] Final order after sorting:");
+        //Debug.Log("[CityNoteContainer] Final order after sorting:");
         for (int i = 0; i < notes.Count; i++)
         {
             if (notes[i] != null)
             {
                 Vector3 pos = notes[i].transform.position;
-                Debug.Log($"[CityNoteContainer] Note {i}: {notes[i].gameObject.name} - Z={Mathf.Round(pos.z * 1000f) / 1000f}, X={Mathf.Round(pos.x * 1000f) / 1000f}");
+                //Debug.Log($"[CityNoteContainer] Note {i}: {notes[i].gameObject.name} - Z={Mathf.Round(pos.z * 1000f) / 1000f}, X={Mathf.Round(pos.x * 1000f) / 1000f}");
             }
         }
 

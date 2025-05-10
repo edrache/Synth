@@ -57,7 +57,7 @@ public class CitySequencer : MonoBehaviour
         // Convert octave change to semitones (1 octave = 12 semitones)
         int semitones = Mathf.RoundToInt(octaveChange * 12);
         
-        Debug.Log($"[CitySequencer] Time {time:F2}s: octave change = {octaveChange:F2}, semitones = {semitones}");
+        //Debug.Log($"[CitySequencer] Time {time:F2}s: octave change = {octaveChange:F2}, semitones = {semitones}");
         return semitones;
     }
 
@@ -72,7 +72,7 @@ public class CitySequencer : MonoBehaviour
         if (velocityCurveLoopDuration > 0)
         {
             curveTime = time % velocityCurveLoopDuration;
-            Debug.Log($"[CitySequencer] Time {time:F2}s: using looped time {curveTime:F2}s (loop duration: {velocityCurveLoopDuration:F2}s)");
+            //Debug.Log($"[CitySequencer] Time {time:F2}s: using looped time {curveTime:F2}s (loop duration: {velocityCurveLoopDuration:F2}s)");
         }
         
         // Evaluate the curve at the given time
@@ -81,7 +81,7 @@ public class CitySequencer : MonoBehaviour
         // Clamp velocity between 0 and 1
         velocity = Mathf.Clamp01(velocity);
         
-        Debug.Log($"[CitySequencer] Time {time:F2}s: velocity = {velocity:F2}");
+        //Debug.Log($"[CitySequencer] Time {time:F2}s: velocity = {velocity:F2}");
         return velocity;
     }
 
@@ -99,13 +99,13 @@ public class CitySequencer : MonoBehaviour
     {
         if (timeline == null)
         {
-            Debug.LogError("[CitySequencer] Timeline reference is missing!");
+            //Debug.LogError("[CitySequencer] Timeline reference is missing!");
             return;
         }
         
         if (noteContainers.Count == 0)
         {
-            Debug.LogError("[CitySequencer] No note containers assigned! Please assign at least one CityNoteContainer in the inspector.");
+            //Debug.LogError("[CitySequencer] No note containers assigned! Please assign at least one CityNoteContainer in the inspector.");
             return;
         }
 
@@ -154,20 +154,20 @@ public class CitySequencer : MonoBehaviour
     {
         if (timeline == null)
         {
-            Debug.LogError("[CitySequencer] Timeline reference is missing!");
+            //Debug.LogError("[CitySequencer] Timeline reference is missing!");
             return;
         }
         
         if (noteContainers.Count == 0)
         {
-            Debug.LogError("[CitySequencer] No note containers assigned!");
+            //Debug.LogError("[CitySequencer] No note containers assigned!");
             return;
         }
 
         var timelineAsset = timeline.playableAsset as TimelineAsset;
         if (timelineAsset == null)
         {
-            Debug.LogError("[CitySequencer] Timeline asset is null!");
+            //Debug.LogError("[CitySequencer] Timeline asset is null!");
             return;
         }
 
@@ -178,7 +178,7 @@ public class CitySequencer : MonoBehaviour
         // Validate timeline length
         if (totalTimelineLength <= 0)
         {
-            Debug.LogWarning("[CitySequencer] Total timeline length must be greater than 0.");
+            //Debug.LogWarning("[CitySequencer] Total timeline length must be greater than 0.");
             return;
         }
 
@@ -188,13 +188,13 @@ public class CitySequencer : MonoBehaviour
 
         if (pianoRollTracks.Count == 0)
         {
-            Debug.LogError("[CitySequencer] No piano roll tracks found in timeline!");
+            //Debug.LogError("[CitySequencer] No piano roll tracks found in timeline!");
             return;
         }
 
         if (trackIndex >= pianoRollTracks.Count)
         {
-            Debug.LogError($"[CitySequencer] Track index {trackIndex} out of range! Available tracks: {pianoRollTracks.Count}");
+            //Debug.LogError($"[CitySequencer] Track index {trackIndex} out of range! Available tracks: {pianoRollTracks.Count}");
             return;
         }
 
@@ -208,19 +208,19 @@ public class CitySequencer : MonoBehaviour
 
     private void LogState()
     {
-        Debug.Log("[CitySequencer] Current state:");
-        Debug.Log($"[CitySequencer] - Total timeline length: {totalTimelineLength}");
-        Debug.Log($"[CitySequencer] - Container duration: {containerDuration}");
-        Debug.Log($"[CitySequencer] - Number of containers: {noteContainers.Count}");
-        Debug.Log($"[CitySequencer] - Last timeline time: {lastTimelineTime}");
-        Debug.Log($"[CitySequencer] - Beat fraction: {beatFraction}");
-        Debug.Log($"[CitySequencer] - World scale: {worldScale}");
-        Debug.Log($"[CitySequencer] - Snap to grid: {snapToGrid}");
+        //Debug.Log("[CitySequencer] Current state:");
+        //Debug.Log($"[CitySequencer] - Total timeline length: {totalTimelineLength}");
+        //Debug.Log($"[CitySequencer] - Container duration: {containerDuration}");
+        //Debug.Log($"[CitySequencer] - Number of containers: {noteContainers.Count}");
+        //Debug.Log($"[CitySequencer] - Last timeline time: {lastTimelineTime}");
+        //Debug.Log($"[CitySequencer] - Beat fraction: {beatFraction}");
+        //Debug.Log($"[CitySequencer] - World scale: {worldScale}");
+        //Debug.Log($"[CitySequencer] - Snap to grid: {snapToGrid}");
         
         if (timeline != null)
         {
-            Debug.Log($"[CitySequencer] - Timeline object: {timeline.gameObject.name}");
-            Debug.Log($"[CitySequencer] - Current time: {timeline.time}");
+            //Debug.Log($"[CitySequencer] - Timeline object: {timeline.gameObject.name}");
+            //Debug.Log($"[CitySequencer] - Current time: {timeline.time}");
         }
         
         foreach (var container in noteContainers)
@@ -228,14 +228,14 @@ public class CitySequencer : MonoBehaviour
             if (container != null)
             {
                 var notes = container.GetAllNotes();
-                Debug.Log($"[CitySequencer] - Container: {container.gameObject.name}");
-                Debug.Log($"[CitySequencer] - Total notes: {notes.Count}");
+                //Debug.Log($"[CitySequencer] - Container: {container.gameObject.name}");
+                //Debug.Log($"[CitySequencer] - Total notes: {notes.Count}");
                 
                 foreach (var note in notes)
                 {
                     if (note != null)
                     {
-                        Debug.Log($"[CitySequencer] - Note: pitch={note.pitch}, position={note.position}, duration={note.duration}, velocity={note.velocity}");
+                        //Debug.Log($"[CitySequencer] - Note: pitch={note.pitch}, position={note.position}, duration={note.duration}, velocity={note.velocity}");
                     }
                 }
             }
@@ -251,7 +251,7 @@ public class CitySequencer : MonoBehaviour
 
         if (timeline == null)
         {
-            Debug.LogError("[CitySequencer] Timeline is null in Update!");
+            //Debug.LogError("[CitySequencer] Timeline is null in Update!");
             return;
         }
 
@@ -261,7 +261,7 @@ public class CitySequencer : MonoBehaviour
         // Check if Timeline will reach the loop point in the next frame
         if (nextFrameTime >= loopTime)
         {
-            Debug.Log($"[CitySequencer] Timeline reached loop point, looping back to start. Current: {currentTime}, Next: {nextFrameTime}, Loop time: {loopTime}");
+            //Debug.Log($"[CitySequencer] Timeline reached loop point, looping back to start. Current: {currentTime}, Next: {nextFrameTime}, Loop time: {loopTime}");
             
             // Shift notes forward one frame before the loop ends
             if (shouldShiftNotes && wasShiftRequested)
@@ -309,20 +309,20 @@ public class CitySequencer : MonoBehaviour
     {
         if (timeline == null)
         {
-            Debug.LogError("[CitySequencer] Cannot update sequence: timeline is null!");
+            //Debug.LogError("[CitySequencer] Cannot update sequence: timeline is null!");
             return;
         }
         
         if (noteContainers.Count == 0)
         {
-            Debug.LogError("[CitySequencer] No note containers assigned!");
+            //Debug.LogError("[CitySequencer] No note containers assigned!");
             return;
         }
 
         var timelineAsset = timeline.playableAsset as TimelineAsset;
         if (timelineAsset == null)
         {
-            Debug.LogError("[CitySequencer] Timeline asset is null!");
+            //Debug.LogError("[CitySequencer] Timeline asset is null!");
             return;
         }
 
@@ -335,13 +335,13 @@ public class CitySequencer : MonoBehaviour
 
         if (pianoRollTracks.Count == 0)
         {
-            Debug.LogError("[CitySequencer] No piano roll tracks found in timeline!");
+            //Debug.LogError("[CitySequencer] No piano roll tracks found in timeline!");
             return;
         }
 
         if (trackIndex >= pianoRollTracks.Count)
         {
-            Debug.LogError($"[CitySequencer] Track index {trackIndex} out of range! Available tracks: {pianoRollTracks.Count}");
+            //Debug.LogError($"[CitySequencer] Track index {trackIndex} out of range! Available tracks: {pianoRollTracks.Count}");
             return;
         }
 
@@ -350,7 +350,7 @@ public class CitySequencer : MonoBehaviour
 
         if (pianoRollTrack == null)
         {
-            Debug.LogError("[CitySequencer] Failed to cast track to IPianoRollTrack!");
+            //Debug.LogError("[CitySequencer] Failed to cast track to IPianoRollTrack!");
             return;
         }
 
@@ -426,7 +426,7 @@ public class CitySequencer : MonoBehaviour
 
     public void MarkSequenceForUpdate()
     {
-        Debug.Log("[CitySequencer] Sequence marked for update!");
+        //Debug.Log("[CitySequencer] Sequence marked for update!");
         sequenceNeedsUpdate = true;
     }
 
@@ -453,14 +453,14 @@ public class CitySequencer : MonoBehaviour
     {
         if (timeline == null)
         {
-            Debug.LogError("[CitySequencer] Cannot set timeline length: timeline is null!");
+            //Debug.LogError("[CitySequencer] Cannot set timeline length: timeline is null!");
             return;
         }
         
         var timelineAsset = timeline.playableAsset as TimelineAsset;
         if (timelineAsset == null)
         {
-            Debug.LogError("[CitySequencer] Cannot set timeline length: timeline asset is null!");
+            //Debug.LogError("[CitySequencer] Cannot set timeline length: timeline asset is null!");
             return;
         }
         
@@ -485,7 +485,7 @@ public class CitySequencer : MonoBehaviour
     {
         if (newContainers == null)
         {
-            Debug.LogError("[CitySequencer] Cannot set null containers list!");
+            //Debug.LogError("[CitySequencer] Cannot set null containers list!");
             return;
         }
 
@@ -518,7 +518,7 @@ public class CitySequencer : MonoBehaviour
     {
         if (newContainers == null)
         {
-            Debug.LogError("[CitySequencer] Cannot set null containers list!");
+            //Debug.LogError("[CitySequencer] Cannot set null containers list!");
             return;
         }
 
