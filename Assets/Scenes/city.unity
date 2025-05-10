@@ -1050,36 +1050,18 @@ MonoBehaviour:
   beatFraction: 0.25
   updateImmediately: 0
   shouldShiftNotes: 0
-  enableOctaveTransposition: 1
+  enableOctaveTransposition: 0
   enableVelocityControl: 1
-  velocityCurveLoopDuration: 1
+  velocityCurveLoopDuration: 4
   octaveTranspositionCurve:
     serializedVersion: 2
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 0
-      inSlope: Infinity
-      outSlope: Infinity
-      tangentMode: 103
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 8
       value: 1
-      inSlope: Infinity
-      outSlope: Infinity
-      tangentMode: 103
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0
-    - serializedVersion: 3
-      time: 12
-      value: 2
-      inSlope: Infinity
-      outSlope: Infinity
-      tangentMode: 103
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 34
       weightedMode: 0
       inWeight: 0
       outWeight: 0
@@ -1090,8 +1072,8 @@ MonoBehaviour:
     serializedVersion: 2
     m_Curve:
     - serializedVersion: 3
-      time: 0.019824982
-      value: 0.20977783
+      time: 0
+      value: 1
       inSlope: Infinity
       outSlope: Infinity
       tangentMode: 103
@@ -1099,8 +1081,8 @@ MonoBehaviour:
       inWeight: 0
       outWeight: 0
     - serializedVersion: 3
-      time: 0.16476533
-      value: 0.48809952
+      time: 0.13643342
+      value: 0.38911325
       inSlope: Infinity
       outSlope: Infinity
       tangentMode: 103
@@ -1108,8 +1090,8 @@ MonoBehaviour:
       inWeight: 0.33333334
       outWeight: 0.33333334
     - serializedVersion: 3
-      time: 0.33716205
-      value: 0
+      time: 0.5997518
+      value: 0.47344893
       inSlope: Infinity
       outSlope: Infinity
       tangentMode: 103
@@ -1117,8 +1099,8 @@ MonoBehaviour:
       inWeight: 0.33333334
       outWeight: 0.33333334
     - serializedVersion: 3
-      time: 0.5093864
-      value: 0.4971211
+      time: 1.1301237
+      value: 0.6412313
       inSlope: Infinity
       outSlope: Infinity
       tangentMode: 103
@@ -1126,8 +1108,8 @@ MonoBehaviour:
       inWeight: 0.33333334
       outWeight: 0.33333334
     - serializedVersion: 3
-      time: 0.54745775
-      value: 0.7468363
+      time: 1.5026315
+      value: 0.36049068
       inSlope: Infinity
       outSlope: Infinity
       tangentMode: 103
@@ -1135,8 +1117,8 @@ MonoBehaviour:
       inWeight: 0.33333334
       outWeight: 0.33333334
     - serializedVersion: 3
-      time: 0.59679776
-      value: 0
+      time: 2
+      value: 0.90953386
       inSlope: Infinity
       outSlope: Infinity
       tangentMode: 103
@@ -1144,8 +1126,8 @@ MonoBehaviour:
       inWeight: 0.33333334
       outWeight: 0.33333334
     - serializedVersion: 3
-      time: 0.675875
-      value: 0.2699237
+      time: 2.245344
+      value: 0.4161104
       inSlope: Infinity
       outSlope: Infinity
       tangentMode: 103
@@ -1153,8 +1135,8 @@ MonoBehaviour:
       inWeight: 0.33333334
       outWeight: 0.33333334
     - serializedVersion: 3
-      time: 0.81699514
-      value: 0.601387
+      time: 2.6102655
+      value: 0.50570226
       inSlope: Infinity
       outSlope: Infinity
       tangentMode: 103
@@ -1162,13 +1144,22 @@ MonoBehaviour:
       inWeight: 0.33333334
       outWeight: 0.33333334
     - serializedVersion: 3
-      time: 1
-      value: 0.7930069
+      time: 3.221809
+      value: 0.31607586
       inSlope: Infinity
       outSlope: Infinity
       tangentMode: 103
       weightedMode: 0
-      inWeight: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 4
+      value: 0.29014212
+      inSlope: Infinity
+      outSlope: Infinity
+      tangentMode: 103
+      weightedMode: 0
+      inWeight: 0.33333334
       outWeight: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
@@ -2684,11 +2675,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 9047345904051271575, guid: 4f92c9a5f2c674daa86d7b28b88198e2, type: 3}
   m_PrefabInstance: {fileID: 1910400162}
   m_PrefabAsset: {fileID: 0}
---- !u!82 &1302799493 stripped
-AudioSource:
-  m_CorrespondingSourceObject: {fileID: 3150024639208399266, guid: 4f92c9a5f2c674daa86d7b28b88198e2, type: 3}
-  m_PrefabInstance: {fileID: 6477271820775790154}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1391712331
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3135,7 +3121,7 @@ MonoBehaviour:
   rootNote: 0
   octaveOffset: 0
   oneShot: 0
-  volume: 0.1
+  volume: 0.502
   pan: 0
   outputMixerGroup: {fileID: 863674602078043773, guid: e9864c860344c47babf2c606b6d085e6, type: 2}
   decayCurve:
@@ -3163,7 +3149,7 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 4
   decayTimeUnit: 1
-  decayTime: 1
+  decayTime: 0.3
 --- !u!82 &1660008985
 AudioSource:
   m_ObjectHideFlags: 0
@@ -4320,50 +4306,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: CityTile
       objectReference: {fileID: 0}
-    - target: {fileID: 6429377133749399302, guid: 4f92c9a5f2c674daa86d7b28b88198e2, type: 3}
-      propertyPath: m_Delegates.Array.data[1].eventID
-      value: 4
-      objectReference: {fileID: 0}
-    - target: {fileID: 6429377133749399302, guid: 4f92c9a5f2c674daa86d7b28b88198e2, type: 3}
-      propertyPath: m_Delegates.Array.data[1].callback.m_PersistentCalls.m_Calls.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6429377133749399302, guid: 4f92c9a5f2c674daa86d7b28b88198e2, type: 3}
-      propertyPath: m_Delegates.Array.data[0].callback.m_PersistentCalls.m_Calls.Array.data[1].m_Mode
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6429377133749399302, guid: 4f92c9a5f2c674daa86d7b28b88198e2, type: 3}
-      propertyPath: m_Delegates.Array.data[1].callback.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6429377133749399302, guid: 4f92c9a5f2c674daa86d7b28b88198e2, type: 3}
-      propertyPath: m_Delegates.Array.data[1].callback.m_PersistentCalls.m_Calls.Array.data[0].m_Target
-      value: 
-      objectReference: {fileID: 1302799493}
-    - target: {fileID: 6429377133749399302, guid: 4f92c9a5f2c674daa86d7b28b88198e2, type: 3}
-      propertyPath: m_Delegates.Array.data[0].callback.m_PersistentCalls.m_Calls.Array.data[1].m_CallState
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 6429377133749399302, guid: 4f92c9a5f2c674daa86d7b28b88198e2, type: 3}
-      propertyPath: m_Delegates.Array.data[1].callback.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 6429377133749399302, guid: 4f92c9a5f2c674daa86d7b28b88198e2, type: 3}
-      propertyPath: m_Delegates.Array.data[1].callback.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: Play
-      objectReference: {fileID: 0}
-    - target: {fileID: 6429377133749399302, guid: 4f92c9a5f2c674daa86d7b28b88198e2, type: 3}
-      propertyPath: m_Delegates.Array.data[0].callback.m_PersistentCalls.m_Calls.Array.data[1].m_TargetAssemblyTypeName
-      value: UnityEngine.AudioSource, UnityEngine
-      objectReference: {fileID: 0}
-    - target: {fileID: 6429377133749399302, guid: 4f92c9a5f2c674daa86d7b28b88198e2, type: 3}
-      propertyPath: m_Delegates.Array.data[1].callback.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: UnityEngine.AudioSource, UnityEngine
-      objectReference: {fileID: 0}
-    - target: {fileID: 6429377133749399302, guid: 4f92c9a5f2c674daa86d7b28b88198e2, type: 3}
-      propertyPath: m_Delegates.Array.data[1].callback.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
-      value: UnityEngine.Object, UnityEngine
-      objectReference: {fileID: 0}
     - target: {fileID: 9044550740823471234, guid: 4f92c9a5f2c674daa86d7b28b88198e2, type: 3}
       propertyPath: sequencer
       value: 
@@ -4424,7 +4366,8 @@ PrefabInstance:
       propertyPath: m_ConstrainProportionsScale
       value: 1
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 0}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []

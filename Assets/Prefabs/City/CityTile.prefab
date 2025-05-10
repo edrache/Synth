@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: 1075950898838307429}
   - component: {fileID: 355065469316812395}
   - component: {fileID: 9044550740823471234}
-  - component: {fileID: 6429377133749399302}
+  - component: {fileID: 1337688699124958634}
   m_Layer: 3
   m_Name: CityTile
   m_TagString: Untagged
@@ -197,7 +197,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   sequencer: {fileID: 0}
   activeIndicator: {fileID: 9143993554350064663}
---- !u!114 &6429377133749399302
+--- !u!114 &1337688699124958634
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -206,26 +206,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 3645464885594729200}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d0b148fe25e99eb48b9724523833bab1, type: 3}
+  m_Script: {fileID: 11500000, guid: 2c4938178f5ff4840862d76152ae0995, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Delegates:
-  - eventID: 4
-    callback:
-      m_PersistentCalls:
-        m_Calls:
-        - m_Target: {fileID: 3150024639208399266}
-          m_TargetAssemblyTypeName: UnityEngine.AudioSource, UnityEngine
-          m_MethodName: Play
-          m_Mode: 1
-          m_Arguments:
-            m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: 
-            m_BoolArgument: 0
-          m_CallState: 2
+  soundToPlay: {fileID: 8300000, guid: 5ea1475d4793349418f042a484dfa35d, type: 3}
+  volume: 0.3
+  playOnMouseDown: 1
+  playOnMouseUp: 0
 --- !u!1 &8094743647115778333
 GameObject:
   m_ObjectHideFlags: 0
