@@ -1,7 +1,8 @@
 using UnityEngine;
 using Rewired;
+using UnityEngine.Events;
 
-// This script spawns and shoots a projectile towards the aim target when Fire is pressed.
+// This script spawns and shoots a projectile towards the aim target when Fire is pressed or when FireProjectile() is called.
 public class ProjectileShooter : MonoBehaviour
 {
     public int playerId = 0;
@@ -12,6 +13,8 @@ public class ProjectileShooter : MonoBehaviour
     public float shootForce = 20f;      // Force applied to the projectile
     public float shootAngle = 0f;       // Angle in degrees (0 = straight, positive = up, negative = down)
 
+    public UnityEvent OnProjectileFired; // Event invoked when a projectile is fired
+
     private void Awake()
     {
         player = ReInput.players.GetPlayer(playerId);
@@ -21,11 +24,12 @@ public class ProjectileShooter : MonoBehaviour
     {
         if (player.GetButtonDown("Fire"))
         {
-            ShootProjectile();
+            FireProjectile();
         }
     }
 
-    private void ShootProjectile()
+    // Public method to fire a projectile, can be called from UnityEvents or other scripts
+    public void FireProjectile()
     {
         if (projectilePrefab == null || aimTarget == null || firePoint == null) return;
 
@@ -44,5 +48,8 @@ public class ProjectileShooter : MonoBehaviour
         {
             rb.AddForce(direction * shootForce, ForceMode.Impulse);
         }
+
+        // Invoke the event
+        OnProjectileFired?.Invoke();
     }
 } 

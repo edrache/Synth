@@ -374,6 +374,68 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 16242665}
   m_CullTransparentMesh: 1
+--- !u!1 &27827145
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 27827147}
+  - component: {fileID: 27827146}
+  m_Layer: 0
+  m_Name: ActionManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &27827146
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 27827145}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 55933e77ed1a446dcb432219d9bb3bae, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sampler: {fileID: 1660008984}
+  noteActionMappings:
+  - note: 0
+    onNoteAction:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 213549858}
+          m_TargetAssemblyTypeName: ProjectileShooter, Assembly-CSharp
+          m_MethodName: FireProjectile
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+--- !u!4 &27827147
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 27827145}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.1522673, y: 0.48937082, z: -8.39}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &54443023 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4476929107322576055, guid: 4f92c9a5f2c674daa86d7b28b88198e2, type: 3}
@@ -987,6 +1049,9 @@ MonoBehaviour:
   firePoint: {fileID: 1929913670}
   shootForce: 20
   shootAngle: 0
+  OnProjectileFired:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &218674220
 GameObject:
   m_ObjectHideFlags: 0
@@ -8268,3 +8333,4 @@ SceneRoots:
   - {fileID: 8440662558377843906}
   - {fileID: 1957786305}
   - {fileID: 213549856}
+  - {fileID: 27827147}
