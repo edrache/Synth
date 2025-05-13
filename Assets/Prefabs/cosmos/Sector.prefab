@@ -11,7 +11,9 @@ GameObject:
   - component: {fileID: 5714083332059014137}
   - component: {fileID: 7282796993042697607}
   - component: {fileID: 6265679236555935581}
-  m_Layer: 5
+  - component: {fileID: 5396290488211409554}
+  - component: {fileID: 1567419077610251783}
+  m_Layer: 8
   m_Name: Sector
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -75,3 +77,41 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &5396290488211409554
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6972626187959570060}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d41774550b4e9474dacdfa26d822c3ca, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _pitch: 60
+  _velocity: 1
+  _duration: 0.25
+  _repeatCount: 0
+  _position: 0
+  _useAutoPosition: 1
+--- !u!114 &1567419077610251783
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6972626187959570060}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1c864bbb5e9b24aca8a62dbe42012205, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  minPitch: 26
+  maxPitch: 36
+  minVelocity: 0.3
+  maxVelocity: 1
+  minDuration: 0.2
+  maxDuration: 0.5
+  minRepeatCount: 1
+  maxRepeatCount: 1
