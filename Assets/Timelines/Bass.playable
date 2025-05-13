@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &-8801477690735700082
+--- !u!114 &-8888256717247858769
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
@@ -12,10 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d2ca0c4f6aed6430c8b8535a182e579f, type: 3}
   m_Name: SamplerPianoRollClip
   m_EditorClassIdentifier: 
-  midiNote: 28
-  duration: 0.2
-  startTime: 6.5
-  velocity: 0.4161104
+  midiNote: 14
+  duration: 0.21044275
+  startTime: 14
+  velocity: 0.1
 --- !u!114 &-8745313850454697549
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -33,7 +33,7 @@ MonoBehaviour:
   m_bufferingTime: 0.1
   m_ClipProperties:
     volume: 1
---- !u!114 &-8616726529077746191
+--- !u!114 &-8664922610506332619
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
@@ -45,10 +45,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d2ca0c4f6aed6430c8b8535a182e579f, type: 3}
   m_Name: SamplerPianoRollClip
   m_EditorClassIdentifier: 
-  midiNote: 30
-  duration: 0.2
-  startTime: 13
-  velocity: 0.47344893
+  midiNote: 19
+  duration: 0.38884065
+  startTime: 12.5
+  velocity: 1
 --- !u!114 &-8094639310268626301
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -83,7 +83,7 @@ MonoBehaviour:
   m_bufferingTime: 0.1
   m_ClipProperties:
     volume: 1
---- !u!114 &-7962818453201202275
+--- !u!114 &-7483490846571742440
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
@@ -95,10 +95,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d2ca0c4f6aed6430c8b8535a182e579f, type: 3}
   m_Name: SamplerPianoRollClip
   m_EditorClassIdentifier: 
-  midiNote: 36
-  duration: 0.2
-  startTime: 14.5
-  velocity: 0.4161104
+  midiNote: 16
+  duration: 0.21044275
+  startTime: 10
+  velocity: 0.1
 --- !u!114 &-7318156531544041394
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -133,22 +133,6 @@ MonoBehaviour:
   m_bufferingTime: 0.1
   m_ClipProperties:
     volume: 1
---- !u!114 &-7092923795102887249
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d2ca0c4f6aed6430c8b8535a182e579f, type: 3}
-  m_Name: SamplerPianoRollClip
-  m_EditorClassIdentifier: 
-  midiNote: 36
-  duration: 0.2
-  startTime: 7
-  velocity: 0.50570226
 --- !u!114 &-6847731564895342241
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -166,38 +150,6 @@ MonoBehaviour:
   m_bufferingTime: 0.1
   m_ClipProperties:
     volume: 1
---- !u!114 &-6833700041989782348
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d2ca0c4f6aed6430c8b8535a182e579f, type: 3}
-  m_Name: SamplerPianoRollClip
-  m_EditorClassIdentifier: 
-  midiNote: 32
-  duration: 0.2
-  startTime: 13.5
-  velocity: 0.6412313
---- !u!114 &-6578294340171145719
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d2ca0c4f6aed6430c8b8535a182e579f, type: 3}
-  m_Name: SamplerPianoRollClip
-  m_EditorClassIdentifier: 
-  midiNote: 27
-  duration: 0.2
-  startTime: 9.5
-  velocity: 0.6412313
 --- !u!114 &-6203681638633673965
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -215,7 +167,7 @@ MonoBehaviour:
   m_bufferingTime: 0.1
   m_ClipProperties:
     volume: 1
---- !u!114 &-6024822651935942005
+--- !u!114 &-6015753079540117797
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
@@ -227,42 +179,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d2ca0c4f6aed6430c8b8535a182e579f, type: 3}
   m_Name: SamplerPianoRollClip
   m_EditorClassIdentifier: 
-  midiNote: 36
-  duration: 0.2
-  startTime: 8.5
-  velocity: 0.38911325
---- !u!114 &-5859579305809967123
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d2ca0c4f6aed6430c8b8535a182e579f, type: 3}
-  m_Name: SamplerPianoRollClip
-  m_EditorClassIdentifier: 
-  midiNote: 27
-  duration: 0.2
-  startTime: 9
-  velocity: 0.47344893
---- !u!114 &-5806713735492102844
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d2ca0c4f6aed6430c8b8535a182e579f, type: 3}
-  m_Name: SamplerPianoRollClip
-  m_EditorClassIdentifier: 
-  midiNote: 36
-  duration: 0.2
-  startTime: 3.5
-  velocity: 0.31607586
+  midiNote: 17
+  duration: 0.26283452
+  startTime: 3
+  velocity: 0.1
 --- !u!114 &-5605485629153143131
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -280,22 +200,6 @@ MonoBehaviour:
   m_bufferingTime: 0.1
   m_ClipProperties:
     volume: 1
---- !u!114 &-5583058989271699702
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d2ca0c4f6aed6430c8b8535a182e579f, type: 3}
-  m_Name: SamplerPianoRollClip
-  m_EditorClassIdentifier: 
-  midiNote: 34
-  duration: 0.2
-  startTime: 14
-  velocity: 0.90953386
 --- !u!114 &-5433380716264310062
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -313,7 +217,7 @@ MonoBehaviour:
   m_bufferingTime: 0.1
   m_ClipProperties:
     volume: 1
---- !u!114 &-5157150491479714083
+--- !u!114 &-4269410592249834181
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
@@ -325,90 +229,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d2ca0c4f6aed6430c8b8535a182e579f, type: 3}
   m_Name: SamplerPianoRollClip
   m_EditorClassIdentifier: 
-  midiNote: 27
-  duration: 0.2
-  startTime: 5.5
-  velocity: 0.6412313
---- !u!114 &-4886837792622538644
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d2ca0c4f6aed6430c8b8535a182e579f, type: 3}
-  m_Name: SamplerPianoRollClip
-  m_EditorClassIdentifier: 
-  midiNote: 47
-  duration: 0.2
-  startTime: 15.5
-  velocity: 0.31607586
---- !u!114 &-4819403354246736343
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d2ca0c4f6aed6430c8b8535a182e579f, type: 3}
-  m_Name: SamplerPianoRollClip
-  m_EditorClassIdentifier: 
-  midiNote: 28
-  duration: 0.2
-  startTime: 10.5
-  velocity: 0.4161104
---- !u!114 &-4742941376263230405
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d2ca0c4f6aed6430c8b8535a182e579f, type: 3}
-  m_Name: SamplerPianoRollClip
-  m_EditorClassIdentifier: 
-  midiNote: 36
-  duration: 0.2
-  startTime: 3
-  velocity: 0.50570226
---- !u!114 &-4680614318341216308
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d2ca0c4f6aed6430c8b8535a182e579f, type: 3}
-  m_Name: SamplerPianoRollClip
-  m_EditorClassIdentifier: 
-  midiNote: 36
-  duration: 0.2
-  startTime: 4.5
-  velocity: 0.38911325
---- !u!114 &-4443208302780327574
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d2ca0c4f6aed6430c8b8535a182e579f, type: 3}
-  m_Name: SamplerPianoRollClip
-  m_EditorClassIdentifier: 
-  midiNote: 36
-  duration: 0.2
-  startTime: 0.5
-  velocity: 0.38911325
+  midiNote: 19
+  duration: 0.29301786
+  startTime: 5
+  velocity: 0.49217734
 --- !u!114 &-4046480475951569107
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -426,54 +250,6 @@ MonoBehaviour:
   m_bufferingTime: 0.1
   m_ClipProperties:
     volume: 1
---- !u!114 &-4010694032129035463
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d2ca0c4f6aed6430c8b8535a182e579f, type: 3}
-  m_Name: SamplerPianoRollClip
-  m_EditorClassIdentifier: 
-  midiNote: 27
-  duration: 0.2
-  startTime: 1.5
-  velocity: 0.6412313
---- !u!114 &-3159654017543655757
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d2ca0c4f6aed6430c8b8535a182e579f, type: 3}
-  m_Name: SamplerPianoRollClip
-  m_EditorClassIdentifier: 
-  midiNote: 27
-  duration: 0.2
-  startTime: 5
-  velocity: 0.47344893
---- !u!114 &-3016503462383004958
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d2ca0c4f6aed6430c8b8535a182e579f, type: 3}
-  m_Name: SamplerPianoRollClip
-  m_EditorClassIdentifier: 
-  midiNote: 36
-  duration: 0.2
-  startTime: 12
-  velocity: 1
 --- !u!114 &-2666152077776831817
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -508,6 +284,22 @@ MonoBehaviour:
   m_bufferingTime: 0.1
   m_ClipProperties:
     volume: 1
+--- !u!114 &-2527631600690520850
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d2ca0c4f6aed6430c8b8535a182e579f, type: 3}
+  m_Name: SamplerPianoRollClip
+  m_EditorClassIdentifier: 
+  midiNote: 18
+  duration: 0.3238375
+  startTime: 6.5
+  velocity: 0.1
 --- !u!114 &-2453915207401917512
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -540,22 +332,6 @@ MonoBehaviour:
   m_bufferingTime: 0.1
   m_ClipProperties:
     volume: 1
---- !u!114 &-2394460375209187643
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d2ca0c4f6aed6430c8b8535a182e579f, type: 3}
-  m_Name: SamplerPianoRollClip
-  m_EditorClassIdentifier: 
-  midiNote: 28
-  duration: 0.2
-  startTime: 10
-  velocity: 0.90953386
 --- !u!114 &-2380559602413506577
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -590,6 +366,22 @@ MonoBehaviour:
   m_bufferingTime: 0.1
   m_ClipProperties:
     volume: 1
+--- !u!114 &-2150525998338312716
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d2ca0c4f6aed6430c8b8535a182e579f, type: 3}
+  m_Name: SamplerPianoRollClip
+  m_EditorClassIdentifier: 
+  midiNote: 22
+  duration: 0.3199352
+  startTime: 8
+  velocity: 1
 --- !u!114 &-2108610761318152908
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -607,7 +399,7 @@ MonoBehaviour:
   m_bufferingTime: 0.1
   m_ClipProperties:
     volume: 1
---- !u!114 &-1583567178097029301
+--- !u!114 &-1656537622271319270
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
@@ -619,11 +411,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d2ca0c4f6aed6430c8b8535a182e579f, type: 3}
   m_Name: SamplerPianoRollClip
   m_EditorClassIdentifier: 
-  midiNote: 28
-  duration: 0.2
-  startTime: 6
-  velocity: 0.90953386
---- !u!114 &-1505157925288490816
+  midiNote: 23
+  duration: 0.20620635
+  startTime: 11.5
+  velocity: 0.1
+--- !u!114 &-1606522185024178204
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
@@ -635,10 +427,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d2ca0c4f6aed6430c8b8535a182e579f, type: 3}
   m_Name: SamplerPianoRollClip
   m_EditorClassIdentifier: 
-  midiNote: 28
-  duration: 0.2
-  startTime: 2.5
-  velocity: 0.4161104
+  midiNote: 15
+  duration: 0.3238375
+  startTime: 14.5
+  velocity: 0.1
 --- !u!114 &-1352044401929494221
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -690,7 +482,7 @@ MonoBehaviour:
   m_bufferingTime: 0.1
   m_ClipProperties:
     volume: 1
---- !u!114 &-681511979861423689
+--- !u!114 &-716669296546992164
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
@@ -702,26 +494,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d2ca0c4f6aed6430c8b8535a182e579f, type: 3}
   m_Name: SamplerPianoRollClip
   m_EditorClassIdentifier: 
-  midiNote: 36
-  duration: 0.2
-  startTime: 11.5
-  velocity: 0.31607586
---- !u!114 &-173058557340696828
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d2ca0c4f6aed6430c8b8535a182e579f, type: 3}
-  m_Name: SamplerPianoRollClip
-  m_EditorClassIdentifier: 
-  midiNote: 28
-  duration: 0.2
-  startTime: 2
-  velocity: 0.90953386
+  midiNote: 27
+  duration: 0.41453424
+  startTime: 13.5
+  velocity: 0.49217734
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -743,6 +519,22 @@ MonoBehaviour:
     m_ScenePreview: 1
   m_DurationMode: 1
   m_MarkerTrack: {fileID: 0}
+--- !u!114 &247599031780340939
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d2ca0c4f6aed6430c8b8535a182e579f, type: 3}
+  m_Name: SamplerPianoRollClip
+  m_EditorClassIdentifier: 
+  midiNote: 18
+  duration: 0.3238375
+  startTime: 2.5
+  velocity: 0.1
 --- !u!114 &408131524381217852
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -767,8 +559,8 @@ MonoBehaviour:
   - m_Version: 1
     m_Start: 0
     m_ClipIn: 0
-    m_Asset: {fileID: 7145764510546141552}
-    m_Duration: 0.20000000298023224
+    m_Asset: {fileID: 4375675727400538826}
+    m_Duration: 0.3199352025985718
     m_TimeScale: 1
     m_ParentTrack: {fileID: 408131524381217852}
     m_EaseInDuration: 0
@@ -832,12 +624,13 @@ MonoBehaviour:
     m_PreExtrapolationMode: 0
     m_PostExtrapolationTime: 0
     m_PreExtrapolationTime: 0
-    m_DisplayName: 'Note 36 (original: 36, transposition: 0, velocity: 1.00) at 0.00s'
+    m_DisplayName: 'Note 22 (original: 34, transposition: -12, velocity: 1.00) at
+      0.00s'
   - m_Version: 1
     m_Start: 0.5
     m_ClipIn: 0
-    m_Asset: {fileID: -4443208302780327574}
-    m_Duration: 0.20000000298023224
+    m_Asset: {fileID: 2190930012995053066}
+    m_Duration: 0.3888406455516815
     m_TimeScale: 1
     m_ParentTrack: {fileID: 408131524381217852}
     m_EaseInDuration: 0
@@ -901,12 +694,13 @@ MonoBehaviour:
     m_PreExtrapolationMode: 0
     m_PostExtrapolationTime: 0
     m_PreExtrapolationTime: 0
-    m_DisplayName: 'Note 36 (original: 36, transposition: 0, velocity: 0.39) at 0.50s'
+    m_DisplayName: 'Note 17 (original: 29, transposition: -12, velocity: 1.00) at
+      0.50s'
   - m_Version: 1
     m_Start: 1
     m_ClipIn: 0
-    m_Asset: {fileID: 980949820861332358}
-    m_Duration: 0.20000000298023224
+    m_Asset: {fileID: 1086309970159121052}
+    m_Duration: 0.2930178642272949
     m_TimeScale: 1
     m_ParentTrack: {fileID: 408131524381217852}
     m_EaseInDuration: 0
@@ -970,12 +764,13 @@ MonoBehaviour:
     m_PreExtrapolationMode: 0
     m_PostExtrapolationTime: 0
     m_PreExtrapolationTime: 0
-    m_DisplayName: 'Note 27 (original: 27, transposition: 0, velocity: 0.47) at 1.00s'
+    m_DisplayName: 'Note 19 (original: 31, transposition: -12, velocity: 0.49) at
+      1.00s'
   - m_Version: 1
     m_Start: 1.5
     m_ClipIn: 0
-    m_Asset: {fileID: -4010694032129035463}
-    m_Duration: 0.20000000298023224
+    m_Asset: {fileID: 4021455270854944187}
+    m_Duration: 0.41453424096107483
     m_TimeScale: 1
     m_ParentTrack: {fileID: 408131524381217852}
     m_EaseInDuration: 0
@@ -1039,12 +834,13 @@ MonoBehaviour:
     m_PreExtrapolationMode: 0
     m_PostExtrapolationTime: 0
     m_PreExtrapolationTime: 0
-    m_DisplayName: 'Note 27 (original: 27, transposition: 0, velocity: 0.64) at 1.50s'
+    m_DisplayName: 'Note 24 (original: 36, transposition: -12, velocity: 0.49) at
+      1.50s'
   - m_Version: 1
     m_Start: 2
     m_ClipIn: 0
-    m_Asset: {fileID: -173058557340696828}
-    m_Duration: 0.20000000298023224
+    m_Asset: {fileID: 5726385537336369884}
+    m_Duration: 0.21044275164604187
     m_TimeScale: 1
     m_ParentTrack: {fileID: 408131524381217852}
     m_EaseInDuration: 0
@@ -1108,12 +904,13 @@ MonoBehaviour:
     m_PreExtrapolationMode: 0
     m_PostExtrapolationTime: 0
     m_PreExtrapolationTime: 0
-    m_DisplayName: 'Note 28 (original: 28, transposition: 0, velocity: 0.91) at 2.00s'
+    m_DisplayName: 'Note 16 (original: 28, transposition: -12, velocity: 0.10) at
+      2.00s'
   - m_Version: 1
     m_Start: 2.5
     m_ClipIn: 0
-    m_Asset: {fileID: -1505157925288490816}
-    m_Duration: 0.20000000298023224
+    m_Asset: {fileID: 247599031780340939}
+    m_Duration: 0.3238374888896942
     m_TimeScale: 1
     m_ParentTrack: {fileID: 408131524381217852}
     m_EaseInDuration: 0
@@ -1177,12 +974,13 @@ MonoBehaviour:
     m_PreExtrapolationMode: 0
     m_PostExtrapolationTime: 0
     m_PreExtrapolationTime: 0
-    m_DisplayName: 'Note 28 (original: 28, transposition: 0, velocity: 0.42) at 2.50s'
+    m_DisplayName: 'Note 18 (original: 30, transposition: -12, velocity: 0.10) at
+      2.50s'
   - m_Version: 1
     m_Start: 3
     m_ClipIn: 0
-    m_Asset: {fileID: -4742941376263230405}
-    m_Duration: 0.20000000298023224
+    m_Asset: {fileID: -6015753079540117797}
+    m_Duration: 0.2628345191478729
     m_TimeScale: 1
     m_ParentTrack: {fileID: 408131524381217852}
     m_EaseInDuration: 0
@@ -1246,12 +1044,13 @@ MonoBehaviour:
     m_PreExtrapolationMode: 0
     m_PostExtrapolationTime: 0
     m_PreExtrapolationTime: 0
-    m_DisplayName: 'Note 36 (original: 36, transposition: 0, velocity: 0.51) at 3.00s'
+    m_DisplayName: 'Note 17 (original: 29, transposition: -12, velocity: 0.10) at
+      3.00s'
   - m_Version: 1
     m_Start: 3.5
     m_ClipIn: 0
-    m_Asset: {fileID: -5806713735492102844}
-    m_Duration: 0.20000000298023224
+    m_Asset: {fileID: 7210901878882318489}
+    m_Duration: 0.20620635151863098
     m_TimeScale: 1
     m_ParentTrack: {fileID: 408131524381217852}
     m_EaseInDuration: 0
@@ -1315,12 +1114,13 @@ MonoBehaviour:
     m_PreExtrapolationMode: 0
     m_PostExtrapolationTime: 0
     m_PreExtrapolationTime: 0
-    m_DisplayName: 'Note 36 (original: 36, transposition: 0, velocity: 0.32) at 3.50s'
+    m_DisplayName: 'Note 23 (original: 35, transposition: -12, velocity: 0.10) at
+      3.50s'
   - m_Version: 1
     m_Start: 4
     m_ClipIn: 0
-    m_Asset: {fileID: 8609991286098499968}
-    m_Duration: 0.20000000298023224
+    m_Asset: {fileID: 4734333108665119394}
+    m_Duration: 0.3199352025985718
     m_TimeScale: 1
     m_ParentTrack: {fileID: 408131524381217852}
     m_EaseInDuration: 0
@@ -1384,12 +1184,13 @@ MonoBehaviour:
     m_PreExtrapolationMode: 0
     m_PostExtrapolationTime: 0
     m_PreExtrapolationTime: 0
-    m_DisplayName: 'Note 36 (original: 36, transposition: 0, velocity: 1.00) at 4.00s'
+    m_DisplayName: 'Note 22 (original: 34, transposition: -12, velocity: 1.00) at
+      4.00s'
   - m_Version: 1
     m_Start: 4.5
     m_ClipIn: 0
-    m_Asset: {fileID: -4680614318341216308}
-    m_Duration: 0.20000000298023224
+    m_Asset: {fileID: 4088470680085076473}
+    m_Duration: 0.3888406455516815
     m_TimeScale: 1
     m_ParentTrack: {fileID: 408131524381217852}
     m_EaseInDuration: 0
@@ -1453,12 +1254,13 @@ MonoBehaviour:
     m_PreExtrapolationMode: 0
     m_PostExtrapolationTime: 0
     m_PreExtrapolationTime: 0
-    m_DisplayName: 'Note 36 (original: 36, transposition: 0, velocity: 0.39) at 4.50s'
+    m_DisplayName: 'Note 17 (original: 29, transposition: -12, velocity: 1.00) at
+      4.50s'
   - m_Version: 1
     m_Start: 5
     m_ClipIn: 0
-    m_Asset: {fileID: -3159654017543655757}
-    m_Duration: 0.20000000298023224
+    m_Asset: {fileID: -4269410592249834181}
+    m_Duration: 0.2930178642272949
     m_TimeScale: 1
     m_ParentTrack: {fileID: 408131524381217852}
     m_EaseInDuration: 0
@@ -1522,12 +1324,13 @@ MonoBehaviour:
     m_PreExtrapolationMode: 0
     m_PostExtrapolationTime: 0
     m_PreExtrapolationTime: 0
-    m_DisplayName: 'Note 27 (original: 27, transposition: 0, velocity: 0.47) at 5.00s'
+    m_DisplayName: 'Note 19 (original: 31, transposition: -12, velocity: 0.49) at
+      5.00s'
   - m_Version: 1
     m_Start: 5.5
     m_ClipIn: 0
-    m_Asset: {fileID: -5157150491479714083}
-    m_Duration: 0.20000000298023224
+    m_Asset: {fileID: 5517675421024580293}
+    m_Duration: 0.41453424096107483
     m_TimeScale: 1
     m_ParentTrack: {fileID: 408131524381217852}
     m_EaseInDuration: 0
@@ -1591,12 +1394,13 @@ MonoBehaviour:
     m_PreExtrapolationMode: 0
     m_PostExtrapolationTime: 0
     m_PreExtrapolationTime: 0
-    m_DisplayName: 'Note 27 (original: 27, transposition: 0, velocity: 0.64) at 5.50s'
+    m_DisplayName: 'Note 24 (original: 36, transposition: -12, velocity: 0.49) at
+      5.50s'
   - m_Version: 1
     m_Start: 6
     m_ClipIn: 0
-    m_Asset: {fileID: -1583567178097029301}
-    m_Duration: 0.20000000298023224
+    m_Asset: {fileID: 6054699691892009928}
+    m_Duration: 0.21044275164604187
     m_TimeScale: 1
     m_ParentTrack: {fileID: 408131524381217852}
     m_EaseInDuration: 0
@@ -1660,12 +1464,13 @@ MonoBehaviour:
     m_PreExtrapolationMode: 0
     m_PostExtrapolationTime: 0
     m_PreExtrapolationTime: 0
-    m_DisplayName: 'Note 28 (original: 28, transposition: 0, velocity: 0.91) at 6.00s'
+    m_DisplayName: 'Note 16 (original: 28, transposition: -12, velocity: 0.10) at
+      6.00s'
   - m_Version: 1
     m_Start: 6.5
     m_ClipIn: 0
-    m_Asset: {fileID: -8801477690735700082}
-    m_Duration: 0.20000000298023224
+    m_Asset: {fileID: -2527631600690520850}
+    m_Duration: 0.3238374888896942
     m_TimeScale: 1
     m_ParentTrack: {fileID: 408131524381217852}
     m_EaseInDuration: 0
@@ -1729,12 +1534,13 @@ MonoBehaviour:
     m_PreExtrapolationMode: 0
     m_PostExtrapolationTime: 0
     m_PreExtrapolationTime: 0
-    m_DisplayName: 'Note 28 (original: 28, transposition: 0, velocity: 0.42) at 6.50s'
+    m_DisplayName: 'Note 18 (original: 30, transposition: -12, velocity: 0.10) at
+      6.50s'
   - m_Version: 1
     m_Start: 7
     m_ClipIn: 0
-    m_Asset: {fileID: -7092923795102887249}
-    m_Duration: 0.20000000298023224
+    m_Asset: {fileID: 7594167321716576152}
+    m_Duration: 0.2628345191478729
     m_TimeScale: 1
     m_ParentTrack: {fileID: 408131524381217852}
     m_EaseInDuration: 0
@@ -1798,12 +1604,13 @@ MonoBehaviour:
     m_PreExtrapolationMode: 0
     m_PostExtrapolationTime: 0
     m_PreExtrapolationTime: 0
-    m_DisplayName: 'Note 36 (original: 36, transposition: 0, velocity: 0.51) at 7.00s'
+    m_DisplayName: 'Note 17 (original: 29, transposition: -12, velocity: 0.10) at
+      7.00s'
   - m_Version: 1
     m_Start: 7.5
     m_ClipIn: 0
-    m_Asset: {fileID: 5034627894201413147}
-    m_Duration: 0.20000000298023224
+    m_Asset: {fileID: 460483786961578427}
+    m_Duration: 0.20620635151863098
     m_TimeScale: 1
     m_ParentTrack: {fileID: 408131524381217852}
     m_EaseInDuration: 0
@@ -1867,12 +1674,13 @@ MonoBehaviour:
     m_PreExtrapolationMode: 0
     m_PostExtrapolationTime: 0
     m_PreExtrapolationTime: 0
-    m_DisplayName: 'Note 36 (original: 36, transposition: 0, velocity: 0.32) at 7.50s'
+    m_DisplayName: 'Note 23 (original: 35, transposition: -12, velocity: 0.10) at
+      7.50s'
   - m_Version: 1
     m_Start: 8
     m_ClipIn: 0
-    m_Asset: {fileID: 4434730737054076204}
-    m_Duration: 0.20000000298023224
+    m_Asset: {fileID: -2150525998338312716}
+    m_Duration: 0.3199352025985718
     m_TimeScale: 1
     m_ParentTrack: {fileID: 408131524381217852}
     m_EaseInDuration: 0
@@ -1936,12 +1744,13 @@ MonoBehaviour:
     m_PreExtrapolationMode: 0
     m_PostExtrapolationTime: 0
     m_PreExtrapolationTime: 0
-    m_DisplayName: 'Note 36 (original: 36, transposition: 0, velocity: 1.00) at 8.00s'
+    m_DisplayName: 'Note 22 (original: 34, transposition: -12, velocity: 1.00) at
+      8.00s'
   - m_Version: 1
     m_Start: 8.5
     m_ClipIn: 0
-    m_Asset: {fileID: -6024822651935942005}
-    m_Duration: 0.20000000298023224
+    m_Asset: {fileID: 2499153352663685630}
+    m_Duration: 0.3888406455516815
     m_TimeScale: 1
     m_ParentTrack: {fileID: 408131524381217852}
     m_EaseInDuration: 0
@@ -2005,12 +1814,13 @@ MonoBehaviour:
     m_PreExtrapolationMode: 0
     m_PostExtrapolationTime: 0
     m_PreExtrapolationTime: 0
-    m_DisplayName: 'Note 36 (original: 36, transposition: 0, velocity: 0.39) at 8.50s'
+    m_DisplayName: 'Note 17 (original: 29, transposition: -12, velocity: 1.00) at
+      8.50s'
   - m_Version: 1
     m_Start: 9
     m_ClipIn: 0
-    m_Asset: {fileID: -5859579305809967123}
-    m_Duration: 0.20000000298023224
+    m_Asset: {fileID: 2612035796644832440}
+    m_Duration: 0.2930178642272949
     m_TimeScale: 1
     m_ParentTrack: {fileID: 408131524381217852}
     m_EaseInDuration: 0
@@ -2074,12 +1884,13 @@ MonoBehaviour:
     m_PreExtrapolationMode: 0
     m_PostExtrapolationTime: 0
     m_PreExtrapolationTime: 0
-    m_DisplayName: 'Note 27 (original: 27, transposition: 0, velocity: 0.47) at 9.00s'
+    m_DisplayName: 'Note 19 (original: 31, transposition: -12, velocity: 0.49) at
+      9.00s'
   - m_Version: 1
     m_Start: 9.5
     m_ClipIn: 0
-    m_Asset: {fileID: -6578294340171145719}
-    m_Duration: 0.20000000298023224
+    m_Asset: {fileID: 3295791567071171961}
+    m_Duration: 0.41453424096107483
     m_TimeScale: 1
     m_ParentTrack: {fileID: 408131524381217852}
     m_EaseInDuration: 0
@@ -2143,12 +1954,13 @@ MonoBehaviour:
     m_PreExtrapolationMode: 0
     m_PostExtrapolationTime: 0
     m_PreExtrapolationTime: 0
-    m_DisplayName: 'Note 27 (original: 27, transposition: 0, velocity: 0.64) at 9.50s'
+    m_DisplayName: 'Note 24 (original: 36, transposition: -12, velocity: 0.49) at
+      9.50s'
   - m_Version: 1
     m_Start: 10
     m_ClipIn: 0
-    m_Asset: {fileID: -2394460375209187643}
-    m_Duration: 0.20000000298023224
+    m_Asset: {fileID: -7483490846571742440}
+    m_Duration: 0.21044275164604187
     m_TimeScale: 1
     m_ParentTrack: {fileID: 408131524381217852}
     m_EaseInDuration: 0
@@ -2212,12 +2024,13 @@ MonoBehaviour:
     m_PreExtrapolationMode: 0
     m_PostExtrapolationTime: 0
     m_PreExtrapolationTime: 0
-    m_DisplayName: 'Note 28 (original: 28, transposition: 0, velocity: 0.91) at 10.00s'
+    m_DisplayName: 'Note 16 (original: 28, transposition: -12, velocity: 0.10) at
+      10.00s'
   - m_Version: 1
     m_Start: 10.5
     m_ClipIn: 0
-    m_Asset: {fileID: -4819403354246736343}
-    m_Duration: 0.20000000298023224
+    m_Asset: {fileID: 5623657856536666181}
+    m_Duration: 0.3238374888896942
     m_TimeScale: 1
     m_ParentTrack: {fileID: 408131524381217852}
     m_EaseInDuration: 0
@@ -2281,12 +2094,13 @@ MonoBehaviour:
     m_PreExtrapolationMode: 0
     m_PostExtrapolationTime: 0
     m_PreExtrapolationTime: 0
-    m_DisplayName: 'Note 28 (original: 28, transposition: 0, velocity: 0.42) at 10.50s'
+    m_DisplayName: 'Note 18 (original: 30, transposition: -12, velocity: 0.10) at
+      10.50s'
   - m_Version: 1
     m_Start: 11
     m_ClipIn: 0
-    m_Asset: {fileID: 8231754497932170857}
-    m_Duration: 0.20000000298023224
+    m_Asset: {fileID: 4739662849491570622}
+    m_Duration: 0.2628345191478729
     m_TimeScale: 1
     m_ParentTrack: {fileID: 408131524381217852}
     m_EaseInDuration: 0
@@ -2350,12 +2164,13 @@ MonoBehaviour:
     m_PreExtrapolationMode: 0
     m_PostExtrapolationTime: 0
     m_PreExtrapolationTime: 0
-    m_DisplayName: 'Note 36 (original: 36, transposition: 0, velocity: 0.51) at 11.00s'
+    m_DisplayName: 'Note 17 (original: 29, transposition: -12, velocity: 0.10) at
+      11.00s'
   - m_Version: 1
     m_Start: 11.5
     m_ClipIn: 0
-    m_Asset: {fileID: -681511979861423689}
-    m_Duration: 0.20000000298023224
+    m_Asset: {fileID: -1656537622271319270}
+    m_Duration: 0.20620635151863098
     m_TimeScale: 1
     m_ParentTrack: {fileID: 408131524381217852}
     m_EaseInDuration: 0
@@ -2419,12 +2234,13 @@ MonoBehaviour:
     m_PreExtrapolationMode: 0
     m_PostExtrapolationTime: 0
     m_PreExtrapolationTime: 0
-    m_DisplayName: 'Note 36 (original: 36, transposition: 0, velocity: 0.32) at 11.50s'
+    m_DisplayName: 'Note 23 (original: 35, transposition: -12, velocity: 0.10) at
+      11.50s'
   - m_Version: 1
     m_Start: 12
     m_ClipIn: 0
-    m_Asset: {fileID: -3016503462383004958}
-    m_Duration: 0.20000000298023224
+    m_Asset: {fileID: 7782358598984849491}
+    m_Duration: 0.3199352025985718
     m_TimeScale: 1
     m_ParentTrack: {fileID: 408131524381217852}
     m_EaseInDuration: 0
@@ -2488,12 +2304,13 @@ MonoBehaviour:
     m_PreExtrapolationMode: 0
     m_PostExtrapolationTime: 0
     m_PreExtrapolationTime: 0
-    m_DisplayName: 'Note 36 (original: 36, transposition: 0, velocity: 1.00) at 12.00s'
+    m_DisplayName: 'Note 22 (original: 34, transposition: -12, velocity: 1.00) at
+      12.00s'
   - m_Version: 1
     m_Start: 12.5
     m_ClipIn: 0
-    m_Asset: {fileID: 5875467799322062787}
-    m_Duration: 0.20000000298023224
+    m_Asset: {fileID: -8664922610506332619}
+    m_Duration: 0.3888406455516815
     m_TimeScale: 1
     m_ParentTrack: {fileID: 408131524381217852}
     m_EaseInDuration: 0
@@ -2557,12 +2374,13 @@ MonoBehaviour:
     m_PreExtrapolationMode: 0
     m_PostExtrapolationTime: 0
     m_PreExtrapolationTime: 0
-    m_DisplayName: 'Note 38 (original: 36, transposition: 2, velocity: 0.39) at 12.50s'
+    m_DisplayName: 'Note 19 (original: 29, transposition: -10, velocity: 1.00) at
+      12.50s'
   - m_Version: 1
     m_Start: 13
     m_ClipIn: 0
-    m_Asset: {fileID: -8616726529077746191}
-    m_Duration: 0.20000000298023224
+    m_Asset: {fileID: 1875809874728134694}
+    m_Duration: 0.2930178642272949
     m_TimeScale: 1
     m_ParentTrack: {fileID: 408131524381217852}
     m_EaseInDuration: 0
@@ -2626,12 +2444,13 @@ MonoBehaviour:
     m_PreExtrapolationMode: 0
     m_PostExtrapolationTime: 0
     m_PreExtrapolationTime: 0
-    m_DisplayName: 'Note 30 (original: 27, transposition: 3, velocity: 0.47) at 13.00s'
+    m_DisplayName: 'Note 22 (original: 31, transposition: -9, velocity: 0.49) at
+      13.00s'
   - m_Version: 1
     m_Start: 13.5
     m_ClipIn: 0
-    m_Asset: {fileID: -6833700041989782348}
-    m_Duration: 0.20000000298023224
+    m_Asset: {fileID: -716669296546992164}
+    m_Duration: 0.41453424096107483
     m_TimeScale: 1
     m_ParentTrack: {fileID: 408131524381217852}
     m_EaseInDuration: 0
@@ -2695,12 +2514,13 @@ MonoBehaviour:
     m_PreExtrapolationMode: 0
     m_PostExtrapolationTime: 0
     m_PreExtrapolationTime: 0
-    m_DisplayName: 'Note 32 (original: 27, transposition: 5, velocity: 0.64) at 13.50s'
+    m_DisplayName: 'Note 27 (original: 36, transposition: -9, velocity: 0.49) at
+      13.50s'
   - m_Version: 1
     m_Start: 14
     m_ClipIn: 0
-    m_Asset: {fileID: -5583058989271699702}
-    m_Duration: 0.20000000298023224
+    m_Asset: {fileID: -8888256717247858769}
+    m_Duration: 0.21044275164604187
     m_TimeScale: 1
     m_ParentTrack: {fileID: 408131524381217852}
     m_EaseInDuration: 0
@@ -2764,12 +2584,13 @@ MonoBehaviour:
     m_PreExtrapolationMode: 0
     m_PostExtrapolationTime: 0
     m_PreExtrapolationTime: 0
-    m_DisplayName: 'Note 34 (original: 28, transposition: 6, velocity: 0.91) at 14.00s'
+    m_DisplayName: 'Note 14 (original: 28, transposition: -14, velocity: 0.10) at
+      14.00s'
   - m_Version: 1
     m_Start: 14.5
     m_ClipIn: 0
-    m_Asset: {fileID: -7962818453201202275}
-    m_Duration: 0.20000000298023224
+    m_Asset: {fileID: -1606522185024178204}
+    m_Duration: 0.3238374888896942
     m_TimeScale: 1
     m_ParentTrack: {fileID: 408131524381217852}
     m_EaseInDuration: 0
@@ -2833,12 +2654,13 @@ MonoBehaviour:
     m_PreExtrapolationMode: 0
     m_PostExtrapolationTime: 0
     m_PreExtrapolationTime: 0
-    m_DisplayName: 'Note 36 (original: 28, transposition: 8, velocity: 0.42) at 14.50s'
+    m_DisplayName: 'Note 15 (original: 30, transposition: -15, velocity: 0.10) at
+      14.50s'
   - m_Version: 1
     m_Start: 15
     m_ClipIn: 0
-    m_Asset: {fileID: 500691815138739850}
-    m_Duration: 0.20000000298023224
+    m_Asset: {fileID: 1609718420031224149}
+    m_Duration: 0.2628345191478729
     m_TimeScale: 1
     m_ParentTrack: {fileID: 408131524381217852}
     m_EaseInDuration: 0
@@ -2902,12 +2724,13 @@ MonoBehaviour:
     m_PreExtrapolationMode: 0
     m_PostExtrapolationTime: 0
     m_PreExtrapolationTime: 0
-    m_DisplayName: 'Note 45 (original: 36, transposition: 9, velocity: 0.51) at 15.00s'
+    m_DisplayName: 'Note 20 (original: 29, transposition: -9, velocity: 0.10) at
+      15.00s'
   - m_Version: 1
     m_Start: 15.5
     m_ClipIn: 0
-    m_Asset: {fileID: -4886837792622538644}
-    m_Duration: 0.20000000298023224
+    m_Asset: {fileID: 7547828608070455127}
+    m_Duration: 0.20620635151863098
     m_TimeScale: 1
     m_ParentTrack: {fileID: 408131524381217852}
     m_EaseInDuration: 0
@@ -2971,11 +2794,27 @@ MonoBehaviour:
     m_PreExtrapolationMode: 0
     m_PostExtrapolationTime: 0
     m_PreExtrapolationTime: 0
-    m_DisplayName: 'Note 47 (original: 36, transposition: 11, velocity: 0.32) at
+    m_DisplayName: 'Note 25 (original: 35, transposition: -10, velocity: 0.10) at
       15.50s'
   m_Markers:
     m_Objects: []
   targetSamplerName: 
+--- !u!114 &460483786961578427
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d2ca0c4f6aed6430c8b8535a182e579f, type: 3}
+  m_Name: SamplerPianoRollClip
+  m_EditorClassIdentifier: 
+  midiNote: 23
+  duration: 0.20620635
+  startTime: 7.5
+  velocity: 0.1
 --- !u!114 &470914433171881241
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2993,22 +2832,6 @@ MonoBehaviour:
   m_bufferingTime: 0.1
   m_ClipProperties:
     volume: 1
---- !u!114 &500691815138739850
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d2ca0c4f6aed6430c8b8535a182e579f, type: 3}
-  m_Name: SamplerPianoRollClip
-  m_EditorClassIdentifier: 
-  midiNote: 45
-  duration: 0.2
-  startTime: 15
-  velocity: 0.50570226
 --- !u!114 &652209888643744961
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3043,7 +2866,7 @@ MonoBehaviour:
   m_bufferingTime: 0.1
   m_ClipProperties:
     volume: 1
---- !u!114 &980949820861332358
+--- !u!114 &1086309970159121052
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
@@ -3055,10 +2878,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d2ca0c4f6aed6430c8b8535a182e579f, type: 3}
   m_Name: SamplerPianoRollClip
   m_EditorClassIdentifier: 
-  midiNote: 27
-  duration: 0.2
+  midiNote: 19
+  duration: 0.29301786
   startTime: 1
-  velocity: 0.47344893
+  velocity: 0.49217734
 --- !u!114 &1272682895976577018
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3076,6 +2899,86 @@ MonoBehaviour:
   m_bufferingTime: 0.1
   m_ClipProperties:
     volume: 1
+--- !u!114 &1609718420031224149
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d2ca0c4f6aed6430c8b8535a182e579f, type: 3}
+  m_Name: SamplerPianoRollClip
+  m_EditorClassIdentifier: 
+  midiNote: 20
+  duration: 0.26283452
+  startTime: 15
+  velocity: 0.1
+--- !u!114 &1875809874728134694
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d2ca0c4f6aed6430c8b8535a182e579f, type: 3}
+  m_Name: SamplerPianoRollClip
+  m_EditorClassIdentifier: 
+  midiNote: 22
+  duration: 0.29301786
+  startTime: 13
+  velocity: 0.49217734
+--- !u!114 &2190930012995053066
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d2ca0c4f6aed6430c8b8535a182e579f, type: 3}
+  m_Name: SamplerPianoRollClip
+  m_EditorClassIdentifier: 
+  midiNote: 17
+  duration: 0.38884065
+  startTime: 0.5
+  velocity: 1
+--- !u!114 &2499153352663685630
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d2ca0c4f6aed6430c8b8535a182e579f, type: 3}
+  m_Name: SamplerPianoRollClip
+  m_EditorClassIdentifier: 
+  midiNote: 17
+  duration: 0.38884065
+  startTime: 8.5
+  velocity: 1
+--- !u!114 &2612035796644832440
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d2ca0c4f6aed6430c8b8535a182e579f, type: 3}
+  m_Name: SamplerPianoRollClip
+  m_EditorClassIdentifier: 
+  midiNote: 19
+  duration: 0.29301786
+  startTime: 9
+  velocity: 0.49217734
 --- !u!114 &3126085704424736403
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3093,6 +2996,22 @@ MonoBehaviour:
   m_bufferingTime: 0.1
   m_ClipProperties:
     volume: 1
+--- !u!114 &3295791567071171961
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d2ca0c4f6aed6430c8b8535a182e579f, type: 3}
+  m_Name: SamplerPianoRollClip
+  m_EditorClassIdentifier: 
+  midiNote: 24
+  duration: 0.41453424
+  startTime: 9.5
+  velocity: 0.49217734
 --- !u!114 &3321333627802308825
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3144,6 +3063,54 @@ MonoBehaviour:
   m_bufferingTime: 0.1
   m_ClipProperties:
     volume: 1
+--- !u!114 &4021455270854944187
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d2ca0c4f6aed6430c8b8535a182e579f, type: 3}
+  m_Name: SamplerPianoRollClip
+  m_EditorClassIdentifier: 
+  midiNote: 24
+  duration: 0.41453424
+  startTime: 1.5
+  velocity: 0.49217734
+--- !u!114 &4088470680085076473
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d2ca0c4f6aed6430c8b8535a182e579f, type: 3}
+  m_Name: SamplerPianoRollClip
+  m_EditorClassIdentifier: 
+  midiNote: 17
+  duration: 0.38884065
+  startTime: 4.5
+  velocity: 1
+--- !u!114 &4375675727400538826
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d2ca0c4f6aed6430c8b8535a182e579f, type: 3}
+  m_Name: SamplerPianoRollClip
+  m_EditorClassIdentifier: 
+  midiNote: 22
+  duration: 0.3199352
+  startTime: 0
+  velocity: 1
 --- !u!114 &4414831296190292067
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3161,7 +3128,7 @@ MonoBehaviour:
   m_bufferingTime: 0.1
   m_ClipProperties:
     volume: 1
---- !u!114 &4434730737054076204
+--- !u!114 &4734333108665119394
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
@@ -3173,11 +3140,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d2ca0c4f6aed6430c8b8535a182e579f, type: 3}
   m_Name: SamplerPianoRollClip
   m_EditorClassIdentifier: 
-  midiNote: 36
-  duration: 0.2
-  startTime: 8
+  midiNote: 22
+  duration: 0.3199352
+  startTime: 4
   velocity: 1
---- !u!114 &5034627894201413147
+--- !u!114 &4739662849491570622
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
@@ -3189,10 +3156,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d2ca0c4f6aed6430c8b8535a182e579f, type: 3}
   m_Name: SamplerPianoRollClip
   m_EditorClassIdentifier: 
-  midiNote: 36
-  duration: 0.2
-  startTime: 7.5
-  velocity: 0.31607586
+  midiNote: 17
+  duration: 0.26283452
+  startTime: 11
+  velocity: 0.1
 --- !u!114 &5061412561930159528
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3210,7 +3177,7 @@ MonoBehaviour:
   m_bufferingTime: 0.1
   m_ClipProperties:
     volume: 1
---- !u!114 &5875467799322062787
+--- !u!114 &5517675421024580293
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
@@ -3222,10 +3189,58 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d2ca0c4f6aed6430c8b8535a182e579f, type: 3}
   m_Name: SamplerPianoRollClip
   m_EditorClassIdentifier: 
-  midiNote: 38
-  duration: 0.2
-  startTime: 12.5
-  velocity: 0.38911325
+  midiNote: 24
+  duration: 0.41453424
+  startTime: 5.5
+  velocity: 0.49217734
+--- !u!114 &5623657856536666181
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d2ca0c4f6aed6430c8b8535a182e579f, type: 3}
+  m_Name: SamplerPianoRollClip
+  m_EditorClassIdentifier: 
+  midiNote: 18
+  duration: 0.3238375
+  startTime: 10.5
+  velocity: 0.1
+--- !u!114 &5726385537336369884
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d2ca0c4f6aed6430c8b8535a182e579f, type: 3}
+  m_Name: SamplerPianoRollClip
+  m_EditorClassIdentifier: 
+  midiNote: 16
+  duration: 0.21044275
+  startTime: 2
+  velocity: 0.1
+--- !u!114 &6054699691892009928
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d2ca0c4f6aed6430c8b8535a182e579f, type: 3}
+  m_Name: SamplerPianoRollClip
+  m_EditorClassIdentifier: 
+  midiNote: 16
+  duration: 0.21044275
+  startTime: 6
+  velocity: 0.1
 --- !u!114 &6513238403163325500
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3260,7 +3275,7 @@ MonoBehaviour:
   m_bufferingTime: 0.1
   m_ClipProperties:
     volume: 1
---- !u!114 &7145764510546141552
+--- !u!114 &7210901878882318489
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
@@ -3272,10 +3287,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d2ca0c4f6aed6430c8b8535a182e579f, type: 3}
   m_Name: SamplerPianoRollClip
   m_EditorClassIdentifier: 
-  midiNote: 36
-  duration: 0.2
-  startTime: 0
-  velocity: 1
+  midiNote: 23
+  duration: 0.20620635
+  startTime: 3.5
+  velocity: 0.1
 --- !u!114 &7252199847545214408
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3310,6 +3325,54 @@ MonoBehaviour:
   m_bufferingTime: 0.1
   m_ClipProperties:
     volume: 1
+--- !u!114 &7547828608070455127
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d2ca0c4f6aed6430c8b8535a182e579f, type: 3}
+  m_Name: SamplerPianoRollClip
+  m_EditorClassIdentifier: 
+  midiNote: 25
+  duration: 0.20620635
+  startTime: 15.5
+  velocity: 0.1
+--- !u!114 &7594167321716576152
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d2ca0c4f6aed6430c8b8535a182e579f, type: 3}
+  m_Name: SamplerPianoRollClip
+  m_EditorClassIdentifier: 
+  midiNote: 17
+  duration: 0.26283452
+  startTime: 7
+  velocity: 0.1
+--- !u!114 &7782358598984849491
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d2ca0c4f6aed6430c8b8535a182e579f, type: 3}
+  m_Name: SamplerPianoRollClip
+  m_EditorClassIdentifier: 
+  midiNote: 22
+  duration: 0.3199352
+  startTime: 12
+  velocity: 1
 --- !u!114 &7978080282407897885
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3327,35 +3390,3 @@ MonoBehaviour:
   m_bufferingTime: 0.1
   m_ClipProperties:
     volume: 1
---- !u!114 &8231754497932170857
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d2ca0c4f6aed6430c8b8535a182e579f, type: 3}
-  m_Name: SamplerPianoRollClip
-  m_EditorClassIdentifier: 
-  midiNote: 36
-  duration: 0.2
-  startTime: 11
-  velocity: 0.50570226
---- !u!114 &8609991286098499968
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d2ca0c4f6aed6430c8b8535a182e579f, type: 3}
-  m_Name: SamplerPianoRollClip
-  m_EditorClassIdentifier: 
-  midiNote: 36
-  duration: 0.2
-  startTime: 4
-  velocity: 1

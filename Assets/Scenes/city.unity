@@ -5245,7 +5245,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d07e51346ef2d42e1b984fa2e28aefe9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentBPM: 90
+  currentBPM: 60
   currentScale: 0
   currentRootNote: 60
 --- !u!4 &1238965311
@@ -5945,7 +5945,7 @@ MonoBehaviour:
   octaveOffset: 0
   oneShot: 0
   useScaleAdjustment: 1
-  volume: 0.502
+  volume: 0.83
   pan: 0
   outputMixerGroup: {fileID: 863674602078043773, guid: e9864c860344c47babf2c606b6d085e6, type: 2}
   decayCurve:

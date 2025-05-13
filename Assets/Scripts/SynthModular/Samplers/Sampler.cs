@@ -69,6 +69,12 @@ public class Sampler : MonoBehaviour, ISampler
         }
     }
 
+    private void Start()
+    {
+        UpdateRootNote();
+        StartCoroutine(CleanupInactiveAudioSourcesRoutine());
+    }
+
     private void UpdateRootNote()
     {
         rootMidiNote = (int)rootNote + (octave + 1) * 12;
@@ -166,11 +172,16 @@ public class Sampler : MonoBehaviour, ISampler
 
     private System.Collections.IEnumerator CleanupVoiceAfterPlayback(AudioSource voice, int midiNote)
     {
-        yield return new WaitForSeconds(sample.length / voice.pitch);
+        // Wait until the audio has finished playing or the AudioSource is destroyed
+        while (voice != null && (voice.isPlaying || voice.time < voice.clip.length))
+        {
+            yield return null;
+        }
         if (voice != null)
         {
             Destroy(voice);
-            activeVoices.Remove(midiNote);
+            if (activeVoices != null)
+                activeVoices.Remove(midiNote);
         }
     }
 
@@ -263,5 +274,21 @@ public class Sampler : MonoBehaviour, ISampler
     private void OnValidate()
     {
         UpdateRootNote();
+    }
+
+    private System.Collections.IEnumerator CleanupInactiveAudioSourcesRoutine()
+    {
+        while (true)
+        {
+            yield return new WaitForSeconds(2f);
+            var sources = GetComponents<AudioSource>();
+            foreach (var src in sources)
+            {
+                if (src != null && !src.isPlaying && src != audioSource)
+                {
+                    Destroy(src);
+                }
+            }
+        }
     }
 } 
