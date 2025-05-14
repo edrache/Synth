@@ -4006,7 +4006,6 @@ GameObject:
   - component: {fileID: 446562758}
   - component: {fileID: 446562757}
   - component: {fileID: 446562756}
-  - component: {fileID: 446562755}
   - component: {fileID: 446562759}
   m_Layer: 5
   m_Name: Player
@@ -4031,30 +4030,13 @@ RectTransform:
   - {fileID: 1638515390}
   - {fileID: 1211911423}
   - {fileID: 839729113}
-  m_Father: {fileID: 1379480801}
+  m_Father: {fileID: 1346428657}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 929, y: -521.0001}
+  m_AnchoredPosition: {x: 150, y: -9.999878}
   m_SizeDelta: {x: 16, y: 16}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &446562755
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 446562753}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: eee17eab7b4c04607a40b6a197dddac3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  playerId: 0
-  moveSpeed: 20
-  clampToScreen: 0
-  useButtonMovement: 1
-  buttonMoveStep: 20
 --- !u!114 &446562756
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4122,24 +4104,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 446562753}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 46b4b8e7f1cae408b9122a0f9ef3e5b3, type: 3}
+  m_Script: {fileID: 11500000, guid: e65fa08ffc86540358ca9842883b1978, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  objectMover: {fileID: 446562755}
-  firstContainer: {fileID: 1638515391}
-  secondContainer: {fileID: 1211911422}
-  firstContainerTrackedObjects:
-  - {fileID: 120388406}
-  - {fileID: 767152758}
-  - {fileID: 613804669}
-  - {fileID: 554860745}
-  secondContainerTrackedObjects:
-  - {fileID: 731919333}
-  - {fileID: 1634539795}
-  - {fileID: 149007467}
-  - {fileID: 1539976775}
-  detectionThreshold: 20
-  showDebugGizmos: 1
+  gridGenerator: {fileID: 1346428658}
+  moveDuration: 0.5
+  moveEase: 14
+  startPosition: {x: 0, y: 0}
+  playerId: 0
 --- !u!224 &475245955 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 5714083332059014137, guid: 40aa3f650120e445b9c4d361280ae96c, type: 3}
@@ -6729,7 +6701,10 @@ MonoBehaviour:
         _categoryId: 0
         _layoutId: 0
       _defaultMouseMaps: []
-      _defaultKeyboardMaps: []
+      _defaultKeyboardMaps:
+      - _enabled: 1
+        _categoryId: 0
+        _layoutId: 0
       _defaultCustomControllerMaps: []
       _startingCustomControllers: []
       _assignMouseOnStart: 1
@@ -7068,7 +7043,58 @@ MonoBehaviour:
         _modifierKey1: 0
         _modifierKey2: 0
         _modifierKey3: 0
-    keyboardMaps: []
+    keyboardMaps:
+    - id: 0
+      categoryId: 0
+      layoutId: 0
+      name: 
+      hardwareGuidString: 
+      customControllerUid: 0
+      actionElementMaps:
+      - _actionCategoryId: 0
+        _actionId: 8
+        _elementType: 1
+        _elementIdentifierId: -1
+        _axisRange: 0
+        _invert: 0
+        _axisContribution: 0
+        _keyboardKeyCode: 274
+        _modifierKey1: 0
+        _modifierKey2: 0
+        _modifierKey3: 0
+      - _actionCategoryId: 0
+        _actionId: 9
+        _elementType: 1
+        _elementIdentifierId: -1
+        _axisRange: 0
+        _invert: 0
+        _axisContribution: 0
+        _keyboardKeyCode: 273
+        _modifierKey1: 0
+        _modifierKey2: 0
+        _modifierKey3: 0
+      - _actionCategoryId: 0
+        _actionId: 10
+        _elementType: 1
+        _elementIdentifierId: -1
+        _axisRange: 0
+        _invert: 0
+        _axisContribution: 0
+        _keyboardKeyCode: 276
+        _modifierKey1: 0
+        _modifierKey2: 0
+        _modifierKey3: 0
+      - _actionCategoryId: 0
+        _actionId: 7
+        _elementType: 1
+        _elementIdentifierId: -1
+        _axisRange: 0
+        _invert: 0
+        _axisContribution: 0
+        _keyboardKeyCode: 275
+        _modifierKey1: 0
+        _modifierKey2: 0
+        _modifierKey3: 0
     mouseMaps: []
     customControllerMaps: []
     customControllers: []
@@ -7084,7 +7110,7 @@ MonoBehaviour:
     mouseLayoutIdCounter: 1
     customControllerLayoutIdCounter: 1
     joystickMapIdCounter: 1
-    keyboardMapIdCounter: 0
+    keyboardMapIdCounter: 1
     mouseMapIdCounter: 0
     customControllerMapIdCounter: 0
     customControllerIdCounter: 0
@@ -10177,6 +10203,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1346428657}
   - component: {fileID: 1346428658}
+  - component: {fileID: 1346428659}
   m_Layer: 5
   m_Name: cosmos2
   m_TagString: Untagged
@@ -10195,14 +10222,15 @@ RectTransform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 446562754}
   m_Father: {fileID: 1379480801}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 100, y: 100}
-  m_Pivot: {x: 0.5, y: 0.5}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: 926.4, y: 472.7}
+  m_SizeDelta: {x: -1710, y: -980}
+  m_Pivot: {x: 0, y: 0}
 --- !u!114 &1346428658
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10215,11 +10243,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1767d1747144f4feb980e173fe62193f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gridSize: {x: 200, y: 200}
+  gridSize: {x: 100, y: 100}
   cellSize: {x: 20, y: 20}
   gridElements:
   - prefab: {fileID: 6972626187959570060, guid: f8cd41c0da59543e38d7fc9e2eca9cd8, type: 3}
     weight: 100
+--- !u!222 &1346428659
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1346428656}
+  m_CullTransparentMesh: 1
 --- !u!1001 &1347277419
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -10447,7 +10483,6 @@ RectTransform:
   m_Children:
   - {fileID: 482556620}
   - {fileID: 2008163727}
-  - {fileID: 446562754}
   - {fileID: 1346428657}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}

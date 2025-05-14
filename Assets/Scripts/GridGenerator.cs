@@ -47,10 +47,10 @@ public class GridGenerator : MonoBehaviour
 
     private void CreateCell(int x, int y)
     {
-        // Calculate position in canvas space
+        // Calculate position starting from bottom-left corner
         Vector2 position = new Vector2(
-            x * cellSize.x - (gridSize.x / 2) + (cellSize.x / 2),
-            y * cellSize.y - (gridSize.y / 2) + (cellSize.y / 2)
+            x * cellSize.x + (cellSize.x / 2),
+            y * cellSize.y + (cellSize.y / 2)
         );
 
         // Select random element based on weights
@@ -151,5 +151,11 @@ public class GridGenerator : MonoBehaviour
     public Vector2 GetCellSize()
     {
         return cellSize;
+    }
+
+    // Get grid size
+    public Vector2 GetGridSize()
+    {
+        return gridSize;
     }
 } 
