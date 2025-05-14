@@ -1,99 +1,98 @@
 using UnityEngine;
+using UnityEngine.UI;
 
 [RequireComponent(typeof(CityNote))]
 public class NoteVisualizer : MonoBehaviour
 {
+    [Header("Prefab Settings")]
+    [SerializeField] private RectTransform visualPrefab;
+
     [Header("Scale Settings")]
-    [SerializeField] private Vector3 minScale = new Vector3(0.5f, 0.5f, 0.5f); // (X, Y, Z) min scale
-    [SerializeField] private Vector3 maxScale = new Vector3(2.0f, 2.0f, 2.0f); // (X, Y, Z) max scale
-    [SerializeField] private float minPitch = 0f;   // Najniższa wysokość dźwięku (np. 0)
-    [SerializeField] private float maxPitch = 127f; // Najwyższa wysokość dźwięku (127 dla MIDI)
-    [SerializeField] private bool useUniformScale = true; // Czy używać tej samej skali dla wszystkich osi
+    [SerializeField] private float minScale = 0.5f;
+    [SerializeField] private float maxScale = 1.5f;
 
-    [Header("Animation Settings")]
-    [SerializeField] private float scaleChangeSpeed = 5f; // Szybkość zmiany skali
-    [SerializeField] private bool smoothScaleChange = true; // Czy płynnie zmieniać skalę
+    [Header("Position Settings")]
+    [SerializeField] private float margin = 10f; // Margin from edges of the parent RectTransform
 
-    private CityNote note;
-    private Vector3 targetScale;
-    private Vector3 currentScale;
+    private CityNote cityNote;
+    private RectTransform rectTransform;
+    private int lastPitch = -1;
 
-    private void Start()
+    private void Awake()
     {
-        note = GetComponent<CityNote>();
-        if (note == null)
+        cityNote = GetComponent<CityNote>();
+        rectTransform = GetComponent<RectTransform>();
+        
+        if (cityNote == null)
         {
-            Debug.LogError("[NoteVisualizer] CityNote component not found!");
+            Debug.LogError("[NoteVisualizer] No CityNote component found!");
             enabled = false;
             return;
         }
 
-        // Inicjalizacja skali
-        currentScale = transform.localScale;
-        UpdateTargetScale();
+        if (rectTransform == null)
+        {
+            Debug.LogError("[NoteVisualizer] No RectTransform component found!");
+            enabled = false;
+            return;
+        }
+
+        if (visualPrefab == null)
+        {
+            Debug.LogError("[NoteVisualizer] No visual prefab assigned!");
+            enabled = false;
+            return;
+        }
+    }
+
+    private void Start()
+    {
+        UpdateVisuals();
     }
 
     private void Update()
     {
-        // Aktualizuj docelową skalę
-        UpdateTargetScale();
-
-        // Płynnie zmieniaj skalę
-        if (smoothScaleChange)
+        if (cityNote.pitch != lastPitch)
         {
-            transform.localScale = Vector3.Lerp(transform.localScale, targetScale, Time.deltaTime * scaleChangeSpeed);
-        }
-        else
-        {
-            transform.localScale = targetScale;
+            UpdateVisuals();
+            lastPitch = cityNote.pitch;
         }
     }
 
-    private void UpdateTargetScale()
+    private void UpdateVisuals()
     {
-        float pitch = note.pitch;
+        // Clear existing visuals
+        foreach (Transform child in transform)
+        {
+            Destroy(child.gameObject);
+        }
+
+        // Get note number in octave (1-12)
+        int noteInOctave = (cityNote.pitch % 12) + 1;
+
+        // Create new visuals
+        for (int i = 0; i < noteInOctave; i++)
+        {
+            CreateVisualInstance();
+        }
+    }
+
+    private void CreateVisualInstance()
+    {
+        // Instantiate the prefab
+        RectTransform instance = Instantiate(visualPrefab, transform);
         
-        // Normalizuj pitch do zakresu 0-1
-        float normalizedPitch = Mathf.InverseLerp(minPitch, maxPitch, pitch);
+        // Set random scale (same for all axes)
+        float randomScale = Random.Range(minScale, maxScale);
+        instance.localScale = new Vector3(randomScale, randomScale, randomScale);
+
+        // Calculate random position within margins
+        float maxX = (rectTransform.rect.width / 2) - margin;
+        float maxY = (rectTransform.rect.height / 2) - margin;
         
-        if (useUniformScale)
-        {
-            // Użyj średniej z min i max skali dla jednolitej skali
-            float avgMinScale = (minScale.x + minScale.y + minScale.z) / 3f;
-            float avgMaxScale = (maxScale.x + maxScale.y + maxScale.z) / 3f;
-            float scale = Mathf.Lerp(avgMinScale, avgMaxScale, normalizedPitch);
-            targetScale = new Vector3(scale, scale, scale);
-        }
-        else
-        {
-            // Oblicz skalę osobno dla każdej osi
-            float scaleX = Mathf.Lerp(minScale.x, maxScale.x, normalizedPitch);
-            float scaleY = Mathf.Lerp(minScale.y, maxScale.y, normalizedPitch);
-            float scaleZ = Mathf.Lerp(minScale.z, maxScale.z, normalizedPitch);
-            targetScale = new Vector3(scaleX, scaleY, scaleZ);
-        }
+        float randomX = Random.Range(-maxX, maxX);
+        float randomY = Random.Range(-maxY, maxY);
+        
+        instance.anchoredPosition = new Vector2(randomX, randomY);
     }
-
-    // Metoda do ręcznej aktualizacji skali
-    public void ForceUpdateScale()
-    {
-        UpdateTargetScale();
-        transform.localScale = targetScale;
-    }
-
-#if UNITY_EDITOR
-    private void OnValidate()
-    {
-        // Upewnij się, że wartości są poprawne
-        minScale.x = Mathf.Max(0.01f, minScale.x);
-        minScale.y = Mathf.Max(0.01f, minScale.y);
-        minScale.z = Mathf.Max(0.01f, minScale.z);
-        maxScale.x = Mathf.Max(minScale.x, maxScale.x);
-        maxScale.y = Mathf.Max(minScale.y, maxScale.y);
-        maxScale.z = Mathf.Max(minScale.z, maxScale.z);
-        minPitch = Mathf.Clamp(minPitch, 0, 127);
-        maxPitch = Mathf.Clamp(maxPitch, minPitch, 127);
-        scaleChangeSpeed = Mathf.Max(0.1f, scaleChangeSpeed);
-    }
-#endif
 } 

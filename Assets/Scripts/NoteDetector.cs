@@ -1,5 +1,6 @@
 using UnityEngine;
 using System;
+using System.Collections;
 
 [Serializable]
 public class NeighborContainerMapping
@@ -42,7 +43,14 @@ public class NoteDetector : MonoBehaviour
         // Subscribe to GridNavigator events
         gridNavigator.OnCellEntered += HandleCellEntered;
         
-        // Initial check of neighbors
+        // Initial check of neighbors with delay to allow CityNotes to initialize
+        StartCoroutine(InitialCheckWithDelay());
+    }
+
+    private IEnumerator InitialCheckWithDelay()
+    {
+        // Wait for one frame to allow CityNotes to initialize
+        yield return null;
         CheckNeighbors();
     }
 
