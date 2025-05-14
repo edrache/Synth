@@ -52,12 +52,6 @@ public class CityNoteRandomizer : MonoBehaviour
         // Randomize repeat count
         int randomRepeatCount = Random.Range(minRepeatCount, maxRepeatCount + 1);
         cityNote.repeatCount = randomRepeatCount;
-
-        Debug.Log($"[CityNoteRandomizer] Randomized values for {gameObject.name}:" +
-                 $"\nPitch: {randomPitch}" +
-                 $"\nVelocity: {randomVelocity}" +
-                 $"\nDuration: {randomDuration}" +
-                 $"\nRepeat Count: {randomRepeatCount}");
     }
 
     // Context menu item to randomize values in editor
