@@ -288,7 +288,7 @@ MonoBehaviour:
   maxVelocity: 1
   minDuration: 0.2
   maxDuration: 0.5
-  minRepeatCount: 1
+  minRepeatCount: 0
   maxRepeatCount: 1
 --- !u!114 &3094026452526578508
 MonoBehaviour:
