@@ -372,14 +372,14 @@ public class CitySequencer : MonoBehaviour
             if (container == null) continue;
 
             var allNotes = container.GetAllNotes();
-            float spacing = containerDuration / Mathf.Max(1, allNotes.Count);
+            float containerSpacing = containerDuration / Mathf.Max(1, allNotes.Count);
             
             // Update note positions based on their indices
             for (int i = 0; i < allNotes.Count; i++)
             {
                 if (allNotes[i] != null && allNotes[i].useAutoPosition)
                 {
-                    allNotes[i].position = i * spacing;
+                    allNotes[i].position = i * containerSpacing;
                 }
             }
             
@@ -387,7 +387,29 @@ public class CitySequencer : MonoBehaviour
             {
                 if (note == null) continue;
 
-                Vector3[] positions = note.GetRepeatPositions();
+                // Get modified note values from container
+                var (modifiedPitch, modifiedDuration, modifiedRepeatCount) = container.GetModifiedNoteValues(note);
+                
+                // Create positions array based on modified repeat count
+                Vector3[] positions;
+                if (modifiedRepeatCount <= 0)
+                {
+                    positions = new Vector3[] { new Vector3(note.position, 0, 0) };
+                }
+                else
+                {
+                    positions = new Vector3[modifiedRepeatCount + 1];
+                    positions[0] = new Vector3(note.position, 0, 0);
+
+                    // Get the next note's position to calculate spacing
+                    float nextNotePosition = GetNextNotePosition(note, allNotes);
+                    float repeatSpacing = CalculateRepeatSpacing(note.position, nextNotePosition, modifiedRepeatCount, modifiedDuration);
+
+                    for (int i = 1; i <= modifiedRepeatCount; i++)
+                    {
+                        positions[i] = new Vector3(note.position + (repeatSpacing * i), 0, 0);
+                    }
+                }
                 
                 foreach (Vector3 pos in positions)
                 {
@@ -405,13 +427,13 @@ public class CitySequencer : MonoBehaviour
                     // Get velocity from the curve at this time position
                     float velocity = GetVelocityAtTime(timePosition);
                     
-                    // Apply transposition to the note pitch
-                    int transposedPitch = note.pitch + transposition;
+                    // Apply transposition to the modified pitch
+                    int transposedPitch = modifiedPitch + transposition;
                     
                     clip.start = timePosition;
-                    clip.duration = note.duration;
+                    clip.duration = modifiedDuration;
                     samplerClip.midiNote = transposedPitch;
-                    samplerClip.duration = note.duration;
+                    samplerClip.duration = modifiedDuration;
                     samplerClip.startTime = timePosition;
                     samplerClip.velocity = velocity;
                     clip.displayName = $"Note {transposedPitch} (original: {note.pitch}, transposition: {transposition}, velocity: {velocity:F2}) at {timePosition:F2}s";
@@ -422,6 +444,27 @@ public class CitySequencer : MonoBehaviour
 
         timeline.RebuildGraph();
         timeline.time = currentTime;
+    }
+
+    private float GetNextNotePosition(CityNote currentNote, List<CityNote> allNotes)
+    {
+        float nextX = float.MaxValue;
+        foreach (var note in allNotes)
+        {
+            if (note != currentNote && note.position > currentNote.position && note.position < nextX)
+            {
+                nextX = note.position;
+            }
+        }
+        return nextX == float.MaxValue ? currentNote.position + 1f : nextX;
+    }
+
+    private float CalculateRepeatSpacing(float currentPosition, float nextNotePosition, int repeatCount, float duration)
+    {
+        float distanceToNextNote = nextNotePosition - currentPosition;
+        float totalDuration = duration * (repeatCount + 1);
+        float spacing = distanceToNextNote / (repeatCount + 1);
+        return Mathf.Max(spacing, 0.1f);
     }
 
     public void MarkSequenceForUpdate()

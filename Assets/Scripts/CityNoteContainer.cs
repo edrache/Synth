@@ -1,6 +1,26 @@
 using UnityEngine;
 using System.Collections.Generic;
 
+[System.Serializable]
+public class NoteModificationSettings
+{
+    [Header("Pitch Modification")]
+    [SerializeField] public bool modifyPitch = false;
+    [SerializeField] public int pitchOffset = 0; // Positive for up, negative for down
+
+    [Header("Octave Modification")]
+    [SerializeField] public bool modifyOctave = false;
+    [SerializeField] public int octaveOffset = 0; // Positive for up, negative for down
+
+    [Header("Duration Modification")]
+    [SerializeField] public bool modifyDuration = false;
+    [SerializeField] public float newDuration = 0.25f;
+
+    [Header("Repeat Count Modification")]
+    [SerializeField] public bool modifyRepeatCount = false;
+    [SerializeField] public int newRepeatCount = 0;
+}
+
 public class CityNoteContainer : MonoBehaviour
 {
     [Header("Update Settings")]
@@ -14,6 +34,9 @@ public class CityNoteContainer : MonoBehaviour
     [Header("Note Distribution")]
     [Tooltip("Time in seconds over which to distribute the notes.")]
     [SerializeField] private float noteDistributionTime = 4f;
+
+    [Header("Note Modifications")]
+    [SerializeField] private NoteModificationSettings noteModifications = new NoteModificationSettings();
 
     [SerializeField]
     private List<CityNote> notes = new List<CityNote>();
@@ -655,5 +678,81 @@ public class CityNoteContainer : MonoBehaviour
 
         // Update indices without sorting by position
         UpdateNoteIndices(false);
+    }
+
+    public void ApplyNoteModifications()
+    {
+        foreach (var note in notes)
+        {
+            if (note == null) continue;
+
+            // Apply pitch modifications
+            if (noteModifications.modifyPitch)
+            {
+                note.pitch += noteModifications.pitchOffset;
+            }
+
+            // Apply octave modifications
+            if (noteModifications.modifyOctave)
+            {
+                note.pitch += noteModifications.octaveOffset * 12; // Each octave is 12 semitones
+            }
+
+            // Apply duration modifications
+            if (noteModifications.modifyDuration)
+            {
+                note.duration = noteModifications.newDuration;
+            }
+
+            // Apply repeat count modifications
+            if (noteModifications.modifyRepeatCount)
+            {
+                note.repeatCount = noteModifications.newRepeatCount;
+            }
+        }
+
+        // Force update to reflect changes
+        ForceUpdate();
+    }
+
+    [ContextMenu("Apply Note Modifications")]
+    public void ApplyModificationsFromContextMenu()
+    {
+        ApplyNoteModifications();
+    }
+
+    public (int pitch, float duration, int repeatCount) GetModifiedNoteValues(CityNote note)
+    {
+        if (note == null) return (0, 0, 0);
+
+        int modifiedPitch = note.pitch;
+        float modifiedDuration = note.duration;
+        int modifiedRepeatCount = note.repeatCount;
+
+        // Apply pitch modifications
+        if (noteModifications.modifyPitch)
+        {
+            modifiedPitch += noteModifications.pitchOffset;
+        }
+
+        // Apply octave modifications
+        if (noteModifications.modifyOctave)
+        {
+            modifiedPitch += noteModifications.octaveOffset * 12; // Each octave is 12 semitones
+        }
+
+        // Apply duration modifications
+        if (noteModifications.modifyDuration)
+        {
+            modifiedDuration = noteModifications.newDuration;
+        }
+
+        // Apply repeat count modifications
+        if (noteModifications.modifyRepeatCount)
+        {
+            modifiedRepeatCount = noteModifications.newRepeatCount;
+        }
+
+        return (modifiedPitch, modifiedDuration, modifiedRepeatCount);
     }
 } 
