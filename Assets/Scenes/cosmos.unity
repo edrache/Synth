@@ -1512,6 +1512,15 @@ MonoBehaviour:
       inWeight: 0
       outWeight: 0
     - serializedVersion: 3
+      time: 3.6980946
+      value: 0.31819445
+      inSlope: Infinity
+      outSlope: Infinity
+      tangentMode: 103
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
       time: 8
       value: 0.40910155
       inSlope: Infinity
@@ -8402,7 +8411,7 @@ MonoBehaviour:
     modifyOctave: 1
     octaveOffset: 1
     modifyDuration: 1
-    newDuration: 1
+    newDuration: 2
     modifyRepeatCount: 1
     newRepeatCount: 0
   notes: []
@@ -12934,8 +12943,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d07e51346ef2d42e1b984fa2e28aefe9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentBPM: 60
-  currentScale: 0
+  currentBPM: 120
+  currentScale: 17
   currentRootNote: 60
 --- !u!4 &1238965311
 Transform:
@@ -16416,7 +16425,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!320 &1660008982
 PlayableDirector:
   m_ObjectHideFlags: 0
@@ -16471,6 +16480,7 @@ MonoBehaviour:
   volume: 0.83
   pan: 0
   outputMixerGroup: {fileID: 863674602078043773, guid: e9864c860344c47babf2c606b6d085e6, type: 2}
+  minNoteDuration: 0.1
   decayCurve:
     serializedVersion: 2
     m_Curve:
@@ -17458,6 +17468,7 @@ MonoBehaviour:
   volume: 0.254
   pan: 0
   outputMixerGroup: {fileID: 0}
+  minNoteDuration: 2
   decayCurve:
     serializedVersion: 2
     m_Curve:
@@ -17471,7 +17482,7 @@ MonoBehaviour:
       inWeight: 0
       outWeight: 0
     - serializedVersion: 3
-      time: 0.49862164
+      time: 1
       value: 0
       inSlope: 0
       outSlope: 0
@@ -17483,7 +17494,7 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 4
   decayTimeUnit: 0
-  decayTime: 1
+  decayTime: 2
 --- !u!82 &1810710769
 AudioSource:
   m_ObjectHideFlags: 0
