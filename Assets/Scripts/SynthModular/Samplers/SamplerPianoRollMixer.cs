@@ -9,6 +9,8 @@ public class SamplerPianoRollMixer : PlayableBehaviour
 
     public override void ProcessFrame(Playable playable, FrameData info, object playerData)
     {
+        //Debug.Log($"Processing frame for mixer");
+        
         if (sampler == null)
             return;
 
@@ -17,12 +19,14 @@ public class SamplerPianoRollMixer : PlayableBehaviour
 
         for (int i = 0; i < inputCount; i++)
         {
+            //Debug.Log($"Processing input {i}");
             float inputWeight = playable.GetInputWeight(i);
             ScriptPlayable<SamplerPianoRollBehaviour> inputPlayable = (ScriptPlayable<SamplerPianoRollBehaviour>)playable.GetInput(i);
             SamplerPianoRollBehaviour input = inputPlayable.GetBehaviour();
 
             if (inputWeight > 0)
             {
+                //Debug.Log($"Input {i} has weight {inputWeight}");
                 if (!currentlyPlayingNotes.Contains(input.midiNote))
                 {
                     sampler.PlayNote(input.midiNote, input.velocity);

@@ -11,6 +11,10 @@ public class SamplerPianoRollClip : PlayableAsset, ITimelineClipAsset
     [Range(0f, 1f)]
     [Tooltip("Głośność nuty (0 = cisza, 1 = maksymalna głośność)")]
     public float velocity = 1f;
+    [Tooltip("Reference to the GameObject that contains the CityNote component")]
+    public GameObject sourceObject;
+    [Tooltip("Type of timeline that this note belongs to")]
+    public TimelineType timelineType;
 
     private static readonly string[] noteNames = new string[]
     {
@@ -27,6 +31,8 @@ public class SamplerPianoRollClip : PlayableAsset, ITimelineClipAsset
         behaviour.duration = duration;
         behaviour.startTime = startTime;
         behaviour.velocity = velocity;
+        behaviour.sourceObject = sourceObject;
+        behaviour.timelineType = timelineType;
         return playable;
     }
 

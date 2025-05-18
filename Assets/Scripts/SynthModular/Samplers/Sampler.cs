@@ -66,7 +66,7 @@ public class Sampler : MonoBehaviour, ISampler
     public void SetTimelineLength(float length)
     {
         timelineLength = length;
-        Debug.Log($"Timeline length set to {length} seconds");
+        // Debug.Log($"Timeline length set to {length} seconds");
     }
 
     private void Awake()
@@ -80,7 +80,7 @@ public class Sampler : MonoBehaviour, ISampler
         else
         {
             timelineLength = (float)timelineDirector.duration;
-            Debug.Log($"Timeline length set to {timelineLength} seconds from PlayableDirector");
+            // Debug.Log($"Timeline length set to {timelineLength} seconds from PlayableDirector");
         }
 
         audioSource = GetComponent<AudioSource>();
@@ -190,7 +190,6 @@ public class Sampler : MonoBehaviour, ISampler
             if (existingFadeOut != null)
             {
                 StopCoroutine(existingFadeOut);
-                Debug.Log($"Stopped existing fade out for note {midiNote}");
             }
             activeFadeOuts.Remove(midiNote);
         }
@@ -200,9 +199,7 @@ public class Sampler : MonoBehaviour, ISampler
         {
             if (existingVoice != null)
             {
-                Debug.Log($"Stopping existing note {midiNote} with fade out");
-                var fadeOutCoroutine = StartCoroutine(FadeOutAndStop(existingVoice, midiNote));
-                activeFadeOuts[midiNote] = fadeOutCoroutine;
+                StopNote(midiNote);
             }
         }
 
@@ -231,7 +228,7 @@ public class Sampler : MonoBehaviour, ISampler
         voice.loop = false;
         voice.outputAudioMixerGroup = outputMixerGroup;
         
-        Debug.Log($"Playing note {midiNote} with velocity {velocity}, oneShot: {oneShot}, Loop: {loopNumber}, Time: {adjustedTime:F2}s, Duration: {noteDuration:F2}s, End time: {endTime:F2}s");
+        // Debug.Log($"Playing note {midiNote} with velocity {velocity}, oneShot: {oneShot}, Loop: {loopNumber}, Time: {adjustedTime:F2}s, Duration: {noteDuration:F2}s, End time: {endTime:F2}s");
         voice.Play();
 
         activeVoices[midiNote] = voice;
@@ -287,7 +284,7 @@ public class Sampler : MonoBehaviour, ISampler
         if (activeVoices == null)
             return;
 
-        Debug.Log($"StopNote called for note {midiNote}, oneShot: {oneShot}");
+        // Debug.Log($"StopNote called for note {midiNote}, oneShot: {oneShot}");
         
         // Stop any existing fade out for this note
         if (activeFadeOuts.TryGetValue(midiNote, out var existingFadeOut))
@@ -295,7 +292,7 @@ public class Sampler : MonoBehaviour, ISampler
             if (existingFadeOut != null)
             {
                 StopCoroutine(existingFadeOut);
-                Debug.Log($"Stopped existing fade out for note {midiNote}");
+                // Debug.Log($"Stopped existing fade out for note {midiNote}");
             }
             activeFadeOuts.Remove(midiNote);
         }
@@ -325,13 +322,13 @@ public class Sampler : MonoBehaviour, ISampler
             yield break;
         }
 
-        Debug.Log($"Starting fade out for note {midiNote}. Current volume: {voice.volume}, Decay curve: {decayCurve.length} points");
+        // Debug.Log($"Starting fade out for note {midiNote}. Current volume: {voice.volume}, Decay curve: {decayCurve.length} points");
         
         float startVolume = voice.volume;
         float elapsed = 0f;
         float decayDuration = GetDecayTimeSeconds();
         
-        Debug.Log($"Fade out parameters - Start volume: {startVolume}, Decay duration: {decayDuration}s, Time unit: {decayTimeUnit}");
+        // Debug.Log($"Fade out parameters - Start volume: {startVolume}, Decay duration: {decayDuration}s, Time unit: {decayTimeUnit}");
 
         // Safety check - if decay duration is too long, cap it
         if (decayDuration > 10f)
@@ -356,20 +353,20 @@ public class Sampler : MonoBehaviour, ISampler
             
             if (elapsed % 0.5f < Time.deltaTime) // Log every 0.5 seconds
             {
-                Debug.Log($"Fade out progress for note {midiNote}: {t:P0}, Volume: {newVolume:F2}, Curve value: {curveValue:F2}");
+                // Debug.Log($"Fade out progress for note {midiNote}: {t:P0}, Volume: {newVolume:F2}, Curve value: {curveValue:F2}");
             }
 
             elapsed += Time.deltaTime;
             yield return null;
         }
 
-        Debug.Log($"Fade out completed for note {midiNote}. Final volume: {voice?.volume ?? 0f}");
+        // Debug.Log($"Fade out completed for note {midiNote}. Final volume: {voice?.volume ?? 0f}");
         CleanupVoice(midiNote);
     }
 
     private void CleanupVoice(int midiNote)
     {
-        Debug.Log($"Cleaning up voice for note {midiNote}");
+        // Debug.Log($"Cleaning up voice for note {midiNote}");
         
         // Remove any existing fade out
         if (activeFadeOuts.TryGetValue(midiNote, out var fadeOut))
@@ -385,7 +382,7 @@ public class Sampler : MonoBehaviour, ISampler
         {
             if (voice != null)
             {
-                Debug.Log($"Destroying voice GameObject for note {midiNote}");
+                // Debug.Log($"Destroying voice GameObject for note {midiNote}");
                 Destroy(voice.gameObject);
             }
             else
@@ -402,7 +399,7 @@ public class Sampler : MonoBehaviour, ISampler
         if (activeNotes.Contains(midiNote))
         {
             activeNotes.Remove(midiNote);
-            Debug.Log($"Removed note {midiNote} from active notes list");
+            // Debug.Log($"Removed note {midiNote} from active notes list");
         }
 
         // Remove from note end times
@@ -411,7 +408,7 @@ public class Sampler : MonoBehaviour, ISampler
 
     public void StopAllNotes()
     {
-        Debug.Log("StopAllNotes called");
+        // Debug.Log("StopAllNotes called");
         if (activeVoices == null)
         {
             Debug.LogWarning("activeVoices is null in StopAllNotes");
@@ -430,11 +427,11 @@ public class Sampler : MonoBehaviour, ISampler
 
         foreach (var midiNote in new List<int>(activeNotes))
         {
-            Debug.Log($"Stopping note {midiNote} in StopAllNotes");
+            // Debug.Log($"Stopping note {midiNote} in StopAllNotes");
             CleanupVoice(midiNote);
         }
         activeNotes.Clear();
-        Debug.Log("All notes stopped and cleared");
+        // Debug.Log("All notes stopped and cleared");
     }
 
     private float GetDecayTimeSeconds()
@@ -444,11 +441,11 @@ public class Sampler : MonoBehaviour, ISampler
         if (bpmController != null)
         {
             bpm = bpmController.BPM;
-            Debug.Log($"Using BPM from controller: {bpm}");
+            // Debug.Log($"Using BPM from controller: {bpm}");
         }
         else
         {
-            Debug.Log("No BPM controller found, using default 120 BPM");
+            // Debug.Log("No BPM controller found, using default 120 BPM");
         }
 
         float decayTimeInSeconds;
@@ -459,7 +456,7 @@ public class Sampler : MonoBehaviour, ISampler
         else // Beats
         {
             decayTimeInSeconds = 60f * decayTime / Mathf.Max(1f, bpm);
-            Debug.Log($"Converting {decayTime} beats to {decayTimeInSeconds:F2} seconds at {bpm} BPM");
+            // Debug.Log($"Converting {decayTime} beats to {decayTimeInSeconds:F2} seconds at {bpm} BPM");
         }
 
         // Add safety margin for BPM changes
@@ -492,7 +489,7 @@ public class Sampler : MonoBehaviour, ISampler
         // Only stop notes if the application is quitting
         if (!isQuitting)
         {
-            Debug.Log("Sampler being destroyed but application is not quitting. Preventing note cleanup.");
+            // Debug.Log("Sampler being destroyed but application is not quitting. Preventing note cleanup.");
             return;
         }
         
@@ -582,7 +579,7 @@ public class Sampler : MonoBehaviour, ISampler
             {
                 if (activeVoices.ContainsKey(midiNote))
                 {
-                    Debug.Log($"Note {midiNote} exceeded its duration at time {currentTime:F2}s (end time was {noteEndTimes[midiNote]:F2}s)");
+                    // Debug.Log($"Note {midiNote} exceeded its duration at time {currentTime:F2}s (end time was {noteEndTimes[midiNote]:F2}s)");
                     StopNote(midiNote);
                     noteEndTimes.Remove(midiNote);
                 }
@@ -604,7 +601,7 @@ public class Sampler : MonoBehaviour, ISampler
                 if (loopNumber < currentLoop - 1)
                 {
                     objectsToRemove.Add(child.gameObject);
-                    Debug.Log($"Destroying leftover voice object from old loop: {name}");
+                    // Debug.Log($"Destroying leftover voice object from old loop: {name}");
                 }
             }
         }
@@ -690,7 +687,7 @@ public class Sampler : MonoBehaviour, ISampler
         if (currentTime < 0.1f && timelineDirector.state == PlayState.Playing)
         {
             currentLoop++;
-            Debug.Log($"Timeline restarted, incrementing loop number to {currentLoop}");
+            // Debug.Log($"Timeline restarted, incrementing loop number to {currentLoop}");
             CleanupNotesFromPreviousLoops(currentLoop);
         }
         

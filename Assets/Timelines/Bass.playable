@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &-9198400038988703367
+--- !u!114 &-9170478072169657716
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
@@ -12,11 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d2ca0c4f6aed6430c8b8535a182e579f, type: 3}
   m_Name: SamplerPianoRollClip
   m_EditorClassIdentifier: 
-  midiNote: 17
-  duration: 0.2674576
-  startTime: 3.5
-  velocity: 0.02
---- !u!114 &-8915945088933077558
+  midiNote: 23
+  duration: 0.41989887
+  startTime: 9
+  velocity: 0.3
+  sourceObject: {fileID: 0}
+  timelineType: 0
+--- !u!114 &-9004661520603500325
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
@@ -28,10 +30,30 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d2ca0c4f6aed6430c8b8535a182e579f, type: 3}
   m_Name: SamplerPianoRollClip
   m_EditorClassIdentifier: 
-  midiNote: 21
-  duration: 0.20161204
-  startTime: 8.25
+  midiNote: 18
+  duration: 0.22649197
+  startTime: 4
   velocity: 1
+  sourceObject: {fileID: 0}
+  timelineType: 0
+--- !u!114 &-8910345322818410268
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d2ca0c4f6aed6430c8b8535a182e579f, type: 3}
+  m_Name: SamplerPianoRollClip
+  m_EditorClassIdentifier: 
+  midiNote: 14
+  duration: 0.35791484
+  startTime: 4.5
+  velocity: 1
+  sourceObject: {fileID: 0}
+  timelineType: 0
 --- !u!114 &-8745313850454697549
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -49,54 +71,6 @@ MonoBehaviour:
   m_bufferingTime: 0.1
   m_ClipProperties:
     volume: 1
---- !u!114 &-8442274163016799238
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d2ca0c4f6aed6430c8b8535a182e579f, type: 3}
-  m_Name: SamplerPianoRollClip
-  m_EditorClassIdentifier: 
-  midiNote: 24
-  duration: 0.33352447
-  startTime: 8.5
-  velocity: 1
---- !u!114 &-8394335728502536459
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d2ca0c4f6aed6430c8b8535a182e579f, type: 3}
-  m_Name: SamplerPianoRollClip
-  m_EditorClassIdentifier: 
-  midiNote: 16
-  duration: 0.42285827
-  startTime: 11
-  velocity: 0.02
---- !u!114 &-8308053606531074766
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d2ca0c4f6aed6430c8b8535a182e579f, type: 3}
-  m_Name: SamplerPianoRollClip
-  m_EditorClassIdentifier: 
-  midiNote: 11
-  duration: 0.43830654
-  startTime: 14.5
-  velocity: 0.02
 --- !u!114 &-8094639310268626301
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -114,22 +88,6 @@ MonoBehaviour:
   m_bufferingTime: 0.1
   m_ClipProperties:
     volume: 1
---- !u!114 &-8010439197030480577
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d2ca0c4f6aed6430c8b8535a182e579f, type: 3}
-  m_Name: SamplerPianoRollClip
-  m_EditorClassIdentifier: 
-  midiNote: 24
-  duration: 0.45707142
-  startTime: 13.5
-  velocity: 0.3
 --- !u!114 &-7970450484573410709
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -147,6 +105,24 @@ MonoBehaviour:
   m_bufferingTime: 0.1
   m_ClipProperties:
     volume: 1
+--- !u!114 &-7694757805575598063
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d2ca0c4f6aed6430c8b8535a182e579f, type: 3}
+  m_Name: SamplerPianoRollClip
+  m_EditorClassIdentifier: 
+  midiNote: 18
+  duration: 0.22649197
+  startTime: 0
+  velocity: 1
+  sourceObject: {fileID: 0}
+  timelineType: 0
 --- !u!114 &-7318156531544041394
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -164,6 +140,24 @@ MonoBehaviour:
   m_bufferingTime: 0.1
   m_ClipProperties:
     volume: 1
+--- !u!114 &-7252959755128387641
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d2ca0c4f6aed6430c8b8535a182e579f, type: 3}
+  m_Name: SamplerPianoRollClip
+  m_EditorClassIdentifier: 
+  midiNote: 21
+  duration: 0.45263687
+  startTime: 6
+  velocity: 0.02
+  sourceObject: {fileID: 0}
+  timelineType: 0
 --- !u!114 &-7250104520385727408
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -181,22 +175,6 @@ MonoBehaviour:
   m_bufferingTime: 0.1
   m_ClipProperties:
     volume: 1
---- !u!114 &-7225511399926119706
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d2ca0c4f6aed6430c8b8535a182e579f, type: 3}
-  m_Name: SamplerPianoRollClip
-  m_EditorClassIdentifier: 
-  midiNote: 19
-  duration: 0.2674576
-  startTime: 15.5
-  velocity: 0.02
 --- !u!114 &-6847731564895342241
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -214,7 +192,7 @@ MonoBehaviour:
   m_bufferingTime: 0.1
   m_ClipProperties:
     volume: 1
---- !u!114 &-6274169664309344578
+--- !u!114 &-6726643491693949314
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
@@ -226,10 +204,48 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d2ca0c4f6aed6430c8b8535a182e579f, type: 3}
   m_Name: SamplerPianoRollClip
   m_EditorClassIdentifier: 
-  midiNote: 17
-  duration: 0.3214138
-  startTime: 2
+  midiNote: 22
+  duration: 0.26994833
+  startTime: 5.5
+  velocity: 0.3
+  sourceObject: {fileID: 0}
+  timelineType: 0
+--- !u!114 &-6570624144539651554
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d2ca0c4f6aed6430c8b8535a182e579f, type: 3}
+  m_Name: SamplerPianoRollClip
+  m_EditorClassIdentifier: 
+  midiNote: 18
+  duration: 0.22649197
+  startTime: 12
+  velocity: 1
+  sourceObject: {fileID: 0}
+  timelineType: 0
+--- !u!114 &-6529092904571132254
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d2ca0c4f6aed6430c8b8535a182e579f, type: 3}
+  m_Name: SamplerPianoRollClip
+  m_EditorClassIdentifier: 
+  midiNote: 21
+  duration: 0.36802146
+  startTime: 14.5
   velocity: 0.02
+  sourceObject: {fileID: 0}
+  timelineType: 0
 --- !u!114 &-6203681638633673965
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -247,6 +263,24 @@ MonoBehaviour:
   m_bufferingTime: 0.1
   m_ClipProperties:
     volume: 1
+--- !u!114 &-5709645866092479414
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d2ca0c4f6aed6430c8b8535a182e579f, type: 3}
+  m_Name: SamplerPianoRollClip
+  m_EditorClassIdentifier: 
+  midiNote: 22
+  duration: 0.26994833
+  startTime: 9.5
+  velocity: 0.3
+  sourceObject: {fileID: 0}
+  timelineType: 0
 --- !u!114 &-5605485629153143131
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -264,7 +298,7 @@ MonoBehaviour:
   m_bufferingTime: 0.1
   m_ClipProperties:
     volume: 1
---- !u!114 &-5495930104970242567
+--- !u!114 &-5434411812055427431
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
@@ -277,9 +311,11 @@ MonoBehaviour:
   m_Name: SamplerPianoRollClip
   m_EditorClassIdentifier: 
   midiNote: 21
-  duration: 0.20161204
-  startTime: 4.25
-  velocity: 1
+  duration: 0.45263687
+  startTime: 6.25
+  velocity: 0.02
+  sourceObject: {fileID: 0}
+  timelineType: 0
 --- !u!114 &-5433380716264310062
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -297,7 +333,7 @@ MonoBehaviour:
   m_bufferingTime: 0.1
   m_ClipProperties:
     volume: 1
---- !u!114 &-4832219446986964361
+--- !u!114 &-5256014162293628057
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
@@ -309,27 +345,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d2ca0c4f6aed6430c8b8535a182e579f, type: 3}
   m_Name: SamplerPianoRollClip
   m_EditorClassIdentifier: 
-  midiNote: 16
-  duration: 0.42285827
+  midiNote: 24
+  duration: 0.42052305
   startTime: 11.25
   velocity: 0.02
---- !u!114 &-4570058552773536600
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d2ca0c4f6aed6430c8b8535a182e579f, type: 3}
-  m_Name: SamplerPianoRollClip
-  m_EditorClassIdentifier: 
-  midiNote: 17
-  duration: 0.2674576
-  startTime: 7.5
-  velocity: 0.02
---- !u!114 &-4338583689579079208
+  sourceObject: {fileID: 0}
+  timelineType: 0
+--- !u!114 &-4336087485252374975
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
@@ -342,25 +364,11 @@ MonoBehaviour:
   m_Name: SamplerPianoRollClip
   m_EditorClassIdentifier: 
   midiNote: 21
-  duration: 0.45707142
-  startTime: 5.5
-  velocity: 0.3
---- !u!114 &-4078314784057294172
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d2ca0c4f6aed6430c8b8535a182e579f, type: 3}
-  m_Name: SamplerPianoRollClip
-  m_EditorClassIdentifier: 
-  midiNote: 21
-  duration: 0.45707142
+  duration: 0.45263687
   startTime: 10
   velocity: 0.02
+  sourceObject: {fileID: 0}
+  timelineType: 0
 --- !u!114 &-4046480475951569107
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -378,7 +386,7 @@ MonoBehaviour:
   m_bufferingTime: 0.1
   m_ClipProperties:
     volume: 1
---- !u!114 &-3505784976788967927
+--- !u!114 &-3967018570933241175
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
@@ -390,11 +398,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d2ca0c4f6aed6430c8b8535a182e579f, type: 3}
   m_Name: SamplerPianoRollClip
   m_EditorClassIdentifier: 
-  midiNote: 14
-  duration: 0.43830654
-  startTime: 2.5
+  midiNote: 21
+  duration: 0.45263687
+  startTime: 2
   velocity: 0.02
---- !u!114 &-3113835214792637951
+  sourceObject: {fileID: 0}
+  timelineType: 0
+--- !u!114 &-3537355071594803450
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
@@ -406,10 +416,66 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d2ca0c4f6aed6430c8b8535a182e579f, type: 3}
   m_Name: SamplerPianoRollClip
   m_EditorClassIdentifier: 
-  midiNote: 22
-  duration: 0.20161204
-  startTime: 12.25
-  velocity: 1
+  midiNote: 27
+  duration: 0.42052305
+  startTime: 15
+  velocity: 0.02
+  sourceObject: {fileID: 0}
+  timelineType: 0
+--- !u!114 &-2872414795733142785
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d2ca0c4f6aed6430c8b8535a182e579f, type: 3}
+  m_Name: SamplerPianoRollClip
+  m_EditorClassIdentifier: 
+  midiNote: 23
+  duration: 0.41989887
+  startTime: 1.25
+  velocity: 0.3
+  sourceObject: {fileID: 0}
+  timelineType: 0
+--- !u!114 &-2708044925339465249
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d2ca0c4f6aed6430c8b8535a182e579f, type: 3}
+  m_Name: SamplerPianoRollClip
+  m_EditorClassIdentifier: 
+  midiNote: 23
+  duration: 0.41989887
+  startTime: 9.25
+  velocity: 0.3
+  sourceObject: {fileID: 0}
+  timelineType: 0
+--- !u!114 &-2669381778700864876
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d2ca0c4f6aed6430c8b8535a182e579f, type: 3}
+  m_Name: SamplerPianoRollClip
+  m_EditorClassIdentifier: 
+  midiNote: 24
+  duration: 0.36802146
+  startTime: 6.75
+  velocity: 0.02
+  sourceObject: {fileID: 0}
+  timelineType: 0
 --- !u!114 &-2666152077776831817
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -459,6 +525,24 @@ MonoBehaviour:
   noteName: 0
   octave: 0
   duration: 0
+--- !u!114 &-2436871648190038822
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d2ca0c4f6aed6430c8b8535a182e579f, type: 3}
+  m_Name: SamplerPianoRollClip
+  m_EditorClassIdentifier: 
+  midiNote: 24
+  duration: 0.36802146
+  startTime: 10.75
+  velocity: 0.02
+  sourceObject: {fileID: 0}
+  timelineType: 0
 --- !u!114 &-2421690150684509788
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -493,38 +577,6 @@ MonoBehaviour:
   m_bufferingTime: 0.1
   m_ClipProperties:
     volume: 1
---- !u!114 &-2371429569968919505
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d2ca0c4f6aed6430c8b8535a182e579f, type: 3}
-  m_Name: SamplerPianoRollClip
-  m_EditorClassIdentifier: 
-  midiNote: 19
-  duration: 0.45707142
-  startTime: 14
-  velocity: 0.02
---- !u!114 &-2327987602011975093
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d2ca0c4f6aed6430c8b8535a182e579f, type: 3}
-  m_Name: SamplerPianoRollClip
-  m_EditorClassIdentifier: 
-  midiNote: 21
-  duration: 0.20161204
-  startTime: 12
-  velocity: 1
 --- !u!114 &-2230008192736023274
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -542,22 +594,6 @@ MonoBehaviour:
   m_bufferingTime: 0.1
   m_ClipProperties:
     volume: 1
---- !u!114 &-2178131875837911617
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d2ca0c4f6aed6430c8b8535a182e579f, type: 3}
-  m_Name: SamplerPianoRollClip
-  m_EditorClassIdentifier: 
-  midiNote: 14
-  duration: 0.43830654
-  startTime: 6.5
-  velocity: 0.02
 --- !u!114 &-2108610761318152908
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -575,7 +611,7 @@ MonoBehaviour:
   m_bufferingTime: 0.1
   m_ClipProperties:
     volume: 1
---- !u!114 &-1922086419496915765
+--- !u!114 &-1793534530944803098
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
@@ -587,11 +623,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d2ca0c4f6aed6430c8b8535a182e579f, type: 3}
   m_Name: SamplerPianoRollClip
   m_EditorClassIdentifier: 
-  midiNote: 24
-  duration: 0.33352447
-  startTime: 4.5
+  midiNote: 16
+  duration: 0.35791484
+  startTime: 12.5
   velocity: 1
---- !u!114 &-1433663302868635133
+  sourceObject: {fileID: 0}
+  timelineType: 0
+--- !u!114 &-1501025028547691549
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
@@ -603,10 +641,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d2ca0c4f6aed6430c8b8535a182e579f, type: 3}
   m_Name: SamplerPianoRollClip
   m_EditorClassIdentifier: 
-  midiNote: 23
-  duration: 0.4406761
-  startTime: 1
+  midiNote: 26
+  duration: 0.41989887
+  startTime: 13.25
   velocity: 0.3
+  sourceObject: {fileID: 0}
+  timelineType: 0
 --- !u!114 &-1352044401929494221
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -624,22 +664,6 @@ MonoBehaviour:
   m_bufferingTime: 0.1
   m_ClipProperties:
     volume: 1
---- !u!114 &-1238970438803070728
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d2ca0c4f6aed6430c8b8535a182e579f, type: 3}
-  m_Name: SamplerPianoRollClip
-  m_EditorClassIdentifier: 
-  midiNote: 24
-  duration: 0.33352447
-  startTime: 8.75
-  velocity: 0.3
 --- !u!114 &-871550938819600467
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -674,7 +698,7 @@ MonoBehaviour:
   m_bufferingTime: 0.1
   m_ClipProperties:
     volume: 1
---- !u!114 &-579281773271171311
+--- !u!114 &-580202992554759350
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
@@ -686,10 +710,30 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d2ca0c4f6aed6430c8b8535a182e579f, type: 3}
   m_Name: SamplerPianoRollClip
   m_EditorClassIdentifier: 
-  midiNote: 16
-  duration: 0.42285827
-  startTime: 3
+  midiNote: 21
+  duration: 0.45263687
+  startTime: 2.25
   velocity: 0.02
+  sourceObject: {fileID: 0}
+  timelineType: 0
+--- !u!114 &-173866627323991428
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d2ca0c4f6aed6430c8b8535a182e579f, type: 3}
+  m_Name: SamplerPianoRollClip
+  m_EditorClassIdentifier: 
+  midiNote: 24
+  duration: 0.36802146
+  startTime: 2.5
+  velocity: 0.02
+  sourceObject: {fileID: 0}
+  timelineType: 0
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -711,7 +755,7 @@ MonoBehaviour:
     m_ScenePreview: 1
   m_DurationMode: 1
   m_MarkerTrack: {fileID: 0}
---- !u!114 &237893818911551385
+--- !u!114 &24299942972680820
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
@@ -723,11 +767,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d2ca0c4f6aed6430c8b8535a182e579f, type: 3}
   m_Name: SamplerPianoRollClip
   m_EditorClassIdentifier: 
-  midiNote: 26
-  duration: 0.4406761
-  startTime: 13
-  velocity: 0.3
---- !u!114 &242785646235947335
+  midiNote: 24
+  duration: 0.42052305
+  startTime: 3
+  velocity: 0.02
+  sourceObject: {fileID: 0}
+  timelineType: 0
+--- !u!114 &292704533458189767
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
@@ -739,10 +785,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d2ca0c4f6aed6430c8b8535a182e579f, type: 3}
   m_Name: SamplerPianoRollClip
   m_EditorClassIdentifier: 
-  midiNote: 23
-  duration: 0.4406761
-  startTime: 9
-  velocity: 0.3
+  midiNote: 14
+  duration: 0.35791484
+  startTime: 0.5
+  velocity: 1
+  sourceObject: {fileID: 0}
+  timelineType: 0
 --- !u!114 &408131524381217852
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -767,8 +815,8 @@ MonoBehaviour:
   - m_Version: 1
     m_Start: 0
     m_ClipIn: 0
-    m_Asset: {fileID: 6885347614177591922}
-    m_Duration: 0.20161204040050507
+    m_Asset: {fileID: -7694757805575598063}
+    m_Duration: 0.22649197280406952
     m_TimeScale: 1
     m_ParentTrack: {fileID: 408131524381217852}
     m_EaseInDuration: 0
@@ -832,83 +880,13 @@ MonoBehaviour:
     m_PreExtrapolationMode: 0
     m_PostExtrapolationTime: 0
     m_PreExtrapolationTime: 0
-    m_DisplayName: 'Note 21 (original: 33, transposition: -12, velocity: 1.00) at
-      0.00s'
-  - m_Version: 1
-    m_Start: 0.25
-    m_ClipIn: 0
-    m_Asset: {fileID: 2288681086543652148}
-    m_Duration: 0.20161204040050507
-    m_TimeScale: 1
-    m_ParentTrack: {fileID: 408131524381217852}
-    m_EaseInDuration: 0
-    m_EaseOutDuration: 0
-    m_BlendInDuration: -1
-    m_BlendOutDuration: -1
-    m_MixInCurve:
-      serializedVersion: 2
-      m_Curve:
-      - serializedVersion: 3
-        time: 0
-        value: 0
-        inSlope: 0
-        outSlope: 0
-        tangentMode: 0
-        weightedMode: 0
-        inWeight: 0
-        outWeight: 0
-      - serializedVersion: 3
-        time: 1
-        value: 1
-        inSlope: 0
-        outSlope: 0
-        tangentMode: 0
-        weightedMode: 0
-        inWeight: 0
-        outWeight: 0
-      m_PreInfinity: 2
-      m_PostInfinity: 2
-      m_RotationOrder: 4
-    m_MixOutCurve:
-      serializedVersion: 2
-      m_Curve:
-      - serializedVersion: 3
-        time: 0
-        value: 1
-        inSlope: 0
-        outSlope: 0
-        tangentMode: 0
-        weightedMode: 0
-        inWeight: 0
-        outWeight: 0
-      - serializedVersion: 3
-        time: 1
-        value: 0
-        inSlope: 0
-        outSlope: 0
-        tangentMode: 0
-        weightedMode: 0
-        inWeight: 0
-        outWeight: 0
-      m_PreInfinity: 2
-      m_PostInfinity: 2
-      m_RotationOrder: 4
-    m_BlendInCurveMode: 0
-    m_BlendOutCurveMode: 0
-    m_ExposedParameterNames: []
-    m_AnimationCurves: {fileID: 0}
-    m_Recordable: 0
-    m_PostExtrapolationMode: 0
-    m_PreExtrapolationMode: 0
-    m_PostExtrapolationTime: 0
-    m_PreExtrapolationTime: 0
-    m_DisplayName: 'Note 21 (original: 33, transposition: -12, velocity: 1.00) at
-      0.25s'
+    m_DisplayName: 'Note 18 from Sector_Grid[10,11] (original: 30, transposition:
+      -12, velocity: 1.00) at 0.00s'
   - m_Version: 1
     m_Start: 0.5
     m_ClipIn: 0
-    m_Asset: {fileID: 5100034416556512740}
-    m_Duration: 0.3335244655609131
+    m_Asset: {fileID: 292704533458189767}
+    m_Duration: 0.35791483521461487
     m_TimeScale: 1
     m_ParentTrack: {fileID: 408131524381217852}
     m_EaseInDuration: 0
@@ -972,83 +950,13 @@ MonoBehaviour:
     m_PreExtrapolationMode: 0
     m_PostExtrapolationTime: 0
     m_PreExtrapolationTime: 0
-    m_DisplayName: 'Note 24 (original: 36, transposition: -12, velocity: 1.00) at
-      0.50s'
-  - m_Version: 1
-    m_Start: 0.75
-    m_ClipIn: 0
-    m_Asset: {fileID: 6232976548421174944}
-    m_Duration: 0.3335244655609131
-    m_TimeScale: 1
-    m_ParentTrack: {fileID: 408131524381217852}
-    m_EaseInDuration: 0
-    m_EaseOutDuration: 0
-    m_BlendInDuration: -1
-    m_BlendOutDuration: -1
-    m_MixInCurve:
-      serializedVersion: 2
-      m_Curve:
-      - serializedVersion: 3
-        time: 0
-        value: 0
-        inSlope: 0
-        outSlope: 0
-        tangentMode: 0
-        weightedMode: 0
-        inWeight: 0
-        outWeight: 0
-      - serializedVersion: 3
-        time: 1
-        value: 1
-        inSlope: 0
-        outSlope: 0
-        tangentMode: 0
-        weightedMode: 0
-        inWeight: 0
-        outWeight: 0
-      m_PreInfinity: 2
-      m_PostInfinity: 2
-      m_RotationOrder: 4
-    m_MixOutCurve:
-      serializedVersion: 2
-      m_Curve:
-      - serializedVersion: 3
-        time: 0
-        value: 1
-        inSlope: 0
-        outSlope: 0
-        tangentMode: 0
-        weightedMode: 0
-        inWeight: 0
-        outWeight: 0
-      - serializedVersion: 3
-        time: 1
-        value: 0
-        inSlope: 0
-        outSlope: 0
-        tangentMode: 0
-        weightedMode: 0
-        inWeight: 0
-        outWeight: 0
-      m_PreInfinity: 2
-      m_PostInfinity: 2
-      m_RotationOrder: 4
-    m_BlendInCurveMode: 0
-    m_BlendOutCurveMode: 0
-    m_ExposedParameterNames: []
-    m_AnimationCurves: {fileID: 0}
-    m_Recordable: 0
-    m_PostExtrapolationMode: 0
-    m_PreExtrapolationMode: 0
-    m_PostExtrapolationTime: 0
-    m_PreExtrapolationTime: 0
-    m_DisplayName: 'Note 24 (original: 36, transposition: -12, velocity: 0.30) at
-      0.75s'
+    m_DisplayName: 'Note 14 from Sector_Grid[11,11] (original: 26, transposition:
+      -12, velocity: 1.00) at 0.50s'
   - m_Version: 1
     m_Start: 1
     m_ClipIn: 0
-    m_Asset: {fileID: -1433663302868635133}
-    m_Duration: 0.44067609310150146
+    m_Asset: {fileID: 771828195474471132}
+    m_Duration: 0.4198988676071167
     m_TimeScale: 1
     m_ParentTrack: {fileID: 408131524381217852}
     m_EaseInDuration: 0
@@ -1112,13 +1020,83 @@ MonoBehaviour:
     m_PreExtrapolationMode: 0
     m_PostExtrapolationTime: 0
     m_PreExtrapolationTime: 0
-    m_DisplayName: 'Note 23 (original: 35, transposition: -12, velocity: 0.30) at
-      1.00s'
+    m_DisplayName: 'Note 23 from Sector_Grid[11,10] (original: 35, transposition:
+      -12, velocity: 0.30) at 1.00s'
+  - m_Version: 1
+    m_Start: 1.25
+    m_ClipIn: 0
+    m_Asset: {fileID: -2872414795733142785}
+    m_Duration: 0.4198988676071167
+    m_TimeScale: 1
+    m_ParentTrack: {fileID: 408131524381217852}
+    m_EaseInDuration: 0
+    m_EaseOutDuration: 0
+    m_BlendInDuration: -1
+    m_BlendOutDuration: -1
+    m_MixInCurve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 1
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    m_MixOutCurve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 1
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    m_BlendInCurveMode: 0
+    m_BlendOutCurveMode: 0
+    m_ExposedParameterNames: []
+    m_AnimationCurves: {fileID: 0}
+    m_Recordable: 0
+    m_PostExtrapolationMode: 0
+    m_PreExtrapolationMode: 0
+    m_PostExtrapolationTime: 0
+    m_PreExtrapolationTime: 0
+    m_DisplayName: 'Note 23 from Sector_Grid[11,10] (original: 35, transposition:
+      -12, velocity: 0.30) at 1.25s'
   - m_Version: 1
     m_Start: 1.5
     m_ClipIn: 0
-    m_Asset: {fileID: 3666399661497033146}
-    m_Duration: 0.4570714235305786
+    m_Asset: {fileID: 8518698695200367010}
+    m_Duration: 0.2699483335018158
     m_TimeScale: 1
     m_ParentTrack: {fileID: 408131524381217852}
     m_EaseInDuration: 0
@@ -1182,13 +1160,13 @@ MonoBehaviour:
     m_PreExtrapolationMode: 0
     m_PostExtrapolationTime: 0
     m_PreExtrapolationTime: 0
-    m_DisplayName: 'Note 21 (original: 33, transposition: -12, velocity: 0.30) at
-      1.50s'
+    m_DisplayName: 'Note 22 from Sector_Grid[9,11] (original: 34, transposition:
+      -12, velocity: 0.30) at 1.50s'
   - m_Version: 1
     m_Start: 2
     m_ClipIn: 0
-    m_Asset: {fileID: 936943900774119518}
-    m_Duration: 0.4570714235305786
+    m_Asset: {fileID: -3967018570933241175}
+    m_Duration: 0.45263686776161194
     m_TimeScale: 1
     m_ParentTrack: {fileID: 408131524381217852}
     m_EaseInDuration: 0
@@ -1252,13 +1230,13 @@ MonoBehaviour:
     m_PreExtrapolationMode: 0
     m_PostExtrapolationTime: 0
     m_PreExtrapolationTime: 0
-    m_DisplayName: 'Note 21 (original: 33, transposition: -12, velocity: 0.02) at
-      2.00s'
+    m_DisplayName: 'Note 21 from Sector_Grid[11,9] (original: 33, transposition:
+      -12, velocity: 0.02) at 2.00s'
   - m_Version: 1
-    m_Start: 2
+    m_Start: 2.25
     m_ClipIn: 0
-    m_Asset: {fileID: -6274169664309344578}
-    m_Duration: 0.3214137852191925
+    m_Asset: {fileID: -580202992554759350}
+    m_Duration: 0.45263686776161194
     m_TimeScale: 1
     m_ParentTrack: {fileID: 408131524381217852}
     m_EaseInDuration: 0
@@ -1322,13 +1300,13 @@ MonoBehaviour:
     m_PreExtrapolationMode: 0
     m_PostExtrapolationTime: 0
     m_PreExtrapolationTime: 0
-    m_DisplayName: 'Note 17 (original: 29, transposition: -12, velocity: 0.02) at
-      2.00s'
+    m_DisplayName: 'Note 21 from Sector_Grid[11,9] (original: 33, transposition:
+      -12, velocity: 0.02) at 2.25s'
   - m_Version: 1
     m_Start: 2.5
     m_ClipIn: 0
-    m_Asset: {fileID: -3505784976788967927}
-    m_Duration: 0.4383065402507782
+    m_Asset: {fileID: -173866627323991428}
+    m_Duration: 0.3680214583873749
     m_TimeScale: 1
     m_ParentTrack: {fileID: 408131524381217852}
     m_EaseInDuration: 0
@@ -1392,13 +1370,83 @@ MonoBehaviour:
     m_PreExtrapolationMode: 0
     m_PostExtrapolationTime: 0
     m_PreExtrapolationTime: 0
-    m_DisplayName: 'Note 14 (original: 26, transposition: -12, velocity: 0.02) at
-      2.50s'
+    m_DisplayName: 'Note 24 from Sector_Grid[10,9] (original: 36, transposition:
+      -12, velocity: 0.02) at 2.50s'
+  - m_Version: 1
+    m_Start: 2.75
+    m_ClipIn: 0
+    m_Asset: {fileID: 8514231245284859153}
+    m_Duration: 0.3680214583873749
+    m_TimeScale: 1
+    m_ParentTrack: {fileID: 408131524381217852}
+    m_EaseInDuration: 0
+    m_EaseOutDuration: 0
+    m_BlendInDuration: -1
+    m_BlendOutDuration: -1
+    m_MixInCurve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 1
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    m_MixOutCurve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 1
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    m_BlendInCurveMode: 0
+    m_BlendOutCurveMode: 0
+    m_ExposedParameterNames: []
+    m_AnimationCurves: {fileID: 0}
+    m_Recordable: 0
+    m_PostExtrapolationMode: 0
+    m_PreExtrapolationMode: 0
+    m_PostExtrapolationTime: 0
+    m_PreExtrapolationTime: 0
+    m_DisplayName: 'Note 24 from Sector_Grid[10,9] (original: 36, transposition:
+      -12, velocity: 0.02) at 2.75s'
   - m_Version: 1
     m_Start: 3
     m_ClipIn: 0
-    m_Asset: {fileID: -579281773271171311}
-    m_Duration: 0.42285826802253723
+    m_Asset: {fileID: 24299942972680820}
+    m_Duration: 0.4205230474472046
     m_TimeScale: 1
     m_ParentTrack: {fileID: 408131524381217852}
     m_EaseInDuration: 0
@@ -1462,13 +1510,13 @@ MonoBehaviour:
     m_PreExtrapolationMode: 0
     m_PostExtrapolationTime: 0
     m_PreExtrapolationTime: 0
-    m_DisplayName: 'Note 16 (original: 28, transposition: -12, velocity: 0.02) at
-      3.00s'
+    m_DisplayName: 'Note 24 from Sector_Grid[9,9] (original: 36, transposition: -12,
+      velocity: 0.02) at 3.00s'
   - m_Version: 1
     m_Start: 3.25
     m_ClipIn: 0
-    m_Asset: {fileID: 7250884852782821921}
-    m_Duration: 0.42285826802253723
+    m_Asset: {fileID: 4862557683829265004}
+    m_Duration: 0.4205230474472046
     m_TimeScale: 1
     m_ParentTrack: {fileID: 408131524381217852}
     m_EaseInDuration: 0
@@ -1532,13 +1580,13 @@ MonoBehaviour:
     m_PreExtrapolationMode: 0
     m_PostExtrapolationTime: 0
     m_PreExtrapolationTime: 0
-    m_DisplayName: 'Note 16 (original: 28, transposition: -12, velocity: 0.02) at
-      3.25s'
+    m_DisplayName: 'Note 24 from Sector_Grid[9,9] (original: 36, transposition: -12,
+      velocity: 0.02) at 3.25s'
   - m_Version: 1
     m_Start: 3.5
     m_ClipIn: 0
-    m_Asset: {fileID: -9198400038988703367}
-    m_Duration: 0.26745760440826416
+    m_Asset: {fileID: 6611762739044578037}
+    m_Duration: 0.3642573356628418
     m_TimeScale: 1
     m_ParentTrack: {fileID: 408131524381217852}
     m_EaseInDuration: 0
@@ -1602,13 +1650,13 @@ MonoBehaviour:
     m_PreExtrapolationMode: 0
     m_PostExtrapolationTime: 0
     m_PreExtrapolationTime: 0
-    m_DisplayName: 'Note 17 (original: 29, transposition: -12, velocity: 0.02) at
-      3.50s'
+    m_DisplayName: 'Note 16 from Sector_Grid[9,10] (original: 28, transposition:
+      -12, velocity: 0.02) at 3.50s'
   - m_Version: 1
     m_Start: 4
     m_ClipIn: 0
-    m_Asset: {fileID: 1401116124221541580}
-    m_Duration: 0.20161204040050507
+    m_Asset: {fileID: -9004661520603500325}
+    m_Duration: 0.22649197280406952
     m_TimeScale: 1
     m_ParentTrack: {fileID: 408131524381217852}
     m_EaseInDuration: 0
@@ -1672,83 +1720,13 @@ MonoBehaviour:
     m_PreExtrapolationMode: 0
     m_PostExtrapolationTime: 0
     m_PreExtrapolationTime: 0
-    m_DisplayName: 'Note 21 (original: 33, transposition: -12, velocity: 1.00) at
-      4.00s'
-  - m_Version: 1
-    m_Start: 4.25
-    m_ClipIn: 0
-    m_Asset: {fileID: -5495930104970242567}
-    m_Duration: 0.20161204040050507
-    m_TimeScale: 1
-    m_ParentTrack: {fileID: 408131524381217852}
-    m_EaseInDuration: 0
-    m_EaseOutDuration: 0
-    m_BlendInDuration: -1
-    m_BlendOutDuration: -1
-    m_MixInCurve:
-      serializedVersion: 2
-      m_Curve:
-      - serializedVersion: 3
-        time: 0
-        value: 0
-        inSlope: 0
-        outSlope: 0
-        tangentMode: 0
-        weightedMode: 0
-        inWeight: 0
-        outWeight: 0
-      - serializedVersion: 3
-        time: 1
-        value: 1
-        inSlope: 0
-        outSlope: 0
-        tangentMode: 0
-        weightedMode: 0
-        inWeight: 0
-        outWeight: 0
-      m_PreInfinity: 2
-      m_PostInfinity: 2
-      m_RotationOrder: 4
-    m_MixOutCurve:
-      serializedVersion: 2
-      m_Curve:
-      - serializedVersion: 3
-        time: 0
-        value: 1
-        inSlope: 0
-        outSlope: 0
-        tangentMode: 0
-        weightedMode: 0
-        inWeight: 0
-        outWeight: 0
-      - serializedVersion: 3
-        time: 1
-        value: 0
-        inSlope: 0
-        outSlope: 0
-        tangentMode: 0
-        weightedMode: 0
-        inWeight: 0
-        outWeight: 0
-      m_PreInfinity: 2
-      m_PostInfinity: 2
-      m_RotationOrder: 4
-    m_BlendInCurveMode: 0
-    m_BlendOutCurveMode: 0
-    m_ExposedParameterNames: []
-    m_AnimationCurves: {fileID: 0}
-    m_Recordable: 0
-    m_PostExtrapolationMode: 0
-    m_PreExtrapolationMode: 0
-    m_PostExtrapolationTime: 0
-    m_PreExtrapolationTime: 0
-    m_DisplayName: 'Note 21 (original: 33, transposition: -12, velocity: 1.00) at
-      4.25s'
+    m_DisplayName: 'Note 18 from Sector_Grid[10,11] (original: 30, transposition:
+      -12, velocity: 1.00) at 4.00s'
   - m_Version: 1
     m_Start: 4.5
     m_ClipIn: 0
-    m_Asset: {fileID: -1922086419496915765}
-    m_Duration: 0.3335244655609131
+    m_Asset: {fileID: -8910345322818410268}
+    m_Duration: 0.35791483521461487
     m_TimeScale: 1
     m_ParentTrack: {fileID: 408131524381217852}
     m_EaseInDuration: 0
@@ -1812,83 +1790,13 @@ MonoBehaviour:
     m_PreExtrapolationMode: 0
     m_PostExtrapolationTime: 0
     m_PreExtrapolationTime: 0
-    m_DisplayName: 'Note 24 (original: 36, transposition: -12, velocity: 1.00) at
-      4.50s'
-  - m_Version: 1
-    m_Start: 4.75
-    m_ClipIn: 0
-    m_Asset: {fileID: 3260266723336031975}
-    m_Duration: 0.3335244655609131
-    m_TimeScale: 1
-    m_ParentTrack: {fileID: 408131524381217852}
-    m_EaseInDuration: 0
-    m_EaseOutDuration: 0
-    m_BlendInDuration: -1
-    m_BlendOutDuration: -1
-    m_MixInCurve:
-      serializedVersion: 2
-      m_Curve:
-      - serializedVersion: 3
-        time: 0
-        value: 0
-        inSlope: 0
-        outSlope: 0
-        tangentMode: 0
-        weightedMode: 0
-        inWeight: 0
-        outWeight: 0
-      - serializedVersion: 3
-        time: 1
-        value: 1
-        inSlope: 0
-        outSlope: 0
-        tangentMode: 0
-        weightedMode: 0
-        inWeight: 0
-        outWeight: 0
-      m_PreInfinity: 2
-      m_PostInfinity: 2
-      m_RotationOrder: 4
-    m_MixOutCurve:
-      serializedVersion: 2
-      m_Curve:
-      - serializedVersion: 3
-        time: 0
-        value: 1
-        inSlope: 0
-        outSlope: 0
-        tangentMode: 0
-        weightedMode: 0
-        inWeight: 0
-        outWeight: 0
-      - serializedVersion: 3
-        time: 1
-        value: 0
-        inSlope: 0
-        outSlope: 0
-        tangentMode: 0
-        weightedMode: 0
-        inWeight: 0
-        outWeight: 0
-      m_PreInfinity: 2
-      m_PostInfinity: 2
-      m_RotationOrder: 4
-    m_BlendInCurveMode: 0
-    m_BlendOutCurveMode: 0
-    m_ExposedParameterNames: []
-    m_AnimationCurves: {fileID: 0}
-    m_Recordable: 0
-    m_PostExtrapolationMode: 0
-    m_PreExtrapolationMode: 0
-    m_PostExtrapolationTime: 0
-    m_PreExtrapolationTime: 0
-    m_DisplayName: 'Note 24 (original: 36, transposition: -12, velocity: 0.30) at
-      4.75s'
+    m_DisplayName: 'Note 14 from Sector_Grid[11,11] (original: 26, transposition:
+      -12, velocity: 1.00) at 4.50s'
   - m_Version: 1
     m_Start: 5
     m_ClipIn: 0
-    m_Asset: {fileID: 5843274697360490235}
-    m_Duration: 0.44067609310150146
+    m_Asset: {fileID: 7162993964334431042}
+    m_Duration: 0.4198988676071167
     m_TimeScale: 1
     m_ParentTrack: {fileID: 408131524381217852}
     m_EaseInDuration: 0
@@ -1952,13 +1860,83 @@ MonoBehaviour:
     m_PreExtrapolationMode: 0
     m_PostExtrapolationTime: 0
     m_PreExtrapolationTime: 0
-    m_DisplayName: 'Note 23 (original: 35, transposition: -12, velocity: 0.30) at
-      5.00s'
+    m_DisplayName: 'Note 23 from Sector_Grid[11,10] (original: 35, transposition:
+      -12, velocity: 0.30) at 5.00s'
+  - m_Version: 1
+    m_Start: 5.25
+    m_ClipIn: 0
+    m_Asset: {fileID: 6393461882799076683}
+    m_Duration: 0.4198988676071167
+    m_TimeScale: 1
+    m_ParentTrack: {fileID: 408131524381217852}
+    m_EaseInDuration: 0
+    m_EaseOutDuration: 0
+    m_BlendInDuration: -1
+    m_BlendOutDuration: -1
+    m_MixInCurve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 1
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    m_MixOutCurve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 1
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    m_BlendInCurveMode: 0
+    m_BlendOutCurveMode: 0
+    m_ExposedParameterNames: []
+    m_AnimationCurves: {fileID: 0}
+    m_Recordable: 0
+    m_PostExtrapolationMode: 0
+    m_PreExtrapolationMode: 0
+    m_PostExtrapolationTime: 0
+    m_PreExtrapolationTime: 0
+    m_DisplayName: 'Note 23 from Sector_Grid[11,10] (original: 35, transposition:
+      -12, velocity: 0.30) at 5.25s'
   - m_Version: 1
     m_Start: 5.5
     m_ClipIn: 0
-    m_Asset: {fileID: -4338583689579079208}
-    m_Duration: 0.4570714235305786
+    m_Asset: {fileID: -6726643491693949314}
+    m_Duration: 0.2699483335018158
     m_TimeScale: 1
     m_ParentTrack: {fileID: 408131524381217852}
     m_EaseInDuration: 0
@@ -2022,13 +2000,13 @@ MonoBehaviour:
     m_PreExtrapolationMode: 0
     m_PostExtrapolationTime: 0
     m_PreExtrapolationTime: 0
-    m_DisplayName: 'Note 21 (original: 33, transposition: -12, velocity: 0.30) at
-      5.50s'
+    m_DisplayName: 'Note 22 from Sector_Grid[9,11] (original: 34, transposition:
+      -12, velocity: 0.30) at 5.50s'
   - m_Version: 1
     m_Start: 6
     m_ClipIn: 0
-    m_Asset: {fileID: 1125190758454497107}
-    m_Duration: 0.4570714235305786
+    m_Asset: {fileID: -7252959755128387641}
+    m_Duration: 0.45263686776161194
     m_TimeScale: 1
     m_ParentTrack: {fileID: 408131524381217852}
     m_EaseInDuration: 0
@@ -2092,13 +2070,13 @@ MonoBehaviour:
     m_PreExtrapolationMode: 0
     m_PostExtrapolationTime: 0
     m_PreExtrapolationTime: 0
-    m_DisplayName: 'Note 21 (original: 33, transposition: -12, velocity: 0.02) at
-      6.00s'
+    m_DisplayName: 'Note 21 from Sector_Grid[11,9] (original: 33, transposition:
+      -12, velocity: 0.02) at 6.00s'
   - m_Version: 1
-    m_Start: 6
+    m_Start: 6.25
     m_ClipIn: 0
-    m_Asset: {fileID: 4578013925452363481}
-    m_Duration: 0.3214137852191925
+    m_Asset: {fileID: -5434411812055427431}
+    m_Duration: 0.45263686776161194
     m_TimeScale: 1
     m_ParentTrack: {fileID: 408131524381217852}
     m_EaseInDuration: 0
@@ -2162,13 +2140,13 @@ MonoBehaviour:
     m_PreExtrapolationMode: 0
     m_PostExtrapolationTime: 0
     m_PreExtrapolationTime: 0
-    m_DisplayName: 'Note 17 (original: 29, transposition: -12, velocity: 0.02) at
-      6.00s'
+    m_DisplayName: 'Note 21 from Sector_Grid[11,9] (original: 33, transposition:
+      -12, velocity: 0.02) at 6.25s'
   - m_Version: 1
     m_Start: 6.5
     m_ClipIn: 0
-    m_Asset: {fileID: -2178131875837911617}
-    m_Duration: 0.4383065402507782
+    m_Asset: {fileID: 447819892933230608}
+    m_Duration: 0.3680214583873749
     m_TimeScale: 1
     m_ParentTrack: {fileID: 408131524381217852}
     m_EaseInDuration: 0
@@ -2232,13 +2210,83 @@ MonoBehaviour:
     m_PreExtrapolationMode: 0
     m_PostExtrapolationTime: 0
     m_PreExtrapolationTime: 0
-    m_DisplayName: 'Note 14 (original: 26, transposition: -12, velocity: 0.02) at
-      6.50s'
+    m_DisplayName: 'Note 24 from Sector_Grid[10,9] (original: 36, transposition:
+      -12, velocity: 0.02) at 6.50s'
+  - m_Version: 1
+    m_Start: 6.75
+    m_ClipIn: 0
+    m_Asset: {fileID: -2669381778700864876}
+    m_Duration: 0.3680214583873749
+    m_TimeScale: 1
+    m_ParentTrack: {fileID: 408131524381217852}
+    m_EaseInDuration: 0
+    m_EaseOutDuration: 0
+    m_BlendInDuration: -1
+    m_BlendOutDuration: -1
+    m_MixInCurve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 1
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    m_MixOutCurve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 1
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    m_BlendInCurveMode: 0
+    m_BlendOutCurveMode: 0
+    m_ExposedParameterNames: []
+    m_AnimationCurves: {fileID: 0}
+    m_Recordable: 0
+    m_PostExtrapolationMode: 0
+    m_PreExtrapolationMode: 0
+    m_PostExtrapolationTime: 0
+    m_PreExtrapolationTime: 0
+    m_DisplayName: 'Note 24 from Sector_Grid[10,9] (original: 36, transposition:
+      -12, velocity: 0.02) at 6.75s'
   - m_Version: 1
     m_Start: 7
     m_ClipIn: 0
-    m_Asset: {fileID: 5552988326105449425}
-    m_Duration: 0.42285826802253723
+    m_Asset: {fileID: 8474127115338787791}
+    m_Duration: 0.4205230474472046
     m_TimeScale: 1
     m_ParentTrack: {fileID: 408131524381217852}
     m_EaseInDuration: 0
@@ -2302,13 +2350,13 @@ MonoBehaviour:
     m_PreExtrapolationMode: 0
     m_PostExtrapolationTime: 0
     m_PreExtrapolationTime: 0
-    m_DisplayName: 'Note 16 (original: 28, transposition: -12, velocity: 0.02) at
-      7.00s'
+    m_DisplayName: 'Note 24 from Sector_Grid[9,9] (original: 36, transposition: -12,
+      velocity: 0.02) at 7.00s'
   - m_Version: 1
     m_Start: 7.25
     m_ClipIn: 0
-    m_Asset: {fileID: 6252028541432973236}
-    m_Duration: 0.42285826802253723
+    m_Asset: {fileID: 7172092530401681908}
+    m_Duration: 0.4205230474472046
     m_TimeScale: 1
     m_ParentTrack: {fileID: 408131524381217852}
     m_EaseInDuration: 0
@@ -2372,13 +2420,13 @@ MonoBehaviour:
     m_PreExtrapolationMode: 0
     m_PostExtrapolationTime: 0
     m_PreExtrapolationTime: 0
-    m_DisplayName: 'Note 16 (original: 28, transposition: -12, velocity: 0.02) at
-      7.25s'
+    m_DisplayName: 'Note 24 from Sector_Grid[9,9] (original: 36, transposition: -12,
+      velocity: 0.02) at 7.25s'
   - m_Version: 1
     m_Start: 7.5
     m_ClipIn: 0
-    m_Asset: {fileID: -4570058552773536600}
-    m_Duration: 0.26745760440826416
+    m_Asset: {fileID: 1172893267933608612}
+    m_Duration: 0.3642573356628418
     m_TimeScale: 1
     m_ParentTrack: {fileID: 408131524381217852}
     m_EaseInDuration: 0
@@ -2442,13 +2490,13 @@ MonoBehaviour:
     m_PreExtrapolationMode: 0
     m_PostExtrapolationTime: 0
     m_PreExtrapolationTime: 0
-    m_DisplayName: 'Note 17 (original: 29, transposition: -12, velocity: 0.02) at
-      7.50s'
+    m_DisplayName: 'Note 16 from Sector_Grid[9,10] (original: 28, transposition:
+      -12, velocity: 0.02) at 7.50s'
   - m_Version: 1
     m_Start: 8
     m_ClipIn: 0
-    m_Asset: {fileID: 4341963611435418238}
-    m_Duration: 0.20161204040050507
+    m_Asset: {fileID: 7608159983450874992}
+    m_Duration: 0.22649197280406952
     m_TimeScale: 1
     m_ParentTrack: {fileID: 408131524381217852}
     m_EaseInDuration: 0
@@ -2512,83 +2560,13 @@ MonoBehaviour:
     m_PreExtrapolationMode: 0
     m_PostExtrapolationTime: 0
     m_PreExtrapolationTime: 0
-    m_DisplayName: 'Note 21 (original: 33, transposition: -12, velocity: 1.00) at
-      8.00s'
-  - m_Version: 1
-    m_Start: 8.25
-    m_ClipIn: 0
-    m_Asset: {fileID: -8915945088933077558}
-    m_Duration: 0.20161204040050507
-    m_TimeScale: 1
-    m_ParentTrack: {fileID: 408131524381217852}
-    m_EaseInDuration: 0
-    m_EaseOutDuration: 0
-    m_BlendInDuration: -1
-    m_BlendOutDuration: -1
-    m_MixInCurve:
-      serializedVersion: 2
-      m_Curve:
-      - serializedVersion: 3
-        time: 0
-        value: 0
-        inSlope: 0
-        outSlope: 0
-        tangentMode: 0
-        weightedMode: 0
-        inWeight: 0
-        outWeight: 0
-      - serializedVersion: 3
-        time: 1
-        value: 1
-        inSlope: 0
-        outSlope: 0
-        tangentMode: 0
-        weightedMode: 0
-        inWeight: 0
-        outWeight: 0
-      m_PreInfinity: 2
-      m_PostInfinity: 2
-      m_RotationOrder: 4
-    m_MixOutCurve:
-      serializedVersion: 2
-      m_Curve:
-      - serializedVersion: 3
-        time: 0
-        value: 1
-        inSlope: 0
-        outSlope: 0
-        tangentMode: 0
-        weightedMode: 0
-        inWeight: 0
-        outWeight: 0
-      - serializedVersion: 3
-        time: 1
-        value: 0
-        inSlope: 0
-        outSlope: 0
-        tangentMode: 0
-        weightedMode: 0
-        inWeight: 0
-        outWeight: 0
-      m_PreInfinity: 2
-      m_PostInfinity: 2
-      m_RotationOrder: 4
-    m_BlendInCurveMode: 0
-    m_BlendOutCurveMode: 0
-    m_ExposedParameterNames: []
-    m_AnimationCurves: {fileID: 0}
-    m_Recordable: 0
-    m_PostExtrapolationMode: 0
-    m_PreExtrapolationMode: 0
-    m_PostExtrapolationTime: 0
-    m_PreExtrapolationTime: 0
-    m_DisplayName: 'Note 21 (original: 33, transposition: -12, velocity: 1.00) at
-      8.25s'
+    m_DisplayName: 'Note 18 from Sector_Grid[10,11] (original: 30, transposition:
+      -12, velocity: 1.00) at 8.00s'
   - m_Version: 1
     m_Start: 8.5
     m_ClipIn: 0
-    m_Asset: {fileID: -8442274163016799238}
-    m_Duration: 0.3335244655609131
+    m_Asset: {fileID: 709625444242791620}
+    m_Duration: 0.35791483521461487
     m_TimeScale: 1
     m_ParentTrack: {fileID: 408131524381217852}
     m_EaseInDuration: 0
@@ -2652,83 +2630,13 @@ MonoBehaviour:
     m_PreExtrapolationMode: 0
     m_PostExtrapolationTime: 0
     m_PreExtrapolationTime: 0
-    m_DisplayName: 'Note 24 (original: 36, transposition: -12, velocity: 1.00) at
-      8.50s'
-  - m_Version: 1
-    m_Start: 8.75
-    m_ClipIn: 0
-    m_Asset: {fileID: -1238970438803070728}
-    m_Duration: 0.3335244655609131
-    m_TimeScale: 1
-    m_ParentTrack: {fileID: 408131524381217852}
-    m_EaseInDuration: 0
-    m_EaseOutDuration: 0
-    m_BlendInDuration: -1
-    m_BlendOutDuration: -1
-    m_MixInCurve:
-      serializedVersion: 2
-      m_Curve:
-      - serializedVersion: 3
-        time: 0
-        value: 0
-        inSlope: 0
-        outSlope: 0
-        tangentMode: 0
-        weightedMode: 0
-        inWeight: 0
-        outWeight: 0
-      - serializedVersion: 3
-        time: 1
-        value: 1
-        inSlope: 0
-        outSlope: 0
-        tangentMode: 0
-        weightedMode: 0
-        inWeight: 0
-        outWeight: 0
-      m_PreInfinity: 2
-      m_PostInfinity: 2
-      m_RotationOrder: 4
-    m_MixOutCurve:
-      serializedVersion: 2
-      m_Curve:
-      - serializedVersion: 3
-        time: 0
-        value: 1
-        inSlope: 0
-        outSlope: 0
-        tangentMode: 0
-        weightedMode: 0
-        inWeight: 0
-        outWeight: 0
-      - serializedVersion: 3
-        time: 1
-        value: 0
-        inSlope: 0
-        outSlope: 0
-        tangentMode: 0
-        weightedMode: 0
-        inWeight: 0
-        outWeight: 0
-      m_PreInfinity: 2
-      m_PostInfinity: 2
-      m_RotationOrder: 4
-    m_BlendInCurveMode: 0
-    m_BlendOutCurveMode: 0
-    m_ExposedParameterNames: []
-    m_AnimationCurves: {fileID: 0}
-    m_Recordable: 0
-    m_PostExtrapolationMode: 0
-    m_PreExtrapolationMode: 0
-    m_PostExtrapolationTime: 0
-    m_PreExtrapolationTime: 0
-    m_DisplayName: 'Note 24 (original: 36, transposition: -12, velocity: 0.30) at
-      8.75s'
+    m_DisplayName: 'Note 14 from Sector_Grid[11,11] (original: 26, transposition:
+      -12, velocity: 1.00) at 8.50s'
   - m_Version: 1
     m_Start: 9
     m_ClipIn: 0
-    m_Asset: {fileID: 242785646235947335}
-    m_Duration: 0.44067609310150146
+    m_Asset: {fileID: -9170478072169657716}
+    m_Duration: 0.4198988676071167
     m_TimeScale: 1
     m_ParentTrack: {fileID: 408131524381217852}
     m_EaseInDuration: 0
@@ -2792,13 +2700,83 @@ MonoBehaviour:
     m_PreExtrapolationMode: 0
     m_PostExtrapolationTime: 0
     m_PreExtrapolationTime: 0
-    m_DisplayName: 'Note 23 (original: 35, transposition: -12, velocity: 0.30) at
-      9.00s'
+    m_DisplayName: 'Note 23 from Sector_Grid[11,10] (original: 35, transposition:
+      -12, velocity: 0.30) at 9.00s'
+  - m_Version: 1
+    m_Start: 9.25
+    m_ClipIn: 0
+    m_Asset: {fileID: -2708044925339465249}
+    m_Duration: 0.4198988676071167
+    m_TimeScale: 1
+    m_ParentTrack: {fileID: 408131524381217852}
+    m_EaseInDuration: 0
+    m_EaseOutDuration: 0
+    m_BlendInDuration: -1
+    m_BlendOutDuration: -1
+    m_MixInCurve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 1
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    m_MixOutCurve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 1
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    m_BlendInCurveMode: 0
+    m_BlendOutCurveMode: 0
+    m_ExposedParameterNames: []
+    m_AnimationCurves: {fileID: 0}
+    m_Recordable: 0
+    m_PostExtrapolationMode: 0
+    m_PreExtrapolationMode: 0
+    m_PostExtrapolationTime: 0
+    m_PreExtrapolationTime: 0
+    m_DisplayName: 'Note 23 from Sector_Grid[11,10] (original: 35, transposition:
+      -12, velocity: 0.30) at 9.25s'
   - m_Version: 1
     m_Start: 9.5
     m_ClipIn: 0
-    m_Asset: {fileID: 7969432868589925518}
-    m_Duration: 0.4570714235305786
+    m_Asset: {fileID: -5709645866092479414}
+    m_Duration: 0.2699483335018158
     m_TimeScale: 1
     m_ParentTrack: {fileID: 408131524381217852}
     m_EaseInDuration: 0
@@ -2862,13 +2840,13 @@ MonoBehaviour:
     m_PreExtrapolationMode: 0
     m_PostExtrapolationTime: 0
     m_PreExtrapolationTime: 0
-    m_DisplayName: 'Note 21 (original: 33, transposition: -12, velocity: 0.30) at
-      9.50s'
+    m_DisplayName: 'Note 22 from Sector_Grid[9,11] (original: 34, transposition:
+      -12, velocity: 0.30) at 9.50s'
   - m_Version: 1
     m_Start: 10
     m_ClipIn: 0
-    m_Asset: {fileID: -4078314784057294172}
-    m_Duration: 0.4570714235305786
+    m_Asset: {fileID: -4336087485252374975}
+    m_Duration: 0.45263686776161194
     m_TimeScale: 1
     m_ParentTrack: {fileID: 408131524381217852}
     m_EaseInDuration: 0
@@ -2932,13 +2910,13 @@ MonoBehaviour:
     m_PreExtrapolationMode: 0
     m_PostExtrapolationTime: 0
     m_PreExtrapolationTime: 0
-    m_DisplayName: 'Note 21 (original: 33, transposition: -12, velocity: 0.02) at
-      10.00s'
+    m_DisplayName: 'Note 21 from Sector_Grid[11,9] (original: 33, transposition:
+      -12, velocity: 0.02) at 10.00s'
   - m_Version: 1
-    m_Start: 10
+    m_Start: 10.25
     m_ClipIn: 0
-    m_Asset: {fileID: 4439106767479927952}
-    m_Duration: 0.3214137852191925
+    m_Asset: {fileID: 2222491265690182871}
+    m_Duration: 0.45263686776161194
     m_TimeScale: 1
     m_ParentTrack: {fileID: 408131524381217852}
     m_EaseInDuration: 0
@@ -3002,13 +2980,13 @@ MonoBehaviour:
     m_PreExtrapolationMode: 0
     m_PostExtrapolationTime: 0
     m_PreExtrapolationTime: 0
-    m_DisplayName: 'Note 17 (original: 29, transposition: -12, velocity: 0.02) at
-      10.00s'
+    m_DisplayName: 'Note 21 from Sector_Grid[11,9] (original: 33, transposition:
+      -12, velocity: 0.02) at 10.25s'
   - m_Version: 1
     m_Start: 10.5
     m_ClipIn: 0
-    m_Asset: {fileID: 4888021499822640113}
-    m_Duration: 0.4383065402507782
+    m_Asset: {fileID: 3675150442597518714}
+    m_Duration: 0.3680214583873749
     m_TimeScale: 1
     m_ParentTrack: {fileID: 408131524381217852}
     m_EaseInDuration: 0
@@ -3072,13 +3050,83 @@ MonoBehaviour:
     m_PreExtrapolationMode: 0
     m_PostExtrapolationTime: 0
     m_PreExtrapolationTime: 0
-    m_DisplayName: 'Note 14 (original: 26, transposition: -12, velocity: 0.02) at
-      10.50s'
+    m_DisplayName: 'Note 24 from Sector_Grid[10,9] (original: 36, transposition:
+      -12, velocity: 0.02) at 10.50s'
+  - m_Version: 1
+    m_Start: 10.75
+    m_ClipIn: 0
+    m_Asset: {fileID: -2436871648190038822}
+    m_Duration: 0.3680214583873749
+    m_TimeScale: 1
+    m_ParentTrack: {fileID: 408131524381217852}
+    m_EaseInDuration: 0
+    m_EaseOutDuration: 0
+    m_BlendInDuration: -1
+    m_BlendOutDuration: -1
+    m_MixInCurve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 1
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    m_MixOutCurve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 1
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    m_BlendInCurveMode: 0
+    m_BlendOutCurveMode: 0
+    m_ExposedParameterNames: []
+    m_AnimationCurves: {fileID: 0}
+    m_Recordable: 0
+    m_PostExtrapolationMode: 0
+    m_PreExtrapolationMode: 0
+    m_PostExtrapolationTime: 0
+    m_PreExtrapolationTime: 0
+    m_DisplayName: 'Note 24 from Sector_Grid[10,9] (original: 36, transposition:
+      -12, velocity: 0.02) at 10.75s'
   - m_Version: 1
     m_Start: 11
     m_ClipIn: 0
-    m_Asset: {fileID: -8394335728502536459}
-    m_Duration: 0.42285826802253723
+    m_Asset: {fileID: 3920322296618835377}
+    m_Duration: 0.4205230474472046
     m_TimeScale: 1
     m_ParentTrack: {fileID: 408131524381217852}
     m_EaseInDuration: 0
@@ -3142,13 +3190,13 @@ MonoBehaviour:
     m_PreExtrapolationMode: 0
     m_PostExtrapolationTime: 0
     m_PreExtrapolationTime: 0
-    m_DisplayName: 'Note 16 (original: 28, transposition: -12, velocity: 0.02) at
-      11.00s'
+    m_DisplayName: 'Note 24 from Sector_Grid[9,9] (original: 36, transposition: -12,
+      velocity: 0.02) at 11.00s'
   - m_Version: 1
     m_Start: 11.25
     m_ClipIn: 0
-    m_Asset: {fileID: -4832219446986964361}
-    m_Duration: 0.42285826802253723
+    m_Asset: {fileID: -5256014162293628057}
+    m_Duration: 0.4205230474472046
     m_TimeScale: 1
     m_ParentTrack: {fileID: 408131524381217852}
     m_EaseInDuration: 0
@@ -3212,13 +3260,13 @@ MonoBehaviour:
     m_PreExtrapolationMode: 0
     m_PostExtrapolationTime: 0
     m_PreExtrapolationTime: 0
-    m_DisplayName: 'Note 16 (original: 28, transposition: -12, velocity: 0.02) at
-      11.25s'
+    m_DisplayName: 'Note 24 from Sector_Grid[9,9] (original: 36, transposition: -12,
+      velocity: 0.02) at 11.25s'
   - m_Version: 1
     m_Start: 11.5
     m_ClipIn: 0
-    m_Asset: {fileID: 1086002196836957134}
-    m_Duration: 0.26745760440826416
+    m_Asset: {fileID: 1016643060288293534}
+    m_Duration: 0.3642573356628418
     m_TimeScale: 1
     m_ParentTrack: {fileID: 408131524381217852}
     m_EaseInDuration: 0
@@ -3282,13 +3330,13 @@ MonoBehaviour:
     m_PreExtrapolationMode: 0
     m_PostExtrapolationTime: 0
     m_PreExtrapolationTime: 0
-    m_DisplayName: 'Note 17 (original: 29, transposition: -12, velocity: 0.02) at
-      11.50s'
+    m_DisplayName: 'Note 16 from Sector_Grid[9,10] (original: 28, transposition:
+      -12, velocity: 0.02) at 11.50s'
   - m_Version: 1
     m_Start: 12
     m_ClipIn: 0
-    m_Asset: {fileID: -2327987602011975093}
-    m_Duration: 0.20161204040050507
+    m_Asset: {fileID: -6570624144539651554}
+    m_Duration: 0.22649197280406952
     m_TimeScale: 1
     m_ParentTrack: {fileID: 408131524381217852}
     m_EaseInDuration: 0
@@ -3352,83 +3400,13 @@ MonoBehaviour:
     m_PreExtrapolationMode: 0
     m_PostExtrapolationTime: 0
     m_PreExtrapolationTime: 0
-    m_DisplayName: 'Note 21 (original: 33, transposition: -12, velocity: 1.00) at
-      12.00s'
-  - m_Version: 1
-    m_Start: 12.25
-    m_ClipIn: 0
-    m_Asset: {fileID: -3113835214792637951}
-    m_Duration: 0.20161204040050507
-    m_TimeScale: 1
-    m_ParentTrack: {fileID: 408131524381217852}
-    m_EaseInDuration: 0
-    m_EaseOutDuration: 0
-    m_BlendInDuration: -1
-    m_BlendOutDuration: -1
-    m_MixInCurve:
-      serializedVersion: 2
-      m_Curve:
-      - serializedVersion: 3
-        time: 0
-        value: 0
-        inSlope: 0
-        outSlope: 0
-        tangentMode: 0
-        weightedMode: 0
-        inWeight: 0
-        outWeight: 0
-      - serializedVersion: 3
-        time: 1
-        value: 1
-        inSlope: 0
-        outSlope: 0
-        tangentMode: 0
-        weightedMode: 0
-        inWeight: 0
-        outWeight: 0
-      m_PreInfinity: 2
-      m_PostInfinity: 2
-      m_RotationOrder: 4
-    m_MixOutCurve:
-      serializedVersion: 2
-      m_Curve:
-      - serializedVersion: 3
-        time: 0
-        value: 1
-        inSlope: 0
-        outSlope: 0
-        tangentMode: 0
-        weightedMode: 0
-        inWeight: 0
-        outWeight: 0
-      - serializedVersion: 3
-        time: 1
-        value: 0
-        inSlope: 0
-        outSlope: 0
-        tangentMode: 0
-        weightedMode: 0
-        inWeight: 0
-        outWeight: 0
-      m_PreInfinity: 2
-      m_PostInfinity: 2
-      m_RotationOrder: 4
-    m_BlendInCurveMode: 0
-    m_BlendOutCurveMode: 0
-    m_ExposedParameterNames: []
-    m_AnimationCurves: {fileID: 0}
-    m_Recordable: 0
-    m_PostExtrapolationMode: 0
-    m_PreExtrapolationMode: 0
-    m_PostExtrapolationTime: 0
-    m_PreExtrapolationTime: 0
-    m_DisplayName: 'Note 22 (original: 33, transposition: -11, velocity: 1.00) at
-      12.25s'
+    m_DisplayName: 'Note 18 from Sector_Grid[10,11] (original: 30, transposition:
+      -12, velocity: 1.00) at 12.00s'
   - m_Version: 1
     m_Start: 12.5
     m_ClipIn: 0
-    m_Asset: {fileID: 8148806730134715534}
-    m_Duration: 0.3335244655609131
+    m_Asset: {fileID: -1793534530944803098}
+    m_Duration: 0.35791483521461487
     m_TimeScale: 1
     m_ParentTrack: {fileID: 408131524381217852}
     m_EaseInDuration: 0
@@ -3492,83 +3470,13 @@ MonoBehaviour:
     m_PreExtrapolationMode: 0
     m_PostExtrapolationTime: 0
     m_PreExtrapolationTime: 0
-    m_DisplayName: 'Note 26 (original: 36, transposition: -10, velocity: 1.00) at
-      12.50s'
-  - m_Version: 1
-    m_Start: 12.75
-    m_ClipIn: 0
-    m_Asset: {fileID: 6335973411794902497}
-    m_Duration: 0.3335244655609131
-    m_TimeScale: 1
-    m_ParentTrack: {fileID: 408131524381217852}
-    m_EaseInDuration: 0
-    m_EaseOutDuration: 0
-    m_BlendInDuration: -1
-    m_BlendOutDuration: -1
-    m_MixInCurve:
-      serializedVersion: 2
-      m_Curve:
-      - serializedVersion: 3
-        time: 0
-        value: 0
-        inSlope: 0
-        outSlope: 0
-        tangentMode: 0
-        weightedMode: 0
-        inWeight: 0
-        outWeight: 0
-      - serializedVersion: 3
-        time: 1
-        value: 1
-        inSlope: 0
-        outSlope: 0
-        tangentMode: 0
-        weightedMode: 0
-        inWeight: 0
-        outWeight: 0
-      m_PreInfinity: 2
-      m_PostInfinity: 2
-      m_RotationOrder: 4
-    m_MixOutCurve:
-      serializedVersion: 2
-      m_Curve:
-      - serializedVersion: 3
-        time: 0
-        value: 1
-        inSlope: 0
-        outSlope: 0
-        tangentMode: 0
-        weightedMode: 0
-        inWeight: 0
-        outWeight: 0
-      - serializedVersion: 3
-        time: 1
-        value: 0
-        inSlope: 0
-        outSlope: 0
-        tangentMode: 0
-        weightedMode: 0
-        inWeight: 0
-        outWeight: 0
-      m_PreInfinity: 2
-      m_PostInfinity: 2
-      m_RotationOrder: 4
-    m_BlendInCurveMode: 0
-    m_BlendOutCurveMode: 0
-    m_ExposedParameterNames: []
-    m_AnimationCurves: {fileID: 0}
-    m_Recordable: 0
-    m_PostExtrapolationMode: 0
-    m_PreExtrapolationMode: 0
-    m_PostExtrapolationTime: 0
-    m_PreExtrapolationTime: 0
-    m_DisplayName: 'Note 27 (original: 36, transposition: -9, velocity: 0.30) at
-      12.75s'
+    m_DisplayName: 'Note 16 from Sector_Grid[11,11] (original: 26, transposition:
+      -10, velocity: 1.00) at 12.50s'
   - m_Version: 1
     m_Start: 13
     m_ClipIn: 0
-    m_Asset: {fileID: 237893818911551385}
-    m_Duration: 0.44067609310150146
+    m_Asset: {fileID: 5662362515338567027}
+    m_Duration: 0.4198988676071167
     m_TimeScale: 1
     m_ParentTrack: {fileID: 408131524381217852}
     m_EaseInDuration: 0
@@ -3632,13 +3540,83 @@ MonoBehaviour:
     m_PreExtrapolationMode: 0
     m_PostExtrapolationTime: 0
     m_PreExtrapolationTime: 0
-    m_DisplayName: 'Note 26 (original: 35, transposition: -9, velocity: 0.30) at
-      13.00s'
+    m_DisplayName: 'Note 26 from Sector_Grid[11,10] (original: 35, transposition:
+      -9, velocity: 0.30) at 13.00s'
+  - m_Version: 1
+    m_Start: 13.25
+    m_ClipIn: 0
+    m_Asset: {fileID: -1501025028547691549}
+    m_Duration: 0.4198988676071167
+    m_TimeScale: 1
+    m_ParentTrack: {fileID: 408131524381217852}
+    m_EaseInDuration: 0
+    m_EaseOutDuration: 0
+    m_BlendInDuration: -1
+    m_BlendOutDuration: -1
+    m_MixInCurve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 1
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    m_MixOutCurve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 1
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    m_BlendInCurveMode: 0
+    m_BlendOutCurveMode: 0
+    m_ExposedParameterNames: []
+    m_AnimationCurves: {fileID: 0}
+    m_Recordable: 0
+    m_PostExtrapolationMode: 0
+    m_PreExtrapolationMode: 0
+    m_PostExtrapolationTime: 0
+    m_PreExtrapolationTime: 0
+    m_DisplayName: 'Note 26 from Sector_Grid[11,10] (original: 35, transposition:
+      -9, velocity: 0.30) at 13.25s'
   - m_Version: 1
     m_Start: 13.5
     m_ClipIn: 0
-    m_Asset: {fileID: -8010439197030480577}
-    m_Duration: 0.4570714235305786
+    m_Asset: {fileID: 895475771960641554}
+    m_Duration: 0.2699483335018158
     m_TimeScale: 1
     m_ParentTrack: {fileID: 408131524381217852}
     m_EaseInDuration: 0
@@ -3702,13 +3680,13 @@ MonoBehaviour:
     m_PreExtrapolationMode: 0
     m_PostExtrapolationTime: 0
     m_PreExtrapolationTime: 0
-    m_DisplayName: 'Note 24 (original: 33, transposition: -9, velocity: 0.30) at
-      13.50s'
+    m_DisplayName: 'Note 25 from Sector_Grid[9,11] (original: 34, transposition:
+      -9, velocity: 0.30) at 13.50s'
   - m_Version: 1
     m_Start: 14
     m_ClipIn: 0
-    m_Asset: {fileID: -2371429569968919505}
-    m_Duration: 0.4570714235305786
+    m_Asset: {fileID: 3098387783872057433}
+    m_Duration: 0.45263686776161194
     m_TimeScale: 1
     m_ParentTrack: {fileID: 408131524381217852}
     m_EaseInDuration: 0
@@ -3772,13 +3750,13 @@ MonoBehaviour:
     m_PreExtrapolationMode: 0
     m_PostExtrapolationTime: 0
     m_PreExtrapolationTime: 0
-    m_DisplayName: 'Note 19 (original: 33, transposition: -14, velocity: 0.02) at
-      14.00s'
+    m_DisplayName: 'Note 19 from Sector_Grid[11,9] (original: 33, transposition:
+      -14, velocity: 0.02) at 14.00s'
   - m_Version: 1
-    m_Start: 14
+    m_Start: 14.25
     m_ClipIn: 0
-    m_Asset: {fileID: 5851310845516968271}
-    m_Duration: 0.3214137852191925
+    m_Asset: {fileID: 6718759145108725453}
+    m_Duration: 0.45263686776161194
     m_TimeScale: 1
     m_ParentTrack: {fileID: 408131524381217852}
     m_EaseInDuration: 0
@@ -3842,13 +3820,13 @@ MonoBehaviour:
     m_PreExtrapolationMode: 0
     m_PostExtrapolationTime: 0
     m_PreExtrapolationTime: 0
-    m_DisplayName: 'Note 15 (original: 29, transposition: -14, velocity: 0.02) at
-      14.00s'
+    m_DisplayName: 'Note 18 from Sector_Grid[11,9] (original: 33, transposition:
+      -15, velocity: 0.02) at 14.25s'
   - m_Version: 1
     m_Start: 14.5
     m_ClipIn: 0
-    m_Asset: {fileID: -8308053606531074766}
-    m_Duration: 0.4383065402507782
+    m_Asset: {fileID: -6529092904571132254}
+    m_Duration: 0.3680214583873749
     m_TimeScale: 1
     m_ParentTrack: {fileID: 408131524381217852}
     m_EaseInDuration: 0
@@ -3912,13 +3890,83 @@ MonoBehaviour:
     m_PreExtrapolationMode: 0
     m_PostExtrapolationTime: 0
     m_PreExtrapolationTime: 0
-    m_DisplayName: 'Note 11 (original: 26, transposition: -15, velocity: 0.02) at
-      14.50s'
+    m_DisplayName: 'Note 21 from Sector_Grid[10,9] (original: 36, transposition:
+      -15, velocity: 0.02) at 14.50s'
+  - m_Version: 1
+    m_Start: 14.75
+    m_ClipIn: 0
+    m_Asset: {fileID: 1812043479395956901}
+    m_Duration: 0.3680214583873749
+    m_TimeScale: 1
+    m_ParentTrack: {fileID: 408131524381217852}
+    m_EaseInDuration: 0
+    m_EaseOutDuration: 0
+    m_BlendInDuration: -1
+    m_BlendOutDuration: -1
+    m_MixInCurve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 1
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    m_MixOutCurve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 1
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    m_BlendInCurveMode: 0
+    m_BlendOutCurveMode: 0
+    m_ExposedParameterNames: []
+    m_AnimationCurves: {fileID: 0}
+    m_Recordable: 0
+    m_PostExtrapolationMode: 0
+    m_PreExtrapolationMode: 0
+    m_PostExtrapolationTime: 0
+    m_PreExtrapolationTime: 0
+    m_DisplayName: 'Note 25 from Sector_Grid[10,9] (original: 36, transposition:
+      -11, velocity: 0.02) at 14.75s'
   - m_Version: 1
     m_Start: 15
     m_ClipIn: 0
-    m_Asset: {fileID: 8643335181817949174}
-    m_Duration: 0.42285826802253723
+    m_Asset: {fileID: -3537355071594803450}
+    m_Duration: 0.4205230474472046
     m_TimeScale: 1
     m_ParentTrack: {fileID: 408131524381217852}
     m_EaseInDuration: 0
@@ -3982,13 +4030,13 @@ MonoBehaviour:
     m_PreExtrapolationMode: 0
     m_PostExtrapolationTime: 0
     m_PreExtrapolationTime: 0
-    m_DisplayName: 'Note 19 (original: 28, transposition: -9, velocity: 0.02) at
-      15.00s'
+    m_DisplayName: 'Note 27 from Sector_Grid[9,9] (original: 36, transposition: -9,
+      velocity: 0.02) at 15.00s'
   - m_Version: 1
     m_Start: 15.25
     m_ClipIn: 0
-    m_Asset: {fileID: 1270840813806823571}
-    m_Duration: 0.42285826802253723
+    m_Asset: {fileID: 1251211599796686074}
+    m_Duration: 0.4205230474472046
     m_TimeScale: 1
     m_ParentTrack: {fileID: 408131524381217852}
     m_EaseInDuration: 0
@@ -4052,13 +4100,13 @@ MonoBehaviour:
     m_PreExtrapolationMode: 0
     m_PostExtrapolationTime: 0
     m_PreExtrapolationTime: 0
-    m_DisplayName: 'Note 19 (original: 28, transposition: -9, velocity: 0.02) at
-      15.25s'
+    m_DisplayName: 'Note 27 from Sector_Grid[9,9] (original: 36, transposition: -9,
+      velocity: 0.02) at 15.25s'
   - m_Version: 1
     m_Start: 15.5
     m_ClipIn: 0
-    m_Asset: {fileID: -7225511399926119706}
-    m_Duration: 0.26745760440826416
+    m_Asset: {fileID: 7998436552535805061}
+    m_Duration: 0.3642573356628418
     m_TimeScale: 1
     m_ParentTrack: {fileID: 408131524381217852}
     m_EaseInDuration: 0
@@ -4122,11 +4170,29 @@ MonoBehaviour:
     m_PreExtrapolationMode: 0
     m_PostExtrapolationTime: 0
     m_PreExtrapolationTime: 0
-    m_DisplayName: 'Note 19 (original: 29, transposition: -10, velocity: 0.02) at
-      15.50s'
+    m_DisplayName: 'Note 18 from Sector_Grid[9,10] (original: 28, transposition:
+      -10, velocity: 0.02) at 15.50s'
   m_Markers:
     m_Objects: []
   targetSamplerName: 
+--- !u!114 &447819892933230608
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d2ca0c4f6aed6430c8b8535a182e579f, type: 3}
+  m_Name: SamplerPianoRollClip
+  m_EditorClassIdentifier: 
+  midiNote: 24
+  duration: 0.36802146
+  startTime: 6.5
+  velocity: 0.02
+  sourceObject: {fileID: 0}
+  timelineType: 0
 --- !u!114 &470914433171881241
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -4161,6 +4227,24 @@ MonoBehaviour:
   m_bufferingTime: 0.1
   m_ClipProperties:
     volume: 1
+--- !u!114 &709625444242791620
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d2ca0c4f6aed6430c8b8535a182e579f, type: 3}
+  m_Name: SamplerPianoRollClip
+  m_EditorClassIdentifier: 
+  midiNote: 14
+  duration: 0.35791484
+  startTime: 8.5
+  velocity: 1
+  sourceObject: {fileID: 0}
+  timelineType: 0
 --- !u!114 &766801619921068778
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -4178,7 +4262,7 @@ MonoBehaviour:
   m_bufferingTime: 0.1
   m_ClipProperties:
     volume: 1
---- !u!114 &936943900774119518
+--- !u!114 &771828195474471132
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
@@ -4190,11 +4274,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d2ca0c4f6aed6430c8b8535a182e579f, type: 3}
   m_Name: SamplerPianoRollClip
   m_EditorClassIdentifier: 
-  midiNote: 21
-  duration: 0.45707142
-  startTime: 2
-  velocity: 0.02
---- !u!114 &1086002196836957134
+  midiNote: 23
+  duration: 0.41989887
+  startTime: 1
+  velocity: 0.3
+  sourceObject: {fileID: 0}
+  timelineType: 0
+--- !u!114 &895475771960641554
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
@@ -4206,11 +4292,31 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d2ca0c4f6aed6430c8b8535a182e579f, type: 3}
   m_Name: SamplerPianoRollClip
   m_EditorClassIdentifier: 
-  midiNote: 17
-  duration: 0.2674576
+  midiNote: 25
+  duration: 0.26994833
+  startTime: 13.5
+  velocity: 0.3
+  sourceObject: {fileID: 0}
+  timelineType: 0
+--- !u!114 &1016643060288293534
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d2ca0c4f6aed6430c8b8535a182e579f, type: 3}
+  m_Name: SamplerPianoRollClip
+  m_EditorClassIdentifier: 
+  midiNote: 16
+  duration: 0.36425734
   startTime: 11.5
   velocity: 0.02
---- !u!114 &1125190758454497107
+  sourceObject: {fileID: 0}
+  timelineType: 0
+--- !u!114 &1172893267933608612
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
@@ -4222,11 +4328,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d2ca0c4f6aed6430c8b8535a182e579f, type: 3}
   m_Name: SamplerPianoRollClip
   m_EditorClassIdentifier: 
-  midiNote: 21
-  duration: 0.45707142
-  startTime: 6
+  midiNote: 16
+  duration: 0.36425734
+  startTime: 7.5
   velocity: 0.02
---- !u!114 &1270840813806823571
+  sourceObject: {fileID: 0}
+  timelineType: 0
+--- !u!114 &1251211599796686074
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
@@ -4238,10 +4346,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d2ca0c4f6aed6430c8b8535a182e579f, type: 3}
   m_Name: SamplerPianoRollClip
   m_EditorClassIdentifier: 
-  midiNote: 19
-  duration: 0.42285827
+  midiNote: 27
+  duration: 0.42052305
   startTime: 15.25
   velocity: 0.02
+  sourceObject: {fileID: 0}
+  timelineType: 0
 --- !u!114 &1272682895976577018
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -4259,7 +4369,25 @@ MonoBehaviour:
   m_bufferingTime: 0.1
   m_ClipProperties:
     volume: 1
---- !u!114 &1401116124221541580
+--- !u!114 &1812043479395956901
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d2ca0c4f6aed6430c8b8535a182e579f, type: 3}
+  m_Name: SamplerPianoRollClip
+  m_EditorClassIdentifier: 
+  midiNote: 25
+  duration: 0.36802146
+  startTime: 14.75
+  velocity: 0.02
+  sourceObject: {fileID: 0}
+  timelineType: 0
+--- !u!114 &2222491265690182871
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
@@ -4272,10 +4400,12 @@ MonoBehaviour:
   m_Name: SamplerPianoRollClip
   m_EditorClassIdentifier: 
   midiNote: 21
-  duration: 0.20161204
-  startTime: 4
-  velocity: 1
---- !u!114 &2288681086543652148
+  duration: 0.45263687
+  startTime: 10.25
+  velocity: 0.02
+  sourceObject: {fileID: 0}
+  timelineType: 0
+--- !u!114 &3098387783872057433
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
@@ -4287,10 +4417,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d2ca0c4f6aed6430c8b8535a182e579f, type: 3}
   m_Name: SamplerPianoRollClip
   m_EditorClassIdentifier: 
-  midiNote: 21
-  duration: 0.20161204
-  startTime: 0.25
-  velocity: 1
+  midiNote: 19
+  duration: 0.45263687
+  startTime: 14
+  velocity: 0.02
+  sourceObject: {fileID: 0}
+  timelineType: 0
 --- !u!114 &3126085704424736403
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -4308,22 +4440,6 @@ MonoBehaviour:
   m_bufferingTime: 0.1
   m_ClipProperties:
     volume: 1
---- !u!114 &3260266723336031975
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d2ca0c4f6aed6430c8b8535a182e579f, type: 3}
-  m_Name: SamplerPianoRollClip
-  m_EditorClassIdentifier: 
-  midiNote: 24
-  duration: 0.33352447
-  startTime: 4.75
-  velocity: 0.3
 --- !u!114 &3321333627802308825
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -4358,7 +4474,7 @@ MonoBehaviour:
   m_bufferingTime: 0.1
   m_ClipProperties:
     volume: 1
---- !u!114 &3666399661497033146
+--- !u!114 &3675150442597518714
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
@@ -4370,10 +4486,30 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d2ca0c4f6aed6430c8b8535a182e579f, type: 3}
   m_Name: SamplerPianoRollClip
   m_EditorClassIdentifier: 
-  midiNote: 21
-  duration: 0.45707142
-  startTime: 1.5
-  velocity: 0.3
+  midiNote: 24
+  duration: 0.36802146
+  startTime: 10.5
+  velocity: 0.02
+  sourceObject: {fileID: 0}
+  timelineType: 0
+--- !u!114 &3920322296618835377
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d2ca0c4f6aed6430c8b8535a182e579f, type: 3}
+  m_Name: SamplerPianoRollClip
+  m_EditorClassIdentifier: 
+  midiNote: 24
+  duration: 0.42052305
+  startTime: 11
+  velocity: 0.02
+  sourceObject: {fileID: 0}
+  timelineType: 0
 --- !u!114 &4020693686117171324
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -4391,22 +4527,6 @@ MonoBehaviour:
   m_bufferingTime: 0.1
   m_ClipProperties:
     volume: 1
---- !u!114 &4341963611435418238
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d2ca0c4f6aed6430c8b8535a182e579f, type: 3}
-  m_Name: SamplerPianoRollClip
-  m_EditorClassIdentifier: 
-  midiNote: 21
-  duration: 0.20161204
-  startTime: 8
-  velocity: 1
 --- !u!114 &4414831296190292067
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -4424,7 +4544,7 @@ MonoBehaviour:
   m_bufferingTime: 0.1
   m_ClipProperties:
     volume: 1
---- !u!114 &4439106767479927952
+--- !u!114 &4862557683829265004
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
@@ -4436,42 +4556,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d2ca0c4f6aed6430c8b8535a182e579f, type: 3}
   m_Name: SamplerPianoRollClip
   m_EditorClassIdentifier: 
-  midiNote: 17
-  duration: 0.3214138
-  startTime: 10
+  midiNote: 24
+  duration: 0.42052305
+  startTime: 3.25
   velocity: 0.02
---- !u!114 &4578013925452363481
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d2ca0c4f6aed6430c8b8535a182e579f, type: 3}
-  m_Name: SamplerPianoRollClip
-  m_EditorClassIdentifier: 
-  midiNote: 17
-  duration: 0.3214138
-  startTime: 6
-  velocity: 0.02
---- !u!114 &4888021499822640113
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d2ca0c4f6aed6430c8b8535a182e579f, type: 3}
-  m_Name: SamplerPianoRollClip
-  m_EditorClassIdentifier: 
-  midiNote: 14
-  duration: 0.43830654
-  startTime: 10.5
-  velocity: 0.02
+  sourceObject: {fileID: 0}
+  timelineType: 0
 --- !u!114 &5061412561930159528
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -4489,7 +4579,7 @@ MonoBehaviour:
   m_bufferingTime: 0.1
   m_ClipProperties:
     volume: 1
---- !u!114 &5100034416556512740
+--- !u!114 &5662362515338567027
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
@@ -4501,27 +4591,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d2ca0c4f6aed6430c8b8535a182e579f, type: 3}
   m_Name: SamplerPianoRollClip
   m_EditorClassIdentifier: 
-  midiNote: 24
-  duration: 0.33352447
-  startTime: 0.5
-  velocity: 1
---- !u!114 &5552988326105449425
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d2ca0c4f6aed6430c8b8535a182e579f, type: 3}
-  m_Name: SamplerPianoRollClip
-  m_EditorClassIdentifier: 
-  midiNote: 16
-  duration: 0.42285827
-  startTime: 7
-  velocity: 0.02
---- !u!114 &5843274697360490235
+  midiNote: 26
+  duration: 0.41989887
+  startTime: 13
+  velocity: 0.3
+  sourceObject: {fileID: 0}
+  timelineType: 0
+--- !u!114 &6393461882799076683
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
@@ -4534,73 +4610,11 @@ MonoBehaviour:
   m_Name: SamplerPianoRollClip
   m_EditorClassIdentifier: 
   midiNote: 23
-  duration: 0.4406761
-  startTime: 5
+  duration: 0.41989887
+  startTime: 5.25
   velocity: 0.3
---- !u!114 &5851310845516968271
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d2ca0c4f6aed6430c8b8535a182e579f, type: 3}
-  m_Name: SamplerPianoRollClip
-  m_EditorClassIdentifier: 
-  midiNote: 15
-  duration: 0.3214138
-  startTime: 14
-  velocity: 0.02
---- !u!114 &6232976548421174944
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d2ca0c4f6aed6430c8b8535a182e579f, type: 3}
-  m_Name: SamplerPianoRollClip
-  m_EditorClassIdentifier: 
-  midiNote: 24
-  duration: 0.33352447
-  startTime: 0.75
-  velocity: 0.3
---- !u!114 &6252028541432973236
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d2ca0c4f6aed6430c8b8535a182e579f, type: 3}
-  m_Name: SamplerPianoRollClip
-  m_EditorClassIdentifier: 
-  midiNote: 16
-  duration: 0.42285827
-  startTime: 7.25
-  velocity: 0.02
---- !u!114 &6335973411794902497
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d2ca0c4f6aed6430c8b8535a182e579f, type: 3}
-  m_Name: SamplerPianoRollClip
-  m_EditorClassIdentifier: 
-  midiNote: 27
-  duration: 0.33352447
-  startTime: 12.75
-  velocity: 0.3
+  sourceObject: {fileID: 0}
+  timelineType: 0
 --- !u!114 &6513238403163325500
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -4618,6 +4632,42 @@ MonoBehaviour:
   m_bufferingTime: 0.1
   m_ClipProperties:
     volume: 1
+--- !u!114 &6611762739044578037
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d2ca0c4f6aed6430c8b8535a182e579f, type: 3}
+  m_Name: SamplerPianoRollClip
+  m_EditorClassIdentifier: 
+  midiNote: 16
+  duration: 0.36425734
+  startTime: 3.5
+  velocity: 0.02
+  sourceObject: {fileID: 0}
+  timelineType: 0
+--- !u!114 &6718759145108725453
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d2ca0c4f6aed6430c8b8535a182e579f, type: 3}
+  m_Name: SamplerPianoRollClip
+  m_EditorClassIdentifier: 
+  midiNote: 18
+  duration: 0.45263687
+  startTime: 14.25
+  velocity: 0.02
+  sourceObject: {fileID: 0}
+  timelineType: 0
 --- !u!114 &6812926288755918771
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -4635,7 +4685,7 @@ MonoBehaviour:
   m_bufferingTime: 0.1
   m_ClipProperties:
     volume: 1
---- !u!114 &6885347614177591922
+--- !u!114 &7162993964334431042
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
@@ -4647,11 +4697,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d2ca0c4f6aed6430c8b8535a182e579f, type: 3}
   m_Name: SamplerPianoRollClip
   m_EditorClassIdentifier: 
-  midiNote: 21
-  duration: 0.20161204
-  startTime: 0
-  velocity: 1
---- !u!114 &7250884852782821921
+  midiNote: 23
+  duration: 0.41989887
+  startTime: 5
+  velocity: 0.3
+  sourceObject: {fileID: 0}
+  timelineType: 0
+--- !u!114 &7172092530401681908
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
@@ -4663,10 +4715,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d2ca0c4f6aed6430c8b8535a182e579f, type: 3}
   m_Name: SamplerPianoRollClip
   m_EditorClassIdentifier: 
-  midiNote: 16
-  duration: 0.42285827
-  startTime: 3.25
+  midiNote: 24
+  duration: 0.42052305
+  startTime: 7.25
   velocity: 0.02
+  sourceObject: {fileID: 0}
+  timelineType: 0
 --- !u!114 &7252199847545214408
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -4701,7 +4755,7 @@ MonoBehaviour:
   m_bufferingTime: 0.1
   m_ClipProperties:
     volume: 1
---- !u!114 &7969432868589925518
+--- !u!114 &7608159983450874992
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
@@ -4713,10 +4767,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d2ca0c4f6aed6430c8b8535a182e579f, type: 3}
   m_Name: SamplerPianoRollClip
   m_EditorClassIdentifier: 
-  midiNote: 21
-  duration: 0.45707142
-  startTime: 9.5
-  velocity: 0.3
+  midiNote: 18
+  duration: 0.22649197
+  startTime: 8
+  velocity: 1
+  sourceObject: {fileID: 0}
+  timelineType: 0
 --- !u!114 &7978080282407897885
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -4734,7 +4790,7 @@ MonoBehaviour:
   m_bufferingTime: 0.1
   m_ClipProperties:
     volume: 1
---- !u!114 &8148806730134715534
+--- !u!114 &7998436552535805061
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
@@ -4746,23 +4802,63 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d2ca0c4f6aed6430c8b8535a182e579f, type: 3}
   m_Name: SamplerPianoRollClip
   m_EditorClassIdentifier: 
-  midiNote: 26
-  duration: 0.33352447
-  startTime: 12.5
-  velocity: 1
---- !u!114 &8643335181817949174
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d2ca0c4f6aed6430c8b8535a182e579f, type: 3}
-  m_Name: SamplerPianoRollClip
-  m_EditorClassIdentifier: 
-  midiNote: 19
-  duration: 0.42285827
-  startTime: 15
+  midiNote: 18
+  duration: 0.36425734
+  startTime: 15.5
   velocity: 0.02
+  sourceObject: {fileID: 0}
+  timelineType: 0
+--- !u!114 &8474127115338787791
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d2ca0c4f6aed6430c8b8535a182e579f, type: 3}
+  m_Name: SamplerPianoRollClip
+  m_EditorClassIdentifier: 
+  midiNote: 24
+  duration: 0.42052305
+  startTime: 7
+  velocity: 0.02
+  sourceObject: {fileID: 0}
+  timelineType: 0
+--- !u!114 &8514231245284859153
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d2ca0c4f6aed6430c8b8535a182e579f, type: 3}
+  m_Name: SamplerPianoRollClip
+  m_EditorClassIdentifier: 
+  midiNote: 24
+  duration: 0.36802146
+  startTime: 2.75
+  velocity: 0.02
+  sourceObject: {fileID: 0}
+  timelineType: 0
+--- !u!114 &8518698695200367010
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d2ca0c4f6aed6430c8b8535a182e579f, type: 3}
+  m_Name: SamplerPianoRollClip
+  m_EditorClassIdentifier: 
+  midiNote: 22
+  duration: 0.26994833
+  startTime: 1.5
+  velocity: 0.3
+  sourceObject: {fileID: 0}
+  timelineType: 0

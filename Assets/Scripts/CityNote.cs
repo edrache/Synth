@@ -16,6 +16,12 @@ public class CityNote : MonoBehaviour
     private void Start()
     {
         //Debug.Log($"[CityNote] Starting initialization for note: pitch={_pitch}, position={_position}, duration={_duration}, velocity={_velocity}");
+        
+        // Add NoteEventManager if not present
+        if (GetComponent<NoteEventManager>() == null)
+        {
+            gameObject.AddComponent<NoteEventManager>();
+        }
     }
 
     private void OnDestroy()

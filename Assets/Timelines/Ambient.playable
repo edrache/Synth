@@ -170,22 +170,6 @@ MonoBehaviour:
   m_bufferingTime: 0.1
   m_ClipProperties:
     volume: 1
---- !u!114 &-3787996265507340111
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d2ca0c4f6aed6430c8b8535a182e579f, type: 3}
-  m_Name: SamplerPianoRollClip
-  m_EditorClassIdentifier: 
-  midiNote: 46
-  duration: 2
-  startTime: 0
-  velocity: 0.1
 --- !u!114 &-2666152077776831817
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -303,22 +287,6 @@ MonoBehaviour:
   m_bufferingTime: 0.1
   m_ClipProperties:
     volume: 1
---- !u!114 &-1381014298931350018
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d2ca0c4f6aed6430c8b8535a182e579f, type: 3}
-  m_Name: SamplerPianoRollClip
-  m_EditorClassIdentifier: 
-  midiNote: 51
-  duration: 2
-  startTime: 12
-  velocity: 0.1
 --- !u!114 &-1352044401929494221
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -415,7 +383,7 @@ MonoBehaviour:
   - m_Version: 1
     m_Start: 0
     m_ClipIn: 0
-    m_Asset: {fileID: -3787996265507340111}
+    m_Asset: {fileID: 8917148813528226312}
     m_Duration: 2
     m_TimeScale: 1
     m_ParentTrack: {fileID: 408131524381217852}
@@ -480,11 +448,12 @@ MonoBehaviour:
     m_PreExtrapolationMode: 0
     m_PostExtrapolationTime: 0
     m_PreExtrapolationTime: 0
-    m_DisplayName: 'Note 46 (original: 31, transposition: 3, velocity: 0.10) at 0.00s'
+    m_DisplayName: 'Note 44 from Sector_Grid[10,10] (original: 29, transposition:
+      3, velocity: 0.10) at 0.00s'
   - m_Version: 1
     m_Start: 4
     m_ClipIn: 0
-    m_Asset: {fileID: 8615057698195770445}
+    m_Asset: {fileID: 7261164006090940515}
     m_Duration: 2
     m_TimeScale: 1
     m_ParentTrack: {fileID: 408131524381217852}
@@ -549,11 +518,12 @@ MonoBehaviour:
     m_PreExtrapolationMode: 0
     m_PostExtrapolationTime: 0
     m_PreExtrapolationTime: 0
-    m_DisplayName: 'Note 47 (original: 31, transposition: 4, velocity: 0.10) at 4.00s'
+    m_DisplayName: 'Note 45 from Sector_Grid[10,10] (original: 29, transposition:
+      4, velocity: 0.10) at 4.00s'
   - m_Version: 1
     m_Start: 8
     m_ClipIn: 0
-    m_Asset: {fileID: 1466819129805074417}
+    m_Asset: {fileID: 486780089455571517}
     m_Duration: 2
     m_TimeScale: 1
     m_ParentTrack: {fileID: 408131524381217852}
@@ -618,11 +588,12 @@ MonoBehaviour:
     m_PreExtrapolationMode: 0
     m_PostExtrapolationTime: 0
     m_PreExtrapolationTime: 0
-    m_DisplayName: 'Note 48 (original: 31, transposition: 5, velocity: 0.10) at 8.00s'
+    m_DisplayName: 'Note 46 from Sector_Grid[10,10] (original: 29, transposition:
+      5, velocity: 0.10) at 8.00s'
   - m_Version: 1
     m_Start: 12
     m_ClipIn: 0
-    m_Asset: {fileID: -1381014298931350018}
+    m_Asset: {fileID: 2049268816096675809}
     m_Duration: 2
     m_TimeScale: 1
     m_ParentTrack: {fileID: 408131524381217852}
@@ -687,7 +658,8 @@ MonoBehaviour:
     m_PreExtrapolationMode: 0
     m_PostExtrapolationTime: 0
     m_PreExtrapolationTime: 0
-    m_DisplayName: 'Note 51 (original: 31, transposition: 8, velocity: 0.10) at 12.00s'
+    m_DisplayName: 'Note 49 from Sector_Grid[10,10] (original: 29, transposition:
+      8, velocity: 0.10) at 12.00s'
   m_Markers:
     m_Objects: []
   targetSamplerName: 
@@ -708,6 +680,24 @@ MonoBehaviour:
   m_bufferingTime: 0.1
   m_ClipProperties:
     volume: 1
+--- !u!114 &486780089455571517
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d2ca0c4f6aed6430c8b8535a182e579f, type: 3}
+  m_Name: SamplerPianoRollClip
+  m_EditorClassIdentifier: 
+  midiNote: 46
+  duration: 2
+  startTime: 8
+  velocity: 0.1
+  sourceObject: {fileID: 0}
+  timelineType: 3
 --- !u!114 &652209888643744961
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -759,7 +749,7 @@ MonoBehaviour:
   m_bufferingTime: 0.1
   m_ClipProperties:
     volume: 1
---- !u!114 &1466819129805074417
+--- !u!114 &2049268816096675809
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
@@ -771,10 +761,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d2ca0c4f6aed6430c8b8535a182e579f, type: 3}
   m_Name: SamplerPianoRollClip
   m_EditorClassIdentifier: 
-  midiNote: 48
+  midiNote: 49
   duration: 2
-  startTime: 8
+  startTime: 12
   velocity: 0.1
+  sourceObject: {fileID: 0}
+  timelineType: 3
 --- !u!114 &3126085704424736403
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -928,6 +920,24 @@ MonoBehaviour:
   m_bufferingTime: 0.1
   m_ClipProperties:
     volume: 1
+--- !u!114 &7261164006090940515
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d2ca0c4f6aed6430c8b8535a182e579f, type: 3}
+  m_Name: SamplerPianoRollClip
+  m_EditorClassIdentifier: 
+  midiNote: 45
+  duration: 2
+  startTime: 4
+  velocity: 0.1
+  sourceObject: {fileID: 0}
+  timelineType: 3
 --- !u!114 &7429521301792334448
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -962,7 +972,7 @@ MonoBehaviour:
   m_bufferingTime: 0.1
   m_ClipProperties:
     volume: 1
---- !u!114 &8615057698195770445
+--- !u!114 &8917148813528226312
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
@@ -974,7 +984,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d2ca0c4f6aed6430c8b8535a182e579f, type: 3}
   m_Name: SamplerPianoRollClip
   m_EditorClassIdentifier: 
-  midiNote: 47
+  midiNote: 44
   duration: 2
-  startTime: 4
+  startTime: 0
   velocity: 0.1
+  sourceObject: {fileID: 0}
+  timelineType: 3

@@ -10,6 +10,7 @@ public class CitySequencer : MonoBehaviour
     [SerializeField] private PlayableDirector timeline;
     [SerializeField] private List<CityNoteContainer> noteContainers = new List<CityNoteContainer>();
     [SerializeField] private int trackIndex = 0;
+    [SerializeField] private TimelineType timelineType;
 
     [Header("Sequencer Settings")]
     [SerializeField] private float containerDuration = 4f; // Duration for each container
@@ -436,7 +437,9 @@ public class CitySequencer : MonoBehaviour
                     samplerClip.duration = modifiedDuration;
                     samplerClip.startTime = timePosition;
                     samplerClip.velocity = velocity;
-                    clip.displayName = $"Note {transposedPitch} (original: {note.pitch}, transposition: {transposition}, velocity: {velocity:F2}) at {timePosition:F2}s";
+                    samplerClip.sourceObject = note.gameObject;
+                    samplerClip.timelineType = timelineType;
+                    clip.displayName = $"Note {transposedPitch} from {note.gameObject.name} (original: {note.pitch}, transposition: {transposition}, velocity: {velocity:F2}) at {timePosition:F2}s";
                     totalClipsCreated++;
                 }
             }

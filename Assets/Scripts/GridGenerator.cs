@@ -67,6 +67,9 @@ public class GridGenerator : MonoBehaviour
                 rectTransform.sizeDelta = cellSize;
             }
 
+            // Add grid coordinates to the object name
+            cell.name = $"{selectedPrefab.name}_Grid[{x},{y}]";
+
             // Store in grid array
             grid[x, y] = cell;
         }
