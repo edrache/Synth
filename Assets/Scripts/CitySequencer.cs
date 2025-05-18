@@ -22,21 +22,30 @@ public class CitySequencer : MonoBehaviour
     [SerializeField] private bool enableVelocityControl = true;
     [Tooltip("Duration of the velocity curve loop. Set to 0 to use full timeline length.")]
     [SerializeField] private float velocityCurveLoopDuration = 0f;
+
+    private const int POINTS_COUNT = 33; // 0 to 16 with 0.5 step
+
+    [Header("Curve Visualization")]
     [Tooltip("Curve controlling octave transposition. X axis is timeline time, Y axis is octave change (0 = no change, 1 = +1 octave, -1 = -1 octave)")]
     [SerializeField] private AnimationCurve octaveTranspositionCurve = new AnimationCurve(
-        new Keyframe(0f, 0f, 0f, 0f), // Start at 0 octaves
-        new Keyframe(4f, 1f, 0f, 0f), // At 4 seconds, +1 octave
-        new Keyframe(8f, -1f, 0f, 0f), // At 8 seconds, -1 octave
-        new Keyframe(12f, 0f, 0f, 0f)  // At 12 seconds, back to 0
+        new Keyframe(0f, 0f, 0f, 0f),
+        new Keyframe(4f, 1f, 0f, 0f),
+        new Keyframe(8f, -1f, 0f, 0f),
+        new Keyframe(12f, 0f, 0f, 0f)
     );
     [Tooltip("Curve controlling note velocity. X axis is timeline time, Y axis is velocity (0-1)")]
     [SerializeField] private AnimationCurve velocityCurve = new AnimationCurve(
-        new Keyframe(0f, 0.5f, 0f, 0f),  // Start at 0.5 velocity
-        new Keyframe(4f, 1f, 0f, 0f),    // At 4 seconds, full velocity
-        new Keyframe(8f, 0.2f, 0f, 0f),  // At 8 seconds, low velocity
-        new Keyframe(12f, 0.5f, 0f, 0f)  // At 12 seconds, back to 0.5
+        new Keyframe(0f, 0.5f, 0f, 0f),
+        new Keyframe(4f, 1f, 0f, 0f),
+        new Keyframe(8f, 0.2f, 0f, 0f),
+        new Keyframe(12f, 0.5f, 0f, 0f)
     );
+
+    // Curve controllers
+    private CurveController octaveController;
+    private CurveController velocityController;
     private bool wasShiftRequested = false;
+    private bool curvesNeedUpdate = false;
 
     [Header("Position Mapping")]
     [SerializeField] private float worldScale = 1f;
@@ -47,13 +56,42 @@ public class CitySequencer : MonoBehaviour
     private float totalTimelineLength => containerDuration * noteContainers.Count;
     private float loopTime => totalTimelineLength;
 
+    private void Awake()
+    {
+        // Initialize curve controllers
+        octaveController = new CurveController(-12f, 12f); // -12 to +12 semitones
+        velocityController = new CurveController(0f, 1f);  // 0 to 1 velocity
+
+        // Initialize controllers with curve values
+        UpdateControllersFromCurves();
+    }
+
+    private void UpdateControllersFromCurves()
+    {
+        // Update octave controller
+        for (int i = 0; i < POINTS_COUNT; i++)
+        {
+            float x = i * 0.5f; // 0 to 16 with 0.5 step
+            float value = octaveTranspositionCurve.Evaluate(x);
+            octaveController.SetPointValue(i, value, 0f);
+        }
+
+        // Update velocity controller
+        for (int i = 0; i < POINTS_COUNT; i++)
+        {
+            float x = i * 0.5f; // 0 to 16 with 0.5 step
+            float value = velocityCurve.Evaluate(x);
+            velocityController.SetPointValue(i, value, 0f);
+        }
+    }
+
     // Calculate transposition based on the curve at a specific time
     private int GetTranspositionAtTime(float time)
     {
         if (!enableOctaveTransposition) return 0;
         
         // Evaluate the curve at the given time
-        float octaveChange = octaveTranspositionCurve.Evaluate(time);
+        float octaveChange = octaveController.GetCurve().Evaluate(time);
         
         // Convert octave change to semitones (1 octave = 12 semitones)
         int semitones = Mathf.RoundToInt(octaveChange * 12);
@@ -77,7 +115,7 @@ public class CitySequencer : MonoBehaviour
         }
         
         // Evaluate the curve at the given time
-        float velocity = velocityCurve.Evaluate(curveTime);
+        float velocity = velocityController.GetCurve().Evaluate(curveTime);
         
         // Clamp velocity between 0 and 1
         velocity = Mathf.Clamp01(velocity);
@@ -129,6 +167,10 @@ public class CitySequencer : MonoBehaviour
 
     private void OnDestroy()
     {
+        // Kill all active tweens
+        octaveController.KillAllTweens();
+        velocityController.KillAllTweens();
+
         // Unsubscribe from all note container changes
         foreach (var container in noteContainers)
         {
@@ -256,6 +298,13 @@ public class CitySequencer : MonoBehaviour
             return;
         }
 
+        // Update visualization curves
+        if (curvesNeedUpdate)
+        {
+            UpdateVisualizationCurves();
+            curvesNeedUpdate = false;
+        }
+
         float currentTime = (float)timeline.time;
         float nextFrameTime = currentTime + Time.deltaTime;
         
@@ -287,6 +336,15 @@ public class CitySequencer : MonoBehaviour
         }
         
         lastTimelineTime = currentTime;
+    }
+
+    private void UpdateVisualizationCurves()
+    {
+        // Update octave curve
+        octaveTranspositionCurve = new AnimationCurve(octaveController.GetCurve().keys);
+
+        // Update velocity curve
+        velocityCurve = new AnimationCurve(velocityController.GetCurve().keys);
     }
 
     private float WorldToTimelinePosition(Vector3 worldPosition, int containerIndex)
@@ -596,4 +654,70 @@ public class CitySequencer : MonoBehaviour
     // Event that will be called when sequence is updated
     public delegate void SequenceUpdatedHandler();
     public event SequenceUpdatedHandler OnSequenceUpdated;
+
+    // Public methods to control curves
+    public void SetOctavePoint(int index, float value, float duration = 0f)
+    {
+        octaveController.SetPointValue(index, value, duration);
+        curvesNeedUpdate = true;
+    }
+
+    public void SetVelocityPoint(int index, float value, float duration = 0f)
+    {
+        velocityController.SetPointValue(index, value, duration);
+        curvesNeedUpdate = true;
+    }
+
+    public void SetAllOctavePoints(float[] values, float duration = 0f)
+    {
+        octaveController.SetAllPoints(values, duration);
+        curvesNeedUpdate = true;
+    }
+
+    public void SetAllVelocityPoints(float[] values, float duration = 0f)
+    {
+        velocityController.SetAllPoints(values, duration);
+        curvesNeedUpdate = true;
+    }
+
+    public void InterpolateToOctaveCurve(AnimationCurve targetCurve, float duration)
+    {
+        octaveController.InterpolateToCurve(targetCurve, duration);
+        curvesNeedUpdate = true;
+    }
+
+    public void InterpolateToVelocityCurve(AnimationCurve targetCurve, float duration)
+    {
+        velocityController.InterpolateToCurve(targetCurve, duration);
+        curvesNeedUpdate = true;
+    }
+
+    public float GetOctavePointValue(int index)
+    {
+        return octaveController.GetPointValue(index);
+    }
+
+    public float GetVelocityPointValue(int index)
+    {
+        return velocityController.GetPointValue(index);
+    }
+
+    public float[] GetAllOctavePointValues()
+    {
+        return octaveController.GetAllPointValues();
+    }
+
+    public float[] GetAllVelocityPointValues()
+    {
+        return velocityController.GetAllPointValues();
+    }
+
+    private void OnValidate()
+    {
+        // Update controllers when curves are modified in inspector
+        if (octaveController != null && velocityController != null)
+        {
+            UpdateControllersFromCurves();
+        }
+    }
 } 
