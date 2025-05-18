@@ -9,6 +9,13 @@ public class ParticleNoteListener : MonoBehaviour, INoteEventListener
     [SerializeField] private ParticleSystem ambientParticles;
     [SerializeField] private ParticleSystem fxParticles;
 
+    [Header("Timeline Configurations")]
+    [SerializeField] private TimelineParticleConfig bassConfig = new TimelineParticleConfig();
+    [SerializeField] private TimelineParticleConfig leadConfig = new TimelineParticleConfig();
+    [SerializeField] private TimelineParticleConfig drumConfig = new TimelineParticleConfig();
+    [SerializeField] private TimelineParticleConfig ambientConfig = new TimelineParticleConfig();
+    [SerializeField] private TimelineParticleConfig fxConfig = new TimelineParticleConfig();
+
     private void Start()
     {
         // Debug.Log("[ParticleNoteListener] Starting initialization");
@@ -35,15 +42,17 @@ public class ParticleNoteListener : MonoBehaviour, INoteEventListener
     {
         // Debug.Log($"[ParticleNoteListener] OnNoteStart called for note {note.pitch} with velocity {velocity} and timeline type {timelineType}");
         ParticleSystem particles = GetParticlesForTimeline(timelineType);
-        if (particles != null)
+        TimelineParticleConfig config = GetConfigForTimeline(timelineType);
+        
+        if (particles != null && config != null)
         {
-            // Debug.Log($"[ParticleNoteListener] Found particle system for timeline type {timelineType}");
+            config.ApplyToParticleSystem(particles, velocity);
             particles.Play();
             // Debug.Log($"[ParticleNoteListener] Playing particles for timeline type {timelineType}");
         }
         else
         {
-            Debug.LogWarning($"[ParticleNoteListener] No particles found for timeline type {timelineType}. Available systems: Bass: {bassParticles != null}, Lead: {leadParticles != null}, Drums: {drumParticles != null}, Ambient: {ambientParticles != null}, FX: {fxParticles != null}");
+            Debug.LogWarning($"[ParticleNoteListener] No particles or config found for timeline type {timelineType}");
         }
     }
 
@@ -69,6 +78,37 @@ public class ParticleNoteListener : MonoBehaviour, INoteEventListener
                 return fxParticles;
             default:
                 return null;
+        }
+    }
+
+    private TimelineParticleConfig GetConfigForTimeline(TimelineType timelineType)
+    {
+        switch(timelineType)
+        {
+            case TimelineType.Bass:
+                return bassConfig;
+            case TimelineType.Lead:
+                return leadConfig;
+            case TimelineType.Drums:
+                return drumConfig;
+            case TimelineType.Ambient:
+                return ambientConfig;
+            case TimelineType.FX:
+                return fxConfig;
+            default:
+                return null;
+        }
+    }
+
+    // Helper method to copy configuration from one timeline to another
+    public void CopyConfiguration(TimelineType sourceType, TimelineType targetType)
+    {
+        TimelineParticleConfig sourceConfig = GetConfigForTimeline(sourceType);
+        TimelineParticleConfig targetConfig = GetConfigForTimeline(targetType);
+        
+        if (sourceConfig != null && targetConfig != null)
+        {
+            targetConfig.CopyFrom(sourceConfig);
         }
     }
 } 

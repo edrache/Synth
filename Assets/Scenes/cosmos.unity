@@ -5138,7 +5138,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 150, y: -9.999878}
+  m_AnchoredPosition: {x: 149.99994, y: -9.999908}
   m_SizeDelta: {x: 10, y: 10}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &446562756
@@ -5243,7 +5243,7 @@ MonoBehaviour:
     targetContainer: {fileID: 1638515391}
   downRightNeighbor:
     isEnabled: 1
-    targetContainer: {fileID: 1211911422}
+    targetContainer: {fileID: 1638515391}
   downNeighbor:
     isEnabled: 1
     targetContainer: {fileID: 1211911422}
@@ -5255,7 +5255,7 @@ MonoBehaviour:
     targetContainer: {fileID: 1211911422}
   upLeftNeighbor:
     isEnabled: 1
-    targetContainer: {fileID: 1638515391}
+    targetContainer: {fileID: 1211911422}
 --- !u!224 &475245955 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 5714083332059014137, guid: 40aa3f650120e445b9c4d361280ae96c, type: 3}
@@ -18759,6 +18759,7 @@ GameObject:
   - component: {fileID: 1346428657}
   - component: {fileID: 1346428658}
   - component: {fileID: 1346428659}
+  - component: {fileID: 1346428660}
   m_Layer: 5
   m_Name: cosmos2
   m_TagString: Untagged
@@ -18811,6 +18812,26 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1346428656}
   m_CullTransparentMesh: 1
+--- !u!114 &1346428660
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1346428656}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 266fb95c260664eac80e2a9722aaf3a9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  visibilityLayers:
+  - radius: 2
+    alpha: 0.2
+  - radius: 1
+    alpha: 1
+  showDiagonals: 1
+  fadeObjects: 1
+  fadeDuration: 1
 --- !u!1001 &1347277419
 PrefabInstance:
   m_ObjectHideFlags: 0
