@@ -2940,38 +2940,83 @@ MonoBehaviour:
     serializedVersion: 2
     m_Curve:
     - serializedVersion: 3
-      time: 0
+      time: 0.01982499
+      value: 0.20977783
+      inSlope: Infinity
+      outSlope: Infinity
+      tangentMode: 103
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 2.379389
+      value: 0.48809952
+      inSlope: Infinity
+      outSlope: Infinity
+      tangentMode: 103
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 5.185931
       value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
+      inSlope: Infinity
+      outSlope: Infinity
+      tangentMode: 103
       weightedMode: 0
-      inWeight: 0
-      outWeight: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
     - serializedVersion: 3
-      time: 4
-      value: 1
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
+      time: 7.989667
+      value: 0.4971211
+      inSlope: Infinity
+      outSlope: Infinity
+      tangentMode: 103
       weightedMode: 0
-      inWeight: 0
-      outWeight: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
     - serializedVersion: 3
-      time: 8
-      value: -1
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
+      time: 8.609452
+      value: 0.7468363
+      inSlope: Infinity
+      outSlope: Infinity
+      tangentMode: 103
       weightedMode: 0
-      inWeight: 0
-      outWeight: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
     - serializedVersion: 3
-      time: 12
+      time: 9.412684
       value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
+      inSlope: Infinity
+      outSlope: Infinity
+      tangentMode: 103
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 10.7000265
+      value: 0.2699237
+      inSlope: Infinity
+      outSlope: Infinity
+      tangentMode: 103
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 12.9974
+      value: 0.601387
+      inSlope: Infinity
+      outSlope: Infinity
+      tangentMode: 103
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 15.976637
+      value: 0.7930069
+      inSlope: Infinity
+      outSlope: Infinity
+      tangentMode: 103
       weightedMode: 0
       inWeight: 0
       outWeight: 0
@@ -2983,7 +3028,7 @@ MonoBehaviour:
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 1
+      value: 0
       inSlope: Infinity
       outSlope: Infinity
       tangentMode: 103
@@ -3010,7 +3055,7 @@ MonoBehaviour:
       outWeight: 0.33333334
     - serializedVersion: 3
       time: 1.1301237
-      value: 0.6412313
+      value: 0
       inSlope: Infinity
       outSlope: Infinity
       tangentMode: 103
@@ -3046,7 +3091,7 @@ MonoBehaviour:
       outWeight: 0.33333334
     - serializedVersion: 3
       time: 2.6102655
-      value: 0.50570226
+      value: 0
       inSlope: Infinity
       outSlope: Infinity
       tangentMode: 103
@@ -6540,19 +6585,19 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 310475792040439626, guid: f8cd41c0da59543e38d7fc9e2eca9cd8, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 310475792040439626, guid: f8cd41c0da59543e38d7fc9e2eca9cd8, type: 3}
       propertyPath: m_AnchorMin.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 310475792040439626, guid: f8cd41c0da59543e38d7fc9e2eca9cd8, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 0
+      value: 5.0599995
       objectReference: {fileID: 0}
     - target: {fileID: 310475792040439626, guid: f8cd41c0da59543e38d7fc9e2eca9cd8, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 0
+      value: 1.51
       objectReference: {fileID: 0}
     - target: {fileID: 310475792040439626, guid: f8cd41c0da59543e38d7fc9e2eca9cd8, type: 3}
       propertyPath: m_LocalPosition.x
@@ -6564,11 +6609,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 310475792040439626, guid: f8cd41c0da59543e38d7fc9e2eca9cd8, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 0
+      value: 3.5299997
       objectReference: {fileID: 0}
     - target: {fileID: 310475792040439626, guid: f8cd41c0da59543e38d7fc9e2eca9cd8, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0
+      value: -0.755
       objectReference: {fileID: 0}
     - target: {fileID: 2928847406302415780, guid: f8cd41c0da59543e38d7fc9e2eca9cd8, type: 3}
       propertyPath: m_AnchorMax.y
@@ -6580,11 +6625,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2928847406302415780, guid: f8cd41c0da59543e38d7fc9e2eca9cd8, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 0
+      value: -12.940001
       objectReference: {fileID: 0}
     - target: {fileID: 2928847406302415780, guid: f8cd41c0da59543e38d7fc9e2eca9cd8, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 0
+      value: 1.51
       objectReference: {fileID: 0}
     - target: {fileID: 2928847406302415780, guid: f8cd41c0da59543e38d7fc9e2eca9cd8, type: 3}
       propertyPath: m_LocalPosition.x
@@ -6684,7 +6729,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6972626187959570060, guid: f8cd41c0da59543e38d7fc9e2eca9cd8, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -23129,7 +23174,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1679742615
 RectTransform:
   m_ObjectHideFlags: 0
@@ -24359,7 +24404,7 @@ MonoBehaviour:
   octaveOffset: 0
   oneShot: 0
   useScaleAdjustment: 1
-  volume: 0.254
+  volume: 0.05
   pan: 0
   outputMixerGroup: {fileID: 0}
   minNoteDuration: 2
