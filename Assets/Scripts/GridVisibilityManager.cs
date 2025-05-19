@@ -55,6 +55,8 @@ public class GridVisibilityManager : MonoBehaviour
 
     private System.Collections.IEnumerator InitializeWhenReady()
     {
+        Debug.Log("[GridVisibilityManager] Starting initialization...");
+        
         // Wait for grid to be ready
         while (gridGenerator.GetGridDimensions().x == 0 || gridGenerator.GetGridDimensions().y == 0)
         {
@@ -62,7 +64,15 @@ public class GridVisibilityManager : MonoBehaviour
             yield return new WaitForEndOfFrame();
         }
 
+        // Wait for GridNavigator to be ready
         gridNavigator = FindObjectOfType<GridNavigator>();
+        while (gridNavigator == null || !gridNavigator.IsInitialized())
+        {
+            Debug.Log("[GridVisibilityManager] Waiting for GridNavigator to be ready...");
+            gridNavigator = FindObjectOfType<GridNavigator>();
+            yield return new WaitForEndOfFrame();
+        }
+
         if (gridNavigator == null)
         {
             Debug.LogError("[GridVisibilityManager] No GridNavigator found in scene!");
@@ -70,15 +80,18 @@ public class GridVisibilityManager : MonoBehaviour
             yield break;
         }
 
-        // Subscribe to navigator events
-        gridNavigator.OnPositionChanged += UpdateVisibility;
-        gridNavigator.OnCellEntered += UpdateVisibility;
+        Debug.Log("[GridVisibilityManager] GridNavigator found and initialized");
 
         // Initialize canvas groups for all grid objects
         InitializeCanvasGroups();
         
-        // Initial visibility update
-        UpdateVisibility(gridNavigator.GetCurrentPosition());
+        // Subscribe only to movement animation completion
+        gridNavigator.OnMovementAnimationCompleted += UpdateVisibility;
+
+        // Initial visibility update with current position
+        Vector2Int currentPosition = gridNavigator.GetCurrentPosition();
+        Debug.Log($"[GridVisibilityManager] Setting initial visibility for position: {currentPosition}");
+        UpdateVisibility(currentPosition);
         
         isInitialized = true;
         Debug.Log("[GridVisibilityManager] Initialization complete");
@@ -191,8 +204,7 @@ public class GridVisibilityManager : MonoBehaviour
     {
         if (gridNavigator != null)
         {
-            gridNavigator.OnPositionChanged -= UpdateVisibility;
-            gridNavigator.OnCellEntered -= UpdateVisibility;
+            gridNavigator.OnMovementAnimationCompleted -= UpdateVisibility;
         }
 
         // Kill all active tweens

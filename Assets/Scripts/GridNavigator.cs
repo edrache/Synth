@@ -2,16 +2,21 @@ using UnityEngine;
 using Rewired;
 using System;
 using DG.Tweening;
+using UnityEngine.Playables;
 
 public class GridNavigator : MonoBehaviour
 {
     [Header("Grid Reference")]
     [SerializeField] private GridGenerator gridGenerator;
 
+    [Header("Timeline Reference")]
+    [SerializeField] private PlayableDirector timeline; // Reference to the PlayableDirector
+
     [Header("Movement Settings")]
     [SerializeField] private float moveDuration = 0.3f;
     [SerializeField] private Ease moveEase = Ease.OutQuad;
     [SerializeField] private Vector2Int startPosition = Vector2Int.zero;
+    [SerializeField] private bool moveAtEndOfLoop = false; // New option for delayed movement
 
     [Header("Rewired Settings")]
     [SerializeField] private int playerId = 0;
@@ -20,6 +25,7 @@ public class GridNavigator : MonoBehaviour
     public event Action<Vector2Int> OnPositionChanged;
     public event Action<Vector2Int> OnCellEntered;
     public event Action<Vector2Int> OnBoundaryReached;
+    public event Action<Vector2Int> OnMovementAnimationCompleted;
 
     // Private variables
     private Player rewiredPlayer;
@@ -27,6 +33,10 @@ public class GridNavigator : MonoBehaviour
     private bool isMoving = false;
     private Tweener currentTween;
     private bool isInitialized = false;
+    private Vector2Int? pendingMoveDirection = null; // Store pending movement direction
+
+    private float lastTimelineTime = 0f;
+    private bool wasNearEnd = false;
 
     private void Awake()
     {
@@ -41,6 +51,83 @@ public class GridNavigator : MonoBehaviour
                 return;
             }
         }
+
+        if (timeline == null)
+        {
+            Debug.LogError("[GridNavigator] No PlayableDirector assigned!");
+            enabled = false;
+            return;
+        }
+
+        timeline.played += OnTimelinePlayed;
+        timeline.stopped += OnTimelineStopped;
+    }
+
+    private void OnDestroy()
+    {
+        if (timeline != null)
+        {
+            timeline.played -= OnTimelinePlayed;
+            timeline.stopped -= OnTimelineStopped;
+        }
+    }
+
+    private void Update()
+    {
+        if (!isInitialized || isMoving) return;
+
+        // Check for movement input
+        if (rewiredPlayer.GetButtonDown("MoveUp"))
+        {
+            HandleMovementInput(Vector2Int.up);
+        }
+        else if (rewiredPlayer.GetButtonDown("MoveDown"))
+        {
+            HandleMovementInput(Vector2Int.down);
+        }
+        else if (rewiredPlayer.GetButtonDown("MoveRight"))
+        {
+            HandleMovementInput(Vector2Int.right);
+        }
+        else if (rewiredPlayer.GetButtonDown("MoveLeft"))
+        {
+            HandleMovementInput(Vector2Int.left);
+        }
+
+        // Check for timeline loop end if we have a pending movement
+        if (moveAtEndOfLoop && pendingMoveDirection.HasValue && timeline != null)
+        {
+            float currentTime = (float)timeline.time;
+            float loopDuration = (float)timeline.duration;
+            bool isNearEnd = currentTime >= loopDuration - 0.1f;
+
+            // Check if we just crossed the loop point
+            if (isNearEnd && !wasNearEnd)
+            {
+                Debug.Log($"[GridNavigator] Loop point reached, playing movement animation: {pendingMoveDirection.Value}");
+                PlayMovementAnimation(pendingMoveDirection.Value);
+                pendingMoveDirection = null;
+            }
+
+            wasNearEnd = isNearEnd;
+            lastTimelineTime = currentTime;
+        }
+    }
+
+    private void OnTimelinePlayed(PlayableDirector director)
+    {
+        // Reset pending movement when timeline starts
+        pendingMoveDirection = null;
+        wasNearEnd = false;
+        lastTimelineTime = 0f;
+    }
+
+    private void OnTimelineStopped(PlayableDirector director)
+    {
+        // Reset pending movement when timeline stops
+        pendingMoveDirection = null;
+        wasNearEnd = false;
+        lastTimelineTime = 0f;
     }
 
     private void Start()
@@ -59,28 +146,47 @@ public class GridNavigator : MonoBehaviour
 
         SetPosition(startPosition);
         isInitialized = true;
+
+        // Add a small delay to ensure everything is ready
+        yield return new WaitForSeconds(0.1f);
+
+        // Perform a test movement to trigger visibility update
+        Debug.Log("[GridNavigator] Performing test movement to trigger visibility update");
+        TryMove(Vector2Int.up);
+        yield return new WaitForSeconds(moveDuration);
+        TryMove(Vector2Int.down);
     }
 
-    private void Update()
+    private void HandleMovementInput(Vector2Int direction)
     {
-        if (!isInitialized || isMoving) return;
+        if (moveAtEndOfLoop)
+        {
+            Debug.Log($"[GridNavigator] Storing movement direction for end of loop: {direction}");
+            // Update grid position immediately
+            Vector2Int newPosition = currentGridPosition + direction;
+            Vector2Int gridDimensions = gridGenerator.GetGridDimensions();
 
-        // Check for movement input
-        if (rewiredPlayer.GetButtonDown("MoveUp"))
-        {
-            TryMove(Vector2Int.up);
+            // Check if new position is within grid bounds
+            if (newPosition.x < 0 || newPosition.x >= gridDimensions.x ||
+                newPosition.y < 0 || newPosition.y >= gridDimensions.y)
+            {
+                Debug.Log($"[GridNavigator] Boundary reached at: {newPosition}");
+                OnBoundaryReached?.Invoke(newPosition);
+                return;
+            }
+
+            // Update position immediately
+            currentGridPosition = newPosition;
+            OnPositionChanged?.Invoke(currentGridPosition);
+            OnCellEntered?.Invoke(currentGridPosition);
+            
+            // Store direction for animation
+            pendingMoveDirection = direction;
         }
-        else if (rewiredPlayer.GetButtonDown("MoveDown"))
+        else
         {
-            TryMove(Vector2Int.down);
-        }
-        else if (rewiredPlayer.GetButtonDown("MoveRight"))
-        {
-            TryMove(Vector2Int.right);
-        }
-        else if (rewiredPlayer.GetButtonDown("MoveLeft"))
-        {
-            TryMove(Vector2Int.left);
+            Debug.Log($"[GridNavigator] Moving immediately: {direction}");
+            TryMove(direction);
         }
     }
 
@@ -93,26 +199,39 @@ public class GridNavigator : MonoBehaviour
         if (newPosition.x < 0 || newPosition.x >= gridDimensions.x ||
             newPosition.y < 0 || newPosition.y >= gridDimensions.y)
         {
+            Debug.Log($"[GridNavigator] Boundary reached at: {newPosition}");
             OnBoundaryReached?.Invoke(newPosition);
             return;
         }
 
+        // Update position immediately
+        currentGridPosition = newPosition;
+        OnPositionChanged?.Invoke(currentGridPosition);
+        OnCellEntered?.Invoke(currentGridPosition);
+
+        // Play movement animation
+        PlayMovementAnimation(direction);
+    }
+
+    private void PlayMovementAnimation(Vector2Int direction)
+    {
         // Calculate world position starting from bottom-left corner
         Vector2 cellSize = gridGenerator.GetCellSize();
         Vector2 targetPosition = new Vector2(
-            newPosition.x * cellSize.x + (cellSize.x / 2),
-            newPosition.y * cellSize.y + (cellSize.y / 2)
+            currentGridPosition.x * cellSize.x + (cellSize.x / 2),
+            currentGridPosition.y * cellSize.y + (cellSize.y / 2)
         );
 
+        Debug.Log($"[GridNavigator] Playing movement animation to: {currentGridPosition}");
+        
         // Move to new position
         isMoving = true;
         currentTween = transform.DOLocalMove(targetPosition, moveDuration)
             .SetEase(moveEase)
             .OnComplete(() => {
                 isMoving = false;
-                currentGridPosition = newPosition;
-                OnPositionChanged?.Invoke(currentGridPosition);
-                OnCellEntered?.Invoke(currentGridPosition);
+                Debug.Log($"[GridNavigator] Movement animation completed");
+                OnMovementAnimationCompleted?.Invoke(currentGridPosition);
             });
     }
 
@@ -142,6 +261,12 @@ public class GridNavigator : MonoBehaviour
     public Vector2Int GetCurrentPosition()
     {
         return currentGridPosition;
+    }
+
+    // Check if GridNavigator is initialized
+    public bool IsInitialized()
+    {
+        return isInitialized;
     }
 
     // Get neighbor at specific direction
@@ -175,14 +300,5 @@ public class GridNavigator : MonoBehaviour
     public GameObject GetCurrentCell()
     {
         return gridGenerator.GetElementAt(currentGridPosition.x, currentGridPosition.y);
-    }
-
-    private void OnDestroy()
-    {
-        // Kill any active tweens
-        if (currentTween != null && currentTween.IsActive())
-        {
-            currentTween.Kill();
-        }
     }
 } 
