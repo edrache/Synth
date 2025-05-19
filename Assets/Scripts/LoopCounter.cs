@@ -24,7 +24,7 @@ public class LoopCounter : MonoBehaviour
         }
 
         // Subscribe to events
-        gridNavigator.OnPositionChanged += OnPositionChanged;
+        gridNavigator.OnMovementAnimationCompleted += OnMovementCompleted;
         timeline.played += OnTimelinePlayed;
         timeline.paused += OnTimelinePaused;
         timeline.stopped += OnTimelineStopped;
@@ -37,7 +37,7 @@ public class LoopCounter : MonoBehaviour
     {
         if (gridNavigator != null)
         {
-            gridNavigator.OnPositionChanged -= OnPositionChanged;
+            gridNavigator.OnMovementAnimationCompleted -= OnMovementCompleted;
         }
 
         if (timeline != null)
@@ -48,7 +48,7 @@ public class LoopCounter : MonoBehaviour
         }
     }
 
-    private void OnPositionChanged(Vector2Int newPosition)
+    private void OnMovementCompleted(Vector2Int newPosition)
     {
         if (newPosition != lastPosition)
         {

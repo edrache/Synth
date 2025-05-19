@@ -3,6 +3,7 @@ using Rewired;
 using System;
 using DG.Tweening;
 using UnityEngine.Playables;
+using UnityEngine.UI;
 
 public class GridNavigator : MonoBehaviour
 {
@@ -17,6 +18,14 @@ public class GridNavigator : MonoBehaviour
     [SerializeField] private Ease moveEase = Ease.OutQuad;
     [SerializeField] private Vector2Int startPosition = Vector2Int.zero;
     [SerializeField] private bool moveAtEndOfLoop = false; // New option for delayed movement
+
+    [Header("Direction Indicators")]
+    [SerializeField] private Image upIndicator;
+    [SerializeField] private Image downIndicator;
+    [SerializeField] private Image leftIndicator;
+    [SerializeField] private Image rightIndicator;
+    [SerializeField] private float indicatorFadeDuration = 0.3f;
+    [SerializeField] private Ease indicatorFadeEase = Ease.OutQuad;
 
     [Header("Rewired Settings")]
     [SerializeField] private int playerId = 0;
@@ -37,6 +46,8 @@ public class GridNavigator : MonoBehaviour
 
     private float lastTimelineTime = 0f;
     private bool wasNearEnd = false;
+    private Image currentIndicator = null;
+    private Tweener currentIndicatorTween;
 
     private void Awake()
     {
@@ -61,6 +72,12 @@ public class GridNavigator : MonoBehaviour
 
         timeline.played += OnTimelinePlayed;
         timeline.stopped += OnTimelineStopped;
+
+        // Disable all indicators at start
+        if (upIndicator != null) upIndicator.gameObject.SetActive(false);
+        if (downIndicator != null) downIndicator.gameObject.SetActive(false);
+        if (leftIndicator != null) leftIndicator.gameObject.SetActive(false);
+        if (rightIndicator != null) rightIndicator.gameObject.SetActive(false);
     }
 
     private void OnDestroy()
@@ -69,6 +86,16 @@ public class GridNavigator : MonoBehaviour
         {
             timeline.played -= OnTimelinePlayed;
             timeline.stopped -= OnTimelineStopped;
+        }
+
+        // Kill all tweens
+        if (currentTween != null && currentTween.IsActive())
+        {
+            currentTween.Kill();
+        }
+        if (currentIndicatorTween != null && currentIndicatorTween.IsActive())
+        {
+            currentIndicatorTween.Kill();
         }
     }
 
@@ -157,12 +184,73 @@ public class GridNavigator : MonoBehaviour
         TryMove(Vector2Int.down);
     }
 
+    private void SetIndicatorAlpha(Image indicator, float alpha)
+    {
+        if (indicator != null)
+        {
+            Color color = indicator.color;
+            color.a = alpha;
+            indicator.color = color;
+        }
+    }
+
+    private void ShowIndicator(Image indicator)
+    {
+        if (indicator == null) return;
+
+        // Hide current indicator if any
+        if (currentIndicator != null && currentIndicator != indicator)
+        {
+            HideIndicator(currentIndicator);
+        }
+
+        // Show new indicator
+        currentIndicator = indicator;
+        if (currentIndicatorTween != null && currentIndicatorTween.IsActive())
+        {
+            currentIndicatorTween.Kill();
+        }
+
+        currentIndicatorTween = indicator.DOFade(1f, indicatorFadeDuration)
+            .SetEase(indicatorFadeEase);
+    }
+
+    private void HideIndicator(Image indicator)
+    {
+        if (indicator == null) return;
+
+        if (currentIndicatorTween != null && currentIndicatorTween.IsActive())
+        {
+            currentIndicatorTween.Kill();
+        }
+
+        currentIndicatorTween = indicator.DOFade(0f, indicatorFadeDuration)
+            .SetEase(indicatorFadeEase)
+            .OnComplete(() => {
+                if (currentIndicator == indicator)
+                {
+                    currentIndicator = null;
+                }
+            });
+    }
+
     private void HandleMovementInput(Vector2Int direction)
     {
         if (moveAtEndOfLoop)
         {
             Debug.Log($"[GridNavigator] Storing movement direction for end of loop: {direction}");
-            // Update grid position immediately
+            
+            // If we already have a pending movement, return to previous position
+            if (pendingMoveDirection.HasValue)
+            {
+                Vector2Int previousPosition = currentGridPosition - pendingMoveDirection.Value;
+                currentGridPosition = previousPosition;
+                OnPositionChanged?.Invoke(currentGridPosition);
+                OnCellEntered?.Invoke(currentGridPosition);
+                Debug.Log($"[GridNavigator] Returning to previous position: {previousPosition}");
+            }
+
+            // Calculate new position
             Vector2Int newPosition = currentGridPosition + direction;
             Vector2Int gridDimensions = gridGenerator.GetGridDimensions();
 
@@ -182,6 +270,18 @@ public class GridNavigator : MonoBehaviour
             
             // Store direction for animation
             pendingMoveDirection = direction;
+
+            // Disable all indicators
+            if (upIndicator != null) upIndicator.gameObject.SetActive(false);
+            if (downIndicator != null) downIndicator.gameObject.SetActive(false);
+            if (leftIndicator != null) leftIndicator.gameObject.SetActive(false);
+            if (rightIndicator != null) rightIndicator.gameObject.SetActive(false);
+
+            // Enable only the selected indicator
+            if (direction == Vector2Int.up && upIndicator != null) upIndicator.gameObject.SetActive(true);
+            else if (direction == Vector2Int.down && downIndicator != null) downIndicator.gameObject.SetActive(true);
+            else if (direction == Vector2Int.left && leftIndicator != null) leftIndicator.gameObject.SetActive(true);
+            else if (direction == Vector2Int.right && rightIndicator != null) rightIndicator.gameObject.SetActive(true);
         }
         else
         {
@@ -215,6 +315,12 @@ public class GridNavigator : MonoBehaviour
 
     private void PlayMovementAnimation(Vector2Int direction)
     {
+        // Disable all indicators
+        if (upIndicator != null) upIndicator.gameObject.SetActive(false);
+        if (downIndicator != null) downIndicator.gameObject.SetActive(false);
+        if (leftIndicator != null) leftIndicator.gameObject.SetActive(false);
+        if (rightIndicator != null) rightIndicator.gameObject.SetActive(false);
+
         // Calculate world position starting from bottom-left corner
         Vector2 cellSize = gridGenerator.GetCellSize();
         Vector2 targetPosition = new Vector2(
