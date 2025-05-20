@@ -1,9 +1,13 @@
 using UnityEngine;
 using TMPro;
 using UnityEngine.Playables;
+using System;
 
 public class LoopCounter : MonoBehaviour
 {
+    // Event that will be called when loop count changes
+    public event Action<int> OnLoopCountChanged;
+
     [Header("References")]
     [SerializeField] private PlayableDirector timeline; // Reference to the PlayableDirector
     [SerializeField] private GridNavigator gridNavigator; // Reference to the GridNavigator
@@ -86,6 +90,7 @@ public class LoopCounter : MonoBehaviour
                 loopCount++;
                 Debug.Log($"[LoopCounter] Position unchanged at loop end, incrementing count to: {loopCount}");
                 UpdateLoopCountText();
+                OnLoopCountChanged?.Invoke(loopCount);
             }
             else
             {

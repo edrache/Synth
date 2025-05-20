@@ -720,4 +720,22 @@ public class CitySequencer : MonoBehaviour
             UpdateControllersFromCurves();
         }
     }
+
+    public void SetOctaveCurve(AnimationCurve curve)
+    {
+        if (curve == null) return;
+        
+        octaveTranspositionCurve = new AnimationCurve(curve.keys);
+        UpdateControllersFromCurves();
+        curvesNeedUpdate = true;
+    }
+
+    public void SetVelocityCurve(AnimationCurve curve)
+    {
+        if (curve == null) return;
+        
+        velocityCurve = new AnimationCurve(curve.keys);
+        UpdateControllersFromCurves();
+        curvesNeedUpdate = true;
+    }
 } 
