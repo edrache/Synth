@@ -127,6 +127,34 @@ public class TimelineBPMController : MonoBehaviour
     private void Start()
     {
         UpdateRootNoteFromScale();
+        
+        // Subscribe to timeline events
+        var directors = FindObjectsOfType<PlayableDirector>();
+        foreach (var director in directors)
+        {
+            director.played += OnTimelinePlayed;
+        }
+        
+        // Initial update
+        UpdateAllTimelines();
+    }
+
+    private void OnDestroy()
+    {
+        // Unsubscribe from timeline events
+        var directors = FindObjectsOfType<PlayableDirector>();
+        foreach (var director in directors)
+        {
+            if (director != null)
+            {
+                director.played -= OnTimelinePlayed;
+            }
+        }
+    }
+
+    private void OnTimelinePlayed(PlayableDirector director)
+    {
+        // When timeline starts playing, update its speed
         UpdateAllTimelines();
     }
 
@@ -157,10 +185,14 @@ public class TimelineBPMController : MonoBehaviour
         var directors = FindObjectsOfType<PlayableDirector>();
         foreach (var director in directors)
         {
-            if (director.playableGraph.IsValid())
+            if (director != null && director.playableGraph.IsValid())
             {
                 var rootPlayable = director.playableGraph.GetRootPlayable(0);
-                rootPlayable.SetSpeed(speedMultiplier);
+                if (rootPlayable.IsValid())
+                {
+                    rootPlayable.SetSpeed(speedMultiplier);
+                    Debug.Log($"Updated timeline speed to {speedMultiplier:F2}x for {director.name}");
+                }
             }
         }
     }

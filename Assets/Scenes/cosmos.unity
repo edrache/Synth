@@ -20167,7 +20167,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d07e51346ef2d42e1b984fa2e28aefe9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentBPM: 120
+  currentBPM: 60
   currentScale: 17
   currentRootNote: 60
 --- !u!4 &1238965311
