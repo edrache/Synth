@@ -12,10 +12,13 @@ public class GridSequencer : MonoBehaviour
     [SerializeField] private PlayableDirector timeline;
     [SerializeField] private Sampler sampler;
     [SerializeField] private TimelineBPMController bpmController;
-    [SerializeField] private GameObject dropdownPrefab;
+    [SerializeField] private GameObject dropTargetPrefab;
+    [SerializeField] private GameObject noteElementPrefab;
     [SerializeField] private Transform gridContainer;
     [SerializeField] private TMP_Dropdown octaveDropdown;
     [SerializeField] private TMP_Dropdown noteLengthDropdown;
+    [SerializeField] private GameObject timelineIndicator;
+    [SerializeField] private Canvas canvas;
 
     [Header("Sequencer Settings")]
     [SerializeField] private float containerDuration = 4f;
@@ -24,8 +27,8 @@ public class GridSequencer : MonoBehaviour
     [SerializeField] private bool enableOctaveTransposition = true;
     [SerializeField] private bool enableVelocityControl = true;
     [SerializeField] private float velocityCurveLoopDuration = 0f;
-    [SerializeField] private int defaultOctave = 4; // Middle octave (C4 = 60)
-    [SerializeField] private int defaultNoteLength = 1; // Default to quarter note
+    [SerializeField] private int defaultOctave = 4;
+    [SerializeField] private int defaultNoteLength = 1;
 
     [Header("Curve Visualization")]
     [SerializeField] private AnimationCurve octaveTranspositionCurve = new AnimationCurve(
@@ -48,14 +51,25 @@ public class GridSequencer : MonoBehaviour
     private const int GRID_SIZE = 16;
     private const int ROWS = 4;
     private const int COLS = 4;
-    private List<TMP_Dropdown> dropdowns = new List<TMP_Dropdown>();
+    private List<GridDropTarget> dropTargets = new List<GridDropTarget>();
+    private int[] gridValues = new int[GRID_SIZE];
     private float lastTimelineTime = 0f;
     private bool sequenceNeedsUpdate = false;
     private float totalTimelineLength => containerDuration;
     private float loopTime => totalTimelineLength;
+    private int currentPlayingIndex = -1;
 
     private void Awake()
     {
+        if (canvas == null)
+        {
+            canvas = GetComponentInParent<Canvas>();
+            if (canvas == null)
+            {
+                Debug.LogError("[GridSequencer] Canvas reference is missing and could not be found in parent!");
+                return;
+            }
+        }
         InitializeGrid();
     }
 
@@ -142,52 +156,94 @@ public class GridSequencer : MonoBehaviour
 
     private void InitializeGrid()
     {
-        // Clear existing dropdowns
-        foreach (var dropdown in dropdowns)
+        // Clear existing drop targets
+        foreach (var target in dropTargets)
         {
-            if (dropdown != null)
+            if (target != null)
             {
-                Destroy(dropdown.gameObject);
+                Destroy(target.gameObject);
             }
         }
-        dropdowns.Clear();
+        dropTargets.Clear();
 
-        // Create new dropdowns
+        // Initialize grid values
         for (int i = 0; i < GRID_SIZE; i++)
         {
-            GameObject dropdownObj = Instantiate(dropdownPrefab, gridContainer);
-            TMP_Dropdown dropdown = dropdownObj.GetComponent<TMP_Dropdown>();
-            
-            if (dropdown != null)
-            {
-                // Initialize dropdown options (0-7)
-                dropdown.ClearOptions();
-                List<TMP_Dropdown.OptionData> options = new List<TMP_Dropdown.OptionData>();
-                options.Add(new TMP_Dropdown.OptionData("0")); // No note
-                for (int j = 1; j <= 7; j++)
-                {
-                    options.Add(new TMP_Dropdown.OptionData(j.ToString()));
-                }
-                dropdown.AddOptions(options);
+            gridValues[i] = 0;
+        }
 
-                // Add listener
-                int index = i; // Capture index for lambda
-                dropdown.onValueChanged.AddListener((value) => OnDropdownValueChanged(index, value));
-                
-                dropdowns.Add(dropdown);
+        // Create new drop targets
+        for (int i = 0; i < GRID_SIZE; i++)
+        {
+            GameObject targetObj = Instantiate(dropTargetPrefab, gridContainer);
+            GridDropTarget dropTarget = targetObj.GetComponent<GridDropTarget>();
+            
+            if (dropTarget != null)
+            {
+                dropTarget.Initialize(i);
+                dropTargets.Add(dropTarget);
             }
         }
     }
 
-    private void OnDropdownValueChanged(int index, int value)
+    public void OnNoteDropped(int gridIndex, int noteValue)
     {
-        if (updateImmediately)
+        Debug.Log($"[GridSequencer] OnNoteDropped called with gridIndex: {gridIndex}, noteValue: {noteValue}");
+        
+        if (gridIndex >= 0 && gridIndex < GRID_SIZE)
         {
-            UpdateSequence();
+            gridValues[gridIndex] = noteValue;
+            
+            // Remove existing note element if any
+            if (dropTargets[gridIndex] != null)
+            {
+                // Find and destroy any existing note elements
+                GridNoteElement[] existingNotes = dropTargets[gridIndex].GetComponentsInChildren<GridNoteElement>();
+                foreach (var note in existingNotes)
+                {
+                    if (note != null)
+                    {
+                        Debug.Log($"[GridSequencer] Removing existing note at index {gridIndex}");
+                        note.Remove();
+                    }
+                }
+            }
+            
+            // Create visual representation of the note
+            if (noteElementPrefab != null && dropTargets[gridIndex] != null)
+            {
+                Debug.Log($"[GridSequencer] Creating note element at index {gridIndex}");
+                GameObject noteObj = Instantiate(noteElementPrefab, dropTargets[gridIndex].transform);
+                GridNoteElement noteElement = noteObj.GetComponent<GridNoteElement>();
+                if (noteElement != null)
+                {
+                    string[] noteNames = { "C", "D", "E", "F", "G", "A", "B" };
+                    string noteName = noteNames[noteValue - 1];
+                    noteElement.Initialize(noteValue, noteName);
+                    Debug.Log($"[GridSequencer] Note element created and initialized with name: {noteName}");
+                }
+                else
+                {
+                    Debug.LogError("[GridSequencer] Failed to get GridNoteElement component from instantiated prefab");
+                }
+            }
+            else
+            {
+                Debug.LogError($"[GridSequencer] Cannot create note element. noteElementPrefab: {(noteElementPrefab != null ? "set" : "null")}, dropTarget: {(dropTargets[gridIndex] != null ? "exists" : "null")}");
+            }
+            
+            if (updateImmediately)
+            {
+                UpdateSequence();
+            }
+            else
+            {
+                MarkSequenceForUpdate();
+            }
         }
         else
         {
-            MarkSequenceForUpdate();
+            Debug.LogError($"[GridSequencer] Invalid grid index: {gridIndex}");
         }
     }
 
@@ -269,6 +325,9 @@ public class GridSequencer : MonoBehaviour
         float currentTime = (float)timeline.time;
         float nextFrameTime = currentTime + Time.deltaTime;
 
+        // Update indicator position based on current time
+        UpdateIndicatorPosition(currentTime);
+
         if (nextFrameTime >= loopTime)
         {
             UpdateSequence();
@@ -292,6 +351,46 @@ public class GridSequencer : MonoBehaviour
         lastTimelineTime = currentTime;
     }
 
+    private void UpdateIndicatorPosition(float currentTime)
+    {
+        if (timelineIndicator == null || dropTargets.Count == 0) return;
+
+        // Calculate time per row
+        float timePerRow = containerDuration / ROWS;
+        
+        // Calculate current row and column based on time
+        int row = Mathf.FloorToInt(currentTime / timePerRow);
+        float timeInRow = currentTime % timePerRow;
+        int col = Mathf.FloorToInt(timeInRow / (timePerRow / COLS));
+        
+        // Calculate index in the grid
+        int newIndex = (row * COLS) + col;
+        
+        // Clamp index to valid range
+        newIndex = Mathf.Clamp(newIndex, 0, dropTargets.Count - 1);
+        
+        // Only update if the index has changed
+        if (newIndex != currentPlayingIndex)
+        {
+            currentPlayingIndex = newIndex;
+            
+            // Get the position of the current drop target
+            if (currentPlayingIndex >= 0 && currentPlayingIndex < dropTargets.Count)
+            {
+                RectTransform dropTargetRect = dropTargets[currentPlayingIndex].GetComponent<RectTransform>();
+                if (dropTargetRect != null)
+                {
+                    // Set indicator position to match the drop target
+                    RectTransform indicatorRect = timelineIndicator.GetComponent<RectTransform>();
+                    if (indicatorRect != null)
+                    {
+                        indicatorRect.position = dropTargetRect.position;
+                    }
+                }
+            }
+        }
+    }
+
     private void UpdateSequence()
     {
         if (timeline == null || sampler == null) return;
@@ -313,7 +412,7 @@ public class GridSequencer : MonoBehaviour
             return;
         }
 
-        var track = pianoRollTracks[0]; // Use first track
+        var track = pianoRollTracks[0];
         var pianoRollTrack = track as IPianoRollTrack;
 
         if (pianoRollTrack == null)
@@ -341,16 +440,16 @@ public class GridSequencer : MonoBehaviour
         // Get current octave and note length
         int currentOctave = octaveDropdown != null ? octaveDropdown.value : defaultOctave;
         int currentNoteLength = noteLengthDropdown != null ? noteLengthDropdown.value : defaultNoteLength;
-        int octaveOffset = (currentOctave - 4) * 12; // Convert octave to semitones (4 is middle octave)
+        int octaveOffset = (currentOctave - 4) * 12;
         float noteDuration = GetNoteDuration(currentNoteLength);
 
-        // Update sequence based on dropdown values
-        for (int i = 0; i < dropdowns.Count; i++)
+        // Update sequence based on grid values
+        for (int i = 0; i < gridValues.Length; i++)
         {
-            int value = dropdowns[i].value;
-            if (value > 0) // Skip if no note (value = 0)
+            int value = gridValues[i];
+            if (value > 0)
             {
-                int noteIndex = value - 1; // Convert to 0-based index
+                int noteIndex = value - 1;
                 if (noteIndex < scaleNotes.Length)
                 {
                     int note = scaleNotes[noteIndex];
@@ -462,5 +561,110 @@ public class GridSequencer : MonoBehaviour
     public void SetAsMaster(bool isMaster)
     {
         isMasterSequencer = isMaster;
+    }
+
+    // Method to create a new note element for dragging
+    public void CreateNoteElement(int noteValue, string noteText, Vector2 position)
+    {
+        GameObject noteObj = Instantiate(noteElementPrefab, canvas.transform);
+        GridNoteElement noteElement = noteObj.GetComponent<GridNoteElement>();
+        
+        if (noteElement != null)
+        {
+            noteElement.Initialize(noteValue, noteText);
+            RectTransform rectTransform = noteObj.GetComponent<RectTransform>();
+            if (rectTransform != null)
+            {
+                rectTransform.position = position;
+            }
+        }
+    }
+
+    private void CreateGrid()
+    {
+        // Clear existing grid
+        foreach (Transform child in transform)
+        {
+            Destroy(child.gameObject);
+        }
+        dropTargets.Clear();
+        gridValues = new int[GRID_SIZE];
+
+        // Create grid container
+        GameObject gridContainer = new GameObject("GridContainer");
+        gridContainer.transform.SetParent(transform, false);
+        RectTransform gridRect = gridContainer.AddComponent<RectTransform>();
+        gridRect.anchorMin = Vector2.zero;
+        gridRect.anchorMax = Vector2.one;
+        gridRect.offsetMin = Vector2.zero;
+        gridRect.offsetMax = Vector2.zero;
+
+        // Calculate cell size
+        float cellWidth = gridRect.rect.width / GRID_SIZE;
+        float cellHeight = gridRect.rect.height;
+
+        // Create drop targets
+        for (int i = 0; i < GRID_SIZE; i++)
+        {
+            GameObject dropTargetObj = Instantiate(dropTargetPrefab, gridContainer.transform);
+            RectTransform dropTargetRect = dropTargetObj.GetComponent<RectTransform>();
+            
+            // Set position and size
+            dropTargetRect.anchorMin = new Vector2(i / (float)GRID_SIZE, 0);
+            dropTargetRect.anchorMax = new Vector2((i + 1) / (float)GRID_SIZE, 1);
+            dropTargetRect.offsetMin = Vector2.zero;
+            dropTargetRect.offsetMax = Vector2.zero;
+
+            // Initialize drop target
+            GridDropTarget dropTarget = dropTargetObj.GetComponent<GridDropTarget>();
+            if (dropTarget != null)
+            {
+                dropTarget.Initialize(i);
+                dropTargets.Add(dropTarget);
+            }
+        }
+
+        // Create note buttons container
+        GameObject noteButtonsContainer = new GameObject("NoteButtonsContainer");
+        noteButtonsContainer.transform.SetParent(transform, false);
+        RectTransform noteButtonsRect = noteButtonsContainer.AddComponent<RectTransform>();
+        noteButtonsRect.anchorMin = new Vector2(0, 1);
+        noteButtonsRect.anchorMax = new Vector2(1, 1);
+        noteButtonsRect.pivot = new Vector2(0.5f, 0);
+        noteButtonsRect.sizeDelta = new Vector2(0, 50);
+        noteButtonsRect.anchoredPosition = new Vector2(0, 0);
+
+        // Create note buttons
+        int[] scaleNotes = bpmController.GetScaleNotes();
+        float buttonWidth = noteButtonsRect.rect.width / scaleNotes.Length;
+
+        for (int i = 0; i < scaleNotes.Length; i++)
+        {
+            GameObject buttonObj = Instantiate(noteElementPrefab, noteButtonsContainer.transform);
+            RectTransform buttonRect = buttonObj.GetComponent<RectTransform>();
+            
+            // Set position and size
+            buttonRect.anchorMin = new Vector2(i / (float)scaleNotes.Length, 0);
+            buttonRect.anchorMax = new Vector2((i + 1) / (float)scaleNotes.Length, 1);
+            buttonRect.offsetMin = Vector2.zero;
+            buttonRect.offsetMax = Vector2.zero;
+
+            // Initialize note button
+            GridNoteElement noteButton = buttonObj.GetComponent<GridNoteElement>();
+            if (noteButton != null)
+            {
+                string noteName = GetNoteName(scaleNotes[i]);
+                noteButton.Initialize(scaleNotes[i], noteName);
+            }
+        }
+    }
+
+    private string GetNoteName(int midiNote)
+    {
+        // Convert MIDI note number to note name
+        string[] noteNames = { "C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B" };
+        int noteIndex = midiNote % 12;
+        int octave = (midiNote / 12) - 1;
+        return $"{noteNames[noteIndex]}{octave}";
     }
 } 

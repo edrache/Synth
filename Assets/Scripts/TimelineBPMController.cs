@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.Playables;
 using UnityEngine.Timeline;
+using System.Collections.Generic;
 
 public class TimelineBPMController : MonoBehaviour
 {
@@ -21,8 +22,9 @@ public class TimelineBPMController : MonoBehaviour
     private int currentRootNote = 60;
 
     private const float SECONDS_PER_MINUTE = 60f;
-    private float lastUpdateTime = 0f;
     private float secondsPerBeat;
+    private List<PlayableDirector> directors = new List<PlayableDirector>();
+    private Dictionary<PlayableDirector, float> lastUpdateTimes = new Dictionary<PlayableDirector, float>();
 
     #region Public Properties
     public float BPM
@@ -128,11 +130,17 @@ public class TimelineBPMController : MonoBehaviour
     {
         UpdateRootNoteFromScale();
         
-        // Subscribe to timeline events
-        var directors = FindObjectsOfType<PlayableDirector>();
+        // Find and cache all PlayableDirectors
+        directors.AddRange(FindObjectsOfType<PlayableDirector>());
+        
+        // Initialize last update times
         foreach (var director in directors)
         {
-            director.played += OnTimelinePlayed;
+            if (director != null)
+            {
+                lastUpdateTimes[director] = 0f;
+                director.played += OnTimelinePlayed;
+            }
         }
         
         // Initial update
@@ -142,7 +150,6 @@ public class TimelineBPMController : MonoBehaviour
     private void OnDestroy()
     {
         // Unsubscribe from timeline events
-        var directors = FindObjectsOfType<PlayableDirector>();
         foreach (var director in directors)
         {
             if (director != null)
@@ -150,6 +157,8 @@ public class TimelineBPMController : MonoBehaviour
                 director.played -= OnTimelinePlayed;
             }
         }
+        directors.Clear();
+        lastUpdateTimes.Clear();
     }
 
     private void OnTimelinePlayed(PlayableDirector director)
@@ -161,18 +170,22 @@ public class TimelineBPMController : MonoBehaviour
     private void Update()
     {
         // Check if any timeline has looped
-        var directors = FindObjectsOfType<PlayableDirector>();
         foreach (var director in directors)
         {
-            if (director.playableGraph.IsValid())
+            if (director != null && director.playableGraph.IsValid())
             {
                 float currentTime = (float)director.time;
-                if (currentTime < lastUpdateTime)
+                float lastTime = lastUpdateTimes[director];
+                
+                if (currentTime < lastTime)
                 {
-                    // Timeline has looped, update speed
-                    UpdateAllTimelines();
+                    // Timeline has looped, update speed only if needed
+                    if (secondsPerBeat != SECONDS_PER_MINUTE / currentBPM)
+                    {
+                        UpdateAllTimelines();
+                    }
                 }
-                lastUpdateTime = currentTime;
+                lastUpdateTimes[director] = currentTime;
             }
         }
     }
@@ -182,7 +195,6 @@ public class TimelineBPMController : MonoBehaviour
         secondsPerBeat = SECONDS_PER_MINUTE / currentBPM;
         float speedMultiplier = 1f / secondsPerBeat;
 
-        var directors = FindObjectsOfType<PlayableDirector>();
         foreach (var director in directors)
         {
             if (director != null && director.playableGraph.IsValid())
@@ -191,7 +203,6 @@ public class TimelineBPMController : MonoBehaviour
                 if (rootPlayable.IsValid())
                 {
                     rootPlayable.SetSpeed(speedMultiplier);
-                    Debug.Log($"Updated timeline speed to {speedMultiplier:F2}x for {director.name}");
                 }
             }
         }
@@ -256,5 +267,35 @@ public class TimelineBPMController : MonoBehaviour
             MusicalScale.AFlatMinor => new[] { 0, 2, 3, 5, 7, 8, 10 },
             _ => new[] { 0, 2, 4, 5, 7, 9, 11 } // Default to C Major
         };
+    }
+
+    public void RefreshDirectors()
+    {
+        // Clear old data
+        foreach (var director in directors)
+        {
+            if (director != null)
+            {
+                director.played -= OnTimelinePlayed;
+            }
+        }
+        directors.Clear();
+        lastUpdateTimes.Clear();
+
+        // Add new directors
+        directors.AddRange(FindObjectsOfType<PlayableDirector>());
+        
+        // Initialize new directors
+        foreach (var director in directors)
+        {
+            if (director != null)
+            {
+                lastUpdateTimes[director] = 0f;
+                director.played += OnTimelinePlayed;
+            }
+        }
+        
+        // Update timelines with current settings
+        UpdateAllTimelines();
     }
 } 
