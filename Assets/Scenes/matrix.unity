@@ -3355,11 +3355,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6593348384000816549, guid: 1f86e0e28128844fda009ec8a553a364, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 733.57025
+      value: 733.5703
       objectReference: {fileID: 0}
     - target: {fileID: 6593348384000816549, guid: 1f86e0e28128844fda009ec8a553a364, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -54.179977
+      value: -54.17993
       objectReference: {fileID: 0}
     - target: {fileID: 6593348384000816549, guid: 1f86e0e28128844fda009ec8a553a364, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -6875,7 +6875,7 @@ MonoBehaviour:
   moveDuration: 0.2
   moveEase: 14
   startPosition: {x: 10, y: 10}
-  moveAtEndOfLoop: 1
+  moveAtEndOfLoop: 0
   upIndicator: {fileID: 457539176}
   downIndicator: {fileID: 272507786}
   leftIndicator: {fileID: 2088257232}
@@ -15923,7 +15923,7 @@ RectTransform:
   m_GameObject: {fileID: 734797278}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: -0}
-  m_LocalScale: {x: 0.25, y: 0.24999997, z: 0.24999997}
+  m_LocalScale: {x: 0.45, y: 0.45, z: 0.45}
   m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 446562754}
@@ -22209,7 +22209,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d07e51346ef2d42e1b984fa2e28aefe9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentBPM: 300
+  currentBPM: 120
   currentScale: 23
   currentRootNote: 60
 --- !u!4 &1238965311
