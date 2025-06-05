@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using UnityEngine.UI;
 using TMPro;
 using System.Linq;
+using System.Collections;
 
 public class GridSequencer : MonoBehaviour
 {
@@ -58,6 +59,7 @@ public class GridSequencer : MonoBehaviour
     private float totalTimelineLength => containerDuration;
     private float loopTime => totalTimelineLength;
     private int currentPlayingIndex = -1;
+    private float currentSpeed = 1f;
 
     private void Awake()
     {
@@ -104,14 +106,48 @@ public class GridSequencer : MonoBehaviour
         }
 
         SetTimelineLength(totalTimelineLength);
-        UpdateSequence();
-        lastTimelineTime = (float)timeline.time;
-
+        
         // Subscribe to timeline events for synchronization
         if (timeline != null)
         {
             timeline.played += OnTimelinePlayed;
             timeline.stopped += OnTimelineStopped;
+        }
+
+        // Subscribe to BPM changes
+        if (bpmController != null)
+        {
+            bpmController.OnBPMChanged += OnBPMChanged;
+            // Get initial speed from BPM controller
+            OnBPMChanged(bpmController.BPM);
+        }
+
+        // Initialize sequence
+        UpdateSequence();
+        lastTimelineTime = (float)timeline.time;
+    }
+
+    private System.Collections.IEnumerator InitializeSequence()
+    {
+        // Wait for timeline to be fully initialized
+        yield return new WaitForEndOfFrame();
+        
+        // Update sequence
+        UpdateSequence();
+        lastTimelineTime = (float)timeline.time;
+
+        // Set initial speed
+        if (bpmController != null)
+        {
+            currentSpeed = 300f / bpmController.BPM;
+            if (timeline != null && timeline.playableGraph.IsValid())
+            {
+                var rootPlayable = timeline.playableGraph.GetRootPlayable(0);
+                if (rootPlayable.IsValid())
+                {
+                    rootPlayable.SetSpeed(currentSpeed);
+                }
+            }
         }
     }
 
@@ -121,6 +157,12 @@ public class GridSequencer : MonoBehaviour
         {
             timeline.played -= OnTimelinePlayed;
             timeline.stopped -= OnTimelineStopped;
+        }
+
+        // Unsubscribe from BPM changes
+        if (bpmController != null)
+        {
+            bpmController.OnBPMChanged -= OnBPMChanged;
         }
     }
 
@@ -150,6 +192,19 @@ public class GridSequencer : MonoBehaviour
                 {
                     slave.timeline.Stop();
                 }
+            }
+        }
+    }
+
+    private void OnBPMChanged(float newBPM)
+    {
+        if (timeline != null && timeline.playableGraph.IsValid())
+        {
+            var rootPlayable = timeline.playableGraph.GetRootPlayable(0);
+            if (rootPlayable.IsValid())
+            {
+                float speedMultiplier = 60f / newBPM;
+                rootPlayable.SetSpeed(speedMultiplier);
             }
         }
     }
@@ -398,8 +453,17 @@ public class GridSequencer : MonoBehaviour
         var timelineAsset = timeline.playableAsset as TimelineAsset;
         if (timelineAsset == null) return;
 
-        // Save current timeline time
+        // Save current timeline time and speed
         double currentTime = timeline.time;
+        float currentSpeed = 1f;
+        if (timeline.playableGraph.IsValid())
+        {
+            var rootPlayable = timeline.playableGraph.GetRootPlayable(0);
+            if (rootPlayable.IsValid())
+            {
+                currentSpeed = (float)rootPlayable.GetSpeed();
+            }
+        }
 
         // Get piano roll track
         var pianoRollTracks = timelineAsset.GetOutputTracks()
@@ -489,8 +553,18 @@ public class GridSequencer : MonoBehaviour
             }
         }
 
+        // Rebuild timeline and restore time and speed
         timeline.RebuildGraph();
         timeline.time = currentTime;
+
+        if (timeline.playableGraph.IsValid())
+        {
+            var rootPlayable = timeline.playableGraph.GetRootPlayable(0);
+            if (rootPlayable.IsValid())
+            {
+                rootPlayable.SetSpeed(currentSpeed);
+            }
+        }
     }
 
     private int GetTranspositionAtTime(float time)

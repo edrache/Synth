@@ -26,14 +26,21 @@ public class TimelineBPMController : MonoBehaviour
     private List<PlayableDirector> directors = new List<PlayableDirector>();
     private Dictionary<PlayableDirector, float> lastUpdateTimes = new Dictionary<PlayableDirector, float>();
 
+    public delegate void BPMChangedHandler(float newBPM);
+    public event BPMChangedHandler OnBPMChanged;
+
     #region Public Properties
     public float BPM
     {
         get => currentBPM;
         set
         {
-            currentBPM = value;
-            UpdateAllTimelines();
+            if (currentBPM != value)
+            {
+                currentBPM = value;
+                OnBPMChanged?.Invoke(currentBPM);
+                UpdateAllTimelines();
+            }
         }
     }
 
@@ -199,11 +206,17 @@ public class TimelineBPMController : MonoBehaviour
         {
             if (director != null && director.playableGraph.IsValid())
             {
+                // Save current time
+                double currentTime = director.time;
+                
                 var rootPlayable = director.playableGraph.GetRootPlayable(0);
                 if (rootPlayable.IsValid())
                 {
                     rootPlayable.SetSpeed(speedMultiplier);
                 }
+
+                // Restore time
+                director.time = currentTime;
             }
         }
     }
@@ -213,6 +226,7 @@ public class TimelineBPMController : MonoBehaviour
         if (Application.isPlaying)
         {
             UpdateRootNoteFromScale();
+            OnBPMChanged?.Invoke(currentBPM);
             UpdateAllTimelines();
         }
     }
